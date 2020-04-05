@@ -1,0 +1,14 @@
+OUTPUT_ARCH(mips)
+SECTIONS
+{
+  . = 0xbfc00000;
+  .data      :
+  {
+    *(.boot)
+    . = 0x0f300;
+    *(.pad)
+    . = 0x10000;
+    *(.run)
+    *(.data)
+  }
+}

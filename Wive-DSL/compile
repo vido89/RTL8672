@@ -1,0 +1,79 @@
+#!/bin/sh
+
+DOS2UNIX=NO
+FULLREBUILD=NO
+SPECIFIC=user/boa/src/LINUX/vendor.h
+VERSIONPKG="0.1.6.RU.`date +%d%m%Y`"
+MODEL="LAN100_v2"
+#MODEL="LAN110_v2"
+#MODEL="LAN110_v3"
+#MODEL="LAN410_v2"
+#MODEL="USB_v3"
+
+ln -sf /opt/Wive-DSL/toolchain ../toolchain-2.4
+
+if [ "$MODEL" = "LAN100_v2" ] ; then
+    cp -f linux-2.4.x/config-100 linux-2.4.x/.config
+fi
+if [ "$MODEL" = "LAN110_v2" ] ; then
+    cp -f linux-2.4.x/config-110 linux-2.4.x/.config
+fi
+if [ "$MODEL" = "LAN110_v3" ] ; then
+    cp -f linux-2.4.x/config-110_v3 linux-2.4.x/.config
+fi
+if [ "$MODEL" = "LAN410_v2" ] ; then
+    cp -f linux-2.4.x/config-410 linux-2.4.x/.config
+fi
+if [ "$MODEL" = "USB_v3" ] ; then
+	cp -f linux-2.4.x/config-USB linux-2.4.x/.config
+fi
+
+echo VERSIONPKG=$VERSIONPKG > ./version
+
+echo "#ifndef __VENDOR_H__" > $SPECIFIC
+echo "#define __VENDOR_H__" >> $SPECIFIC
+echo "#define MODEL_TYPE \"Acorp Sprinter@ADSL $MODEL\"" >> $SPECIFIC
+echo "#define VERSION_TYPE \"$VERSIONPKG\"" >> $SPECIFIC
+echo "#define VENDOR_TYPE \"Acorp Electronics Corp.\"" >> $SPECIFIC
+echo "#define ANNEX_B 0" >> $SPECIFIC
+if [ "$MODEL" = "LAN410_v2" ] || [ "$MODEL" = "LAN410_v3" ]; then
+    echo "#define BPORTMAPPING_SUPPORT" >> $SPECIFIC
+    else
+    echo "#undef BPORTMAPPING_SUPPORT" >> $SPECIFIC
+fi
+echo "#endif" >> $SPECIFIC
+
+#for wantusoid`s like. 
+if [ "$DOS2UNIX" = "YES" ] ; then
+    find -type f -exec dos2unix -U -b {} \;
+fi
+
+#for clear all binari like. 
+if [ "$FULLREBUILD" = "YES" ] ; then
+    ./clear
+fi
+
+#crate romfs directory
+rm -rf romfs
+mkdir romfs
+cd romfs
+tar -zxvf ../dev.tgz
+cd ..
+rm rootfs
+touch rootfs
+rm -f linux-2.4.x/vm*
+
+#make tools
+make all -C tools
+
+#userspace build
+make oldconfig
+make dep
+make 
+
+#kernel build
+make oldconfig -C linux-2.4.x
+make dep -C linux-2.4.x
+make -C linux-2.4.x
+
+mv -f linux-2.4.x/vm_codeswap.img "images/Acorp.$MODEL.$VERSIONPKG.bin"

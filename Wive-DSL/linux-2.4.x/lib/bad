@@ -1,0 +1,3127 @@
+
+vsprintf.o:     file format elf32-tradbigmips
+vsprintf.o
+architecture: mips:3000, flags 0x00000011:
+HAS_RELOC, HAS_SYMS
+start address 0x00000000
+private flags = 1001: [abi=O32] [mips1] [not 32bitmode]
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         00001670  00000000  00000000  00000040  2**4
+                  CONTENTS, ALLOC, LOAD, RELOC, READONLY, CODE
+  1 .data         00000000  00000000  00000000  000016b0  2**4
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .bss          00000000  00000000  00000000  000016b0  2**4
+                  ALLOC
+  3 .reginfo      00000018  00000000  00000000  000016b0  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, DATA, LINK_ONCE_SAME_SIZE
+  4 .pdr          00000180  00000000  00000000  000016c8  2**2
+                  CONTENTS, RELOC, READONLY
+  5 .mdebug.abi32 00000000  00000000  00000000  00001848  2**0
+                  CONTENTS, READONLY
+  6 .debug_abbrev 00000225  00000000  00000000  00001848  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_info   00000dd4  00000000  00000000  00001a6d  2**0
+                  CONTENTS, RELOC, READONLY, DEBUGGING
+  8 .debug_line   00000391  00000000  00000000  00002841  2**0
+                  CONTENTS, RELOC, READONLY, DEBUGGING
+  9 .rodata       00000340  00000000  00000000  00002be0  2**4
+                  CONTENTS, ALLOC, LOAD, RELOC, READONLY, DATA
+ 10 .debug_frame  00000150  00000000  00000000  00002f20  2**2
+                  CONTENTS, RELOC, READONLY, DEBUGGING
+ 11 .debug_pubnames 000000a9  00000000  00000000  00003070  2**0
+                  CONTENTS, RELOC, READONLY, DEBUGGING
+ 12 .debug_aranges 00000020  00000000  00000000  00003119  2**0
+                  CONTENTS, RELOC, READONLY, DEBUGGING
+ 13 .debug_str    00000650  00000000  00000000  00003139  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 14 .comment      00000012  00000000  00000000  00003789  2**0
+                  CONTENTS, READONLY
+SYMBOL TABLE:
+00000000 l    df *ABS*	00000000 vsprintf.c
+00000000 l    d  .text	00000000 
+00000000 l    d  .data	00000000 
+00000000 l    d  .bss	00000000 
+00000000 l    d  .mdebug.abi32	00000000 
+00000000 l    d  .debug_abbrev	00000000 
+00000000 l    d  .debug_info	00000000 
+00000000 l    d  .debug_line	00000000 
+000002e0 l     F .text	00000000 skip_atoi
+00000364 l     F .text	00000000 number
+00000000 l    d  .debug_frame	00000000 
+00000000 l    d  .debug_pubnames	00000000 
+00000000 l    d  .debug_aranges	00000000 
+00000000 l    d  .debug_str	00000000 
+00000000 l    d  .rodata	00000000 
+00000000 l    d  .reginfo	00000000 
+00000000 l    d  .pdr	00000000 
+00000000 l    d  .comment	00000000 
+00000000 g     F .text	00000000 simple_strtoul
+00000000         *UND*	00000000 _ctype
+000000f4 g     F .text	00000000 simple_strtol
+00000134 g     F .text	00000000 simple_strtoull
+00000294 g     F .text	00000000 simple_strtoll
+00000860 g     F .text	00000000 vsnprintf
+00000000         *UND*	00000000 strnlen
+00000ed0 g     F .text	00000000 snprintf
+00000ef8 g     F .text	00000000 vsprintf
+00000f24 g     F .text	00000000 sprintf
+00000f50 g     F .text	00000000 vsscanf
+00001638 g     F .text	00000000 sscanf
+
+
+Disassembly of section .text:
+
+00000000 <simple_strtoul>:
+simple_strtoul():
+/home/mips/linux-2.4.19/lib/vsprintf.c:35
+unsigned long simple_strtoul(const char *cp,char **endp,unsigned int base)
+{
+	unsigned long result = 0,value;
+
+	if (!base) {
+       0:	14c00014 	bnez	a2,54 <simple_strtoul+0x54>
+       4:	00003821 	move	a3,zero
+/home/mips/linux-2.4.19/lib/vsprintf.c:37
+		base = 10;
+		if (*cp == '0') {
+       8:	80830000 	lb	v1,0(a0)
+       c:	24020030 	li	v0,48
+      10:	14620010 	bne	v1,v0,54 <simple_strtoul+0x54>
+      14:	2406000a 	li	a2,10
+/home/mips/linux-2.4.19/lib/vsprintf.c:39
+			base = 8;
+			cp++;
+      18:	24840001 	addiu	a0,a0,1
+/home/mips/linux-2.4.19/lib/vsprintf.c:40
+			if ((*cp == 'x') && isxdigit(cp[1])) {
+      1c:	80830000 	lb	v1,0(a0)
+      20:	24020078 	li	v0,120
+      24:	1462000b 	bne	v1,v0,54 <simple_strtoul+0x54>
+      28:	24060008 	li	a2,8
+      2c:	90820001 	lbu	v0,1(a0)
+      30:	3c010000 	lui	at,0x0
+			30: R_MIPS_HI16	_ctype
+      34:	00220821 	addu	at,at,v0
+      38:	90220000 	lbu	v0,0(at)
+			38: R_MIPS_LO16	_ctype
+      3c:	00000000 	nop
+      40:	30420044 	andi	v0,v0,0x44
+      44:	10400003 	beqz	v0,54 <simple_strtoul+0x54>
+      48:	00000000 	nop
+/home/mips/linux-2.4.19/lib/vsprintf.c:41
+				cp++;
+      4c:	24840001 	addiu	a0,a0,1
+/home/mips/linux-2.4.19/lib/vsprintf.c:42
+				base = 16;
+      50:	24060010 	li	a2,16
+/home/mips/linux-2.4.19/lib/vsprintf.c:46
+			}
+		}
+	}
+	while (isxdigit(*cp) &&
+      54:	3c080000 	lui	t0,0x0
+			54: R_MIPS_HI16	_ctype
+      58:	25080000 	addiu	t0,t0,0
+			58: R_MIPS_LO16	_ctype
+      5c:	0800001c 	j	70 <simple_strtoul+0x70>
+			5c: R_MIPS_26	.text
+      60:	01004821 	move	t1,t0
+/home/mips/linux-2.4.19/lib/vsprintf.c:48
+	       (value = isdigit(*cp) ? *cp-'0' : toupper(*cp)-'A'+10) < base) {
+		result = result*base + value;
+      64:	00001012 	mflo	v0
+      68:	00433821 	addu	a3,v0,v1
+/home/mips/linux-2.4.19/lib/vsprintf.c:49
+		cp++;
+      6c:	24840001 	addiu	a0,a0,1
+      70:	90820000 	lbu	v0,0(a0)
+      74:	00000000 	nop
+      78:	00481021 	addu	v0,v0,t0
+      7c:	90430000 	lbu	v1,0(v0)
+      80:	00000000 	nop
+      84:	30620044 	andi	v0,v1,0x44
+      88:	10400015 	beqz	v0,e0 <simple_strtoul+0xe0>
+      8c:	30620004 	andi	v0,v1,0x4
+      90:	10400004 	beqz	v0,a4 <simple_strtoul+0xa4>
+      94:	00000000 	nop
+      98:	80820000 	lb	v0,0(a0)
+      9c:	08000035 	j	d4 <simple_strtoul+0xd4>
+			9c: R_MIPS_26	.text
+      a0:	2443ffd0 	addiu	v1,v0,-48
+/home/mips/linux-2.4.19/include/linux/ctype.h:45
+	return c;
+}
+
+static inline unsigned char __toupper(unsigned char c)
+{
+      a4:	90830000 	lbu	v1,0(a0)
+      a8:	00000000 	nop
+/home/mips/linux-2.4.19/include/linux/ctype.h:46
+	if (islower(c))
+      ac:	00691021 	addu	v0,v1,t1
+      b0:	90420000 	lbu	v0,0(v0)
+      b4:	00000000 	nop
+      b8:	30420002 	andi	v0,v0,0x2
+      bc:	10400004 	beqz	v0,d0 <simple_strtoul+0xd0>
+      c0:	306200ff 	andi	v0,v1,0xff
+/home/mips/linux-2.4.19/include/linux/ctype.h:47
+		c -= 'a'-'A';
+      c4:	2462ffe0 	addiu	v0,v1,-32
+      c8:	304300ff 	andi	v1,v0,0xff
+/home/mips/linux-2.4.19/include/linux/ctype.h:45
+      cc:	306200ff 	andi	v0,v1,0xff
+      d0:	2443ffc9 	addiu	v1,v0,-55
+      d4:	0066102b 	sltu	v0,v1,a2
+      d8:	1440ffe2 	bnez	v0,64 <simple_strtoul+0x64>
+      dc:	00e60018 	mult	a3,a2
+/home/mips/linux-2.4.19/lib/vsprintf.c:51
+	}
+	if (endp)
+      e0:	10a00002 	beqz	a1,ec <simple_strtoul+0xec>
+      e4:	00000000 	nop
+/home/mips/linux-2.4.19/lib/vsprintf.c:52
+		*endp = (char *)cp;
+      e8:	aca40000 	sw	a0,0(a1)
+/home/mips/linux-2.4.19/lib/vsprintf.c:54
+	return result;
+}
+      ec:	03e00008 	jr	ra
+      f0:	00e01021 	move	v0,a3
+
+000000f4 <simple_strtol>:
+simple_strtol():
+/home/mips/linux-2.4.19/lib/vsprintf.c:63
+
+/**
+ * simple_strtol - convert a string to a signed long
+ * @cp: The start of the string
+ * @endp: A pointer to the end of the parsed string will be placed here
+ * @base: The number base to use
+ */
+long simple_strtol(const char *cp,char **endp,unsigned int base)
+{
+      f4:	27bdffe8 	addiu	sp,sp,-24
+      f8:	afbf0010 	sw	ra,16(sp)
+/home/mips/linux-2.4.19/lib/vsprintf.c:64
+	if(*cp=='-')
+      fc:	80830000 	lb	v1,0(a0)
+     100:	2402002d 	li	v0,45
+     104:	14620005 	bne	v1,v0,11c <simple_strtol+0x28>
+     108:	00000000 	nop
+/home/mips/linux-2.4.19/lib/vsprintf.c:65
+		return -simple_strtoul(cp+1,endp,base);
+     10c:	0c000000 	jal	0 <simple_strtoul>
+			10c: R_MIPS_26	simple_strtoul
+     110:	24840001 	addiu	a0,a0,1
+     114:	08000049 	j	124 <simple_strtol+0x30>
+			114: R_MIPS_26	.text
+     118:	00021023 	negu	v0,v0
+/home/mips/linux-2.4.19/lib/vsprintf.c:66
+	return simple_strtoul(cp,endp,base);
+     11c:	0c000000 	jal	0 <simple_strtoul>
+			11c: R_MIPS_26	simple_strtoul
+     120:	00000000 	nop
+/home/mips/linux-2.4.19/lib/vsprintf.c:67
+}
+     124:	8fbf0010 	lw	ra,16(sp)
+     128:	00000000 	nop
+     12c:	03e00008 	jr	ra
+     130:	27bd0018 	addiu	sp,sp,24
+
+00000134 <simple_strtoull>:
+simple_strtoull():
+/home/mips/linux-2.4.19/lib/vsprintf.c:76
+
+/**
+ * simple_strtoull - convert a string to an unsigned long long
+ * @cp: The start of the string
+ * @endp: A pointer to the end of the parsed string will be placed here
+ * @base: The number base to use
+ */
+unsigned long long simple_strtoull(const char *cp,char **endp,unsigned int base)
+{
+     134:	00803821 	move	a3,a0
+     138:	00a07821 	move	t7,a1
+/home/mips/linux-2.4.19/lib/vsprintf.c:77
+	unsigned long long result = 0,value;
+     13c:	00005021 	move	t2,zero
+     140:	00005821 	move	t3,zero
+/home/mips/linux-2.4.19/lib/vsprintf.c:79
+
+	if (!base) {
+     144:	14c00014 	bnez	a2,198 <simple_strtoull+0x64>
+     148:	00c06021 	move	t4,a2
+/home/mips/linux-2.4.19/lib/vsprintf.c:81
+		base = 10;
+		if (*cp == '0') {
+     14c:	80830000 	lb	v1,0(a0)
+     150:	24020030 	li	v0,48
+     154:	14620010 	bne	v1,v0,198 <simple_strtoull+0x64>
+     158:	240c000a 	li	t4,10
+/home/mips/linux-2.4.19/lib/vsprintf.c:83
+			base = 8;
+			cp++;
+     15c:	24870001 	addiu	a3,a0,1
+/home/mips/linux-2.4.19/lib/vsprintf.c:84
+			if ((*cp == 'x') && isxdigit(cp[1])) {
+     160:	80e30000 	lb	v1,0(a3)
+     164:	24020078 	li	v0,120
+     168:	1462000b 	bne	v1,v0,198 <simple_strtoull+0x64>
+     16c:	240c0008 	li	t4,8
+     170:	90e20001 	lbu	v0,1(a3)
+     174:	3c010000 	lui	at,0x0
+			174: R_MIPS_HI16	_ctype
+     178:	00220821 	addu	at,at,v0
+     17c:	90220000 	lbu	v0,0(at)
+			17c: R_MIPS_LO16	_ctype
+     180:	00000000 	nop
+     184:	30420044 	andi	v0,v0,0x44
+     188:	10400003 	beqz	v0,198 <simple_strtoull+0x64>
+     18c:	00000000 	nop
+/home/mips/linux-2.4.19/lib/vsprintf.c:85
+				cp++;
+     190:	24e70001 	addiu	a3,a3,1
+/home/mips/linux-2.4.19/lib/vsprintf.c:86
+				base = 16;
+     194:	240c0010 	li	t4,16
+/home/mips/linux-2.4.19/lib/vsprintf.c:90
+			}
+		}
+	}
+	while (isxdigit(*cp) && (value = isdigit(*cp) ? *cp-'0' : (islower(*cp)
+     198:	3c0d0000 	lui	t5,0x0
+			198: R_MIPS_HI16	_ctype
+     19c:	25ad0000 	addiu	t5,t5,0
+			19c: R_MIPS_LO16	_ctype
+     1a0:	0800007b 	j	1ec <simple_strtoull+0xb8>
+			1a0: R_MIPS_26	.text
+     1a4:	01a07021 	move	t6,t5
+/home/mips/linux-2.4.19/lib/vsprintf.c:92
+	    ? toupper(*cp) : *cp)-'A'+10) < base) {
+		result = result*base + value;
+     1a8:	016c0019 	multu	t3,t4
+     1ac:	00002010 	mfhi	a0
+     1b0:	00002812 	mflo	a1
+	...
+     1bc:	01620018 	mult	t3,v0
+     1c0:	00003012 	mflo	a2
+     1c4:	00c43021 	addu	a2,a2,a0
+     1c8:	00000000 	nop
+     1cc:	018a0018 	mult	t4,t2
+     1d0:	00001012 	mflo	v0
+     1d4:	00c22021 	addu	a0,a2,v0
+     1d8:	00a95821 	addu	t3,a1,t1
+     1dc:	0169102b 	sltu	v0,t3,t1
+     1e0:	00885021 	addu	t2,a0,t0
+     1e4:	01425021 	addu	t2,t2,v0
+/home/mips/linux-2.4.19/lib/vsprintf.c:93
+		cp++;
+     1e8:	24e70001 	addiu	a3,a3,1
+     1ec:	90e20000 	lbu	v0,0(a3)
+     1f0:	00000000 	nop
+     1f4:	004d1021 	addu	v0,v0,t5
+     1f8:	90430000 	lbu	v1,0(v0)
+     1fc:	00000000 	nop
+     200:	30620044 	andi	v0,v1,0x44
+     204:	1040001d 	beqz	v0,27c <simple_strtoull+0x148>
+     208:	01802821 	move	a1,t4
+     20c:	30620004 	andi	v0,v1,0x4
+     210:	10400004 	beqz	v0,224 <simple_strtoull+0xf0>
+     214:	00002021 	move	a0,zero
+     218:	80e20000 	lb	v0,0(a3)
+     21c:	08000096 	j	258 <simple_strtoull+0x124>
+			21c: R_MIPS_26	.text
+     220:	2442ffd0 	addiu	v0,v0,-48
+     224:	90e30000 	lbu	v1,0(a3)
+     228:	00000000 	nop
+     22c:	006e1021 	addu	v0,v1,t6
+     230:	90420000 	lbu	v0,0(v0)
+     234:	00000000 	nop
+     238:	30420002 	andi	v0,v0,0x2
+     23c:	10400003 	beqz	v0,24c <simple_strtoull+0x118>
+     240:	2462ffe0 	addiu	v0,v1,-32
+/home/mips/linux-2.4.19/include/linux/ctype.h:45
+	return c;
+}
+
+static inline unsigned char __toupper(unsigned char c)
+{
+     244:	08000095 	j	254 <simple_strtoull+0x120>
+			244: R_MIPS_26	.text
+     248:	304200ff 	andi	v0,v0,0xff
+     24c:	80e20000 	lb	v0,0(a3)
+     250:	00000000 	nop
+     254:	2442ffc9 	addiu	v0,v0,-55
+     258:	00404821 	move	t1,v0
+     25c:	000247c3 	sra	t0,v0,0x1f
+     260:	0104102b 	sltu	v0,t0,a0
+     264:	1440ffd0 	bnez	v0,1a8 <simple_strtoull+0x74>
+     268:	00001021 	move	v0,zero
+     26c:	14880003 	bne	a0,t0,27c <simple_strtoull+0x148>
+     270:	0125102b 	sltu	v0,t1,a1
+     274:	1440ffcc 	bnez	v0,1a8 <simple_strtoull+0x74>
+     278:	00001021 	move	v0,zero
+/home/mips/linux-2.4.19/lib/vsprintf.c:95
+	}
+	if (endp)
+     27c:	11e00002 	beqz	t7,288 <simple_strtoull+0x154>
+     280:	00000000 	nop
+/home/mips/linux-2.4.19/lib/vsprintf.c:96
+		*endp = (char *)cp;
+     284:	ade70000 	sw	a3,0(t7)
+/home/mips/linux-2.4.19/lib/vsprintf.c:98
+	return result;
+}
+     288:	01401021 	move	v0,t2
+     28c:	03e00008 	jr	ra
+     290:	01601821 	move	v1,t3
+
+00000294 <simple_strtoll>:
+simple_strtoll():
+/home/mips/linux-2.4.19/lib/vsprintf.c:107
+
+/**
+ * simple_strtoll - convert a string to a signed long long
+ * @cp: The start of the string
+ * @endp: A pointer to the end of the parsed string will be placed here
+ * @base: The number base to use
+ */
+long long simple_strtoll(const char *cp,char **endp,unsigned int base)
+{
+     294:	27bdffe8 	addiu	sp,sp,-24
+     298:	afbf0010 	sw	ra,16(sp)
+/home/mips/linux-2.4.19/lib/vsprintf.c:108
+	if(*cp=='-')
+     29c:	80830000 	lb	v1,0(a0)
+     2a0:	2402002d 	li	v0,45
+     2a4:	14620008 	bne	v1,v0,2c8 <simple_strtoll+0x34>
+     2a8:	00000000 	nop
+/home/mips/linux-2.4.19/lib/vsprintf.c:109
+		return -simple_strtoull(cp+1,endp,base);
+     2ac:	0c000000 	jal	0 <simple_strtoul>
+			2ac: R_MIPS_26	simple_strtoull
+     2b0:	24840001 	addiu	a0,a0,1
+     2b4:	00031823 	negu	v1,v1
+     2b8:	00021023 	negu	v0,v0
+     2bc:	0003202b 	sltu	a0,zero,v1
+     2c0:	080000b4 	j	2d0 <simple_strtoll+0x3c>
+			2c0: R_MIPS_26	.text
+     2c4:	00441023 	subu	v0,v0,a0
+/home/mips/linux-2.4.19/lib/vsprintf.c:110
+	return simple_strtoull(cp,endp,base);
+     2c8:	0c000000 	jal	0 <simple_strtoul>
+			2c8: R_MIPS_26	simple_strtoull
+     2cc:	00000000 	nop
+/home/mips/linux-2.4.19/lib/vsprintf.c:111
+}
+     2d0:	8fbf0010 	lw	ra,16(sp)
+     2d4:	00000000 	nop
+     2d8:	03e00008 	jr	ra
+     2dc:	27bd0018 	addiu	sp,sp,24
+
+000002e0 <skip_atoi>:
+skip_atoi():
+/home/mips/linux-2.4.19/lib/vsprintf.c:114
+
+static int skip_atoi(const char **s)
+{
+     2e0:	00803821 	move	a3,a0
+/home/mips/linux-2.4.19/lib/vsprintf.c:115
+	int i=0;
+     2e4:	00002021 	move	a0,zero
+/home/mips/linux-2.4.19/lib/vsprintf.c:117
+
+	while (isdigit(**s))
+     2e8:	8ce20000 	lw	v0,0(a3)
+     2ec:	00000000 	nop
+     2f0:	00402821 	move	a1,v0
+     2f4:	90420000 	lbu	v0,0(v0)
+     2f8:	3c030000 	lui	v1,0x0
+			2f8: R_MIPS_HI16	_ctype
+     2fc:	24630000 	addiu	v1,v1,0
+			2fc: R_MIPS_LO16	_ctype
+     300:	00431021 	addu	v0,v0,v1
+     304:	90420000 	lbu	v0,0(v0)
+     308:	00000000 	nop
+     30c:	30420004 	andi	v0,v0,0x4
+     310:	10400012 	beqz	v0,35c <skip_atoi+0x7c>
+     314:	00603021 	move	a2,v1
+/home/mips/linux-2.4.19/lib/vsprintf.c:118
+		i = i*10 + *((*s)++) - '0';
+     318:	00041080 	sll	v0,a0,0x2
+     31c:	00441021 	addu	v0,v0,a0
+     320:	00021040 	sll	v0,v0,0x1
+     324:	80a40000 	lb	a0,0(a1)
+     328:	00000000 	nop
+     32c:	00441021 	addu	v0,v0,a0
+     330:	2444ffd0 	addiu	a0,v0,-48
+     334:	24a30001 	addiu	v1,a1,1
+     338:	ace30000 	sw	v1,0(a3)
+     33c:	90620000 	lbu	v0,0(v1)
+     340:	00000000 	nop
+     344:	00461021 	addu	v0,v0,a2
+     348:	90420000 	lbu	v0,0(v0)
+     34c:	00000000 	nop
+     350:	30420004 	andi	v0,v0,0x4
+     354:	1440fff0 	bnez	v0,318 <skip_atoi+0x38>
+     358:	00602821 	move	a1,v1
+/home/mips/linux-2.4.19/lib/vsprintf.c:120
+	return i;
+}
+     35c:	03e00008 	jr	ra
+     360:	00801021 	move	v0,a0
+
+00000364 <number>:
+number():
+/home/mips/linux-2.4.19/lib/vsprintf.c:131
+
+#define ZEROPAD	1		/* pad with zero */
+#define SIGN	2		/* unsigned/signed long */
+#define PLUS	4		/* show plus */
+#define SPACE	8		/* space if plus */
+#define LEFT	16		/* left justified */
+#define SPECIAL	32		/* 0x */
+#define LARGE	64		/* use 'ABCDEF' instead of 'abcdef' */
+
+static char * number(char * buf, char * end, long long num, int base, int size, int precision, int type)
+{
+     364:	27bdff58 	addiu	sp,sp,-168
+     368:	afb300a4 	sw	s3,164(sp)
+     36c:	afb200a0 	sw	s2,160(sp)
+     370:	afb1009c 	sw	s1,156(sp)
+     374:	afb00098 	sw	s0,152(sp)
+     378:	00805021 	move	t2,a0
+     37c:	00a08021 	move	s0,a1
+     380:	00c06021 	move	t4,a2
+     384:	00e06821 	move	t5,a3
+     388:	8fae00b8 	lw	t6,184(sp)
+     38c:	8fa700bc 	lw	a3,188(sp)
+     390:	8faf00c0 	lw	t7,192(sp)
+     394:	8fb800c4 	lw	t8,196(sp)
+/home/mips/linux-2.4.19/lib/vsprintf.c:134
+	char c,sign,tmp[66];
+	const char *digits;
+	const char small_digits[] = "0123456789abcdefghijklmnopqrstuvwxyz";
+     398:	27a30048 	addiu	v1,sp,72
+     39c:	3c020000 	lui	v0,0x0
+			39c: R_MIPS_HI16	.rodata
+     3a0:	24420000 	addiu	v0,v0,0
+			3a0: R_MIPS_LO16	.rodata
+     3a4:	24440020 	addiu	a0,v0,32
+     3a8:	8c450000 	lw	a1,0(v0)
+     3ac:	8c450001 	lw	a1,1(v0)
+     3b0:	8c450002 	lw	a1,2(v0)
+     3b4:	80450003 	lb	a1,3(v0)
+     3b8:	8c460004 	lw	a2,4(v0)
+     3bc:	8c460005 	lw	a2,5(v0)
+     3c0:	8c460006 	lw	a2,6(v0)
+     3c4:	80460007 	lb	a2,7(v0)
+     3c8:	8c480008 	lw	t0,8(v0)
+     3cc:	8c480009 	lw	t0,9(v0)
+     3d0:	8c48000a 	lw	t0,10(v0)
+     3d4:	8048000b 	lb	t0,11(v0)
+     3d8:	8c49000c 	lw	t1,12(v0)
+     3dc:	8c49000d 	lw	t1,13(v0)
+     3e0:	8c49000e 	lw	t1,14(v0)
+     3e4:	8049000f 	lb	t1,15(v0)
+     3e8:	ac650003 	sw	a1,3(v1)
+     3ec:	ac650002 	sw	a1,2(v1)
+     3f0:	ac650001 	sw	a1,1(v1)
+     3f4:	a0650000 	sb	a1,0(v1)
+     3f8:	ac660007 	sw	a2,7(v1)
+     3fc:	ac660006 	sw	a2,6(v1)
+     400:	ac660005 	sw	a2,5(v1)
+     404:	a0660004 	sb	a2,4(v1)
+     408:	ac68000b 	sw	t0,11(v1)
+     40c:	ac68000a 	sw	t0,10(v1)
+     410:	ac680009 	sw	t0,9(v1)
+     414:	a0680008 	sb	t0,8(v1)
+     418:	ac69000c 	sw	t1,12(v1)
+     41c:	24420010 	addiu	v0,v0,16
+     420:	1444ffe1 	bne	v0,a0,3a8 <number+0x44>
+     424:	24630010 	addiu	v1,v1,16
+     428:	8c440000 	lw	a0,0(v0)
+     42c:	8c440001 	lw	a0,1(v0)
+     430:	8c440002 	lw	a0,2(v0)
+     434:	80440003 	lb	a0,3(v0)
+     438:	80450004 	lb	a1,4(v0)
+     43c:	80450005 	lb	a1,5(v0)
+     440:	80450006 	lb	a1,6(v0)
+     444:	80450007 	lb	a1,7(v0)
+     448:	ac640003 	sw	a0,3(v1)
+     44c:	ac640002 	sw	a0,2(v1)
+     450:	ac640001 	sw	a0,1(v1)
+     454:	a0640000 	sb	a0,0(v1)
+/home/mips/linux-2.4.19/lib/vsprintf.c:135
+	const char large_digits[] = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+     458:	27a30070 	addiu	v1,sp,112
+     45c:	3c020000 	lui	v0,0x0
+			45c: R_MIPS_HI16	.rodata
+     460:	24420028 	addiu	v0,v0,40
+			460: R_MIPS_LO16	.rodata
+     464:	24440020 	addiu	a0,v0,32
+     468:	8c490000 	lw	t1,0(v0)
+     46c:	8c490001 	lw	t1,1(v0)
+     470:	8c490002 	lw	t1,2(v0)
+     474:	80490003 	lb	t1,3(v0)
+     478:	8c450004 	lw	a1,4(v0)
+     47c:	8c450005 	lw	a1,5(v0)
+     480:	8c450006 	lw	a1,6(v0)
+     484:	80450007 	lb	a1,7(v0)
+     488:	8c460008 	lw	a2,8(v0)
+     48c:	8c460009 	lw	a2,9(v0)
+     490:	8c46000a 	lw	a2,10(v0)
+     494:	8046000b 	lb	a2,11(v0)
+     498:	8c48000c 	lw	t0,12(v0)
+     49c:	8c48000d 	lw	t0,13(v0)
+     4a0:	8c48000e 	lw	t0,14(v0)
+     4a4:	8048000f 	lb	t0,15(v0)
+     4a8:	ac690003 	sw	t1,3(v1)
+     4ac:	ac690002 	sw	t1,2(v1)
+     4b0:	ac690001 	sw	t1,1(v1)
+     4b4:	a0690000 	sb	t1,0(v1)
+     4b8:	ac650007 	sw	a1,7(v1)
+     4bc:	ac650006 	sw	a1,6(v1)
+     4c0:	ac650005 	sw	a1,5(v1)
+     4c4:	a0650004 	sb	a1,4(v1)
+     4c8:	ac66000b 	sw	a2,11(v1)
+     4cc:	ac66000a 	sw	a2,10(v1)
+     4d0:	ac660009 	sw	a2,9(v1)
+     4d4:	a0660008 	sb	a2,8(v1)
+     4d8:	ac68000c 	sw	t0,12(v1)
+     4dc:	24420010 	addiu	v0,v0,16
+     4e0:	1444ffe1 	bne	v0,a0,468 <number+0x104>
+     4e4:	24630010 	addiu	v1,v1,16
+     4e8:	8c490000 	lw	t1,0(v0)
+     4ec:	8c490001 	lw	t1,1(v0)
+     4f0:	8c490002 	lw	t1,2(v0)
+     4f4:	80490003 	lb	t1,3(v0)
+     4f8:	80440004 	lb	a0,4(v0)
+     4fc:	80440005 	lb	a0,5(v0)
+     500:	80440006 	lb	a0,6(v0)
+     504:	80440007 	lb	a0,7(v0)
+     508:	ac690003 	sw	t1,3(v1)
+     50c:	ac690002 	sw	t1,2(v1)
+     510:	ac690001 	sw	t1,1(v1)
+     514:	a0690000 	sb	t1,0(v1)
+/home/mips/linux-2.4.19/lib/vsprintf.c:138
+	int i;
+
+	digits = (type & LARGE) ? large_digits : small_digits;
+     518:	33020040 	andi	v0,t8,0x40
+     51c:	14400002 	bnez	v0,528 <number+0x1c4>
+     520:	27b10070 	addiu	s1,sp,112
+     524:	27b10048 	addiu	s1,sp,72
+/home/mips/linux-2.4.19/lib/vsprintf.c:139
+	if (type & LEFT)
+     528:	33020010 	andi	v0,t8,0x10
+     52c:	10400004 	beqz	v0,540 <number+0x1dc>
+     530:	25c2fffe 	addiu	v0,t6,-2
+/home/mips/linux-2.4.19/lib/vsprintf.c:140
+		type &= ~ZEROPAD;
+     534:	2402fffe 	li	v0,-2
+     538:	0302c024 	and	t8,t8,v0
+/home/mips/linux-2.4.19/lib/vsprintf.c:141
+	if (base < 2 || base > 36)
+     53c:	25c2fffe 	addiu	v0,t6,-2
+     540:	2c420023 	sltiu	v0,v0,35
+     544:	104000bf 	beqz	v0,844 <number+0x4e0>
+     548:	00001821 	move	v1,zero
+/home/mips/linux-2.4.19/lib/vsprintf.c:143
+		return 0;
+	c = (type & ZEROPAD) ? '0' : ' ';
+     54c:	33020001 	andi	v0,t8,0x1
+     550:	14400002 	bnez	v0,55c <number+0x1f8>
+     554:	24130030 	li	s3,48
+     558:	24130020 	li	s3,32
+/home/mips/linux-2.4.19/lib/vsprintf.c:145
+	sign = 0;
+	if (type & SIGN) {
+     55c:	33020002 	andi	v0,t8,0x2
+     560:	10400011 	beqz	v0,5a8 <number+0x244>
+     564:	00009021 	move	s2,zero
+/home/mips/linux-2.4.19/lib/vsprintf.c:146
+		if (num < 0) {
+     568:	05810007 	bgez	t4,588 <number+0x224>
+     56c:	33020004 	andi	v0,t8,0x4
+/home/mips/linux-2.4.19/lib/vsprintf.c:148
+			sign = '-';
+			num = -num;
+     570:	000d6823 	negu	t5,t5
+     574:	000c6023 	negu	t4,t4
+     578:	000d102b 	sltu	v0,zero,t5
+     57c:	01826023 	subu	t4,t4,v0
+/home/mips/linux-2.4.19/lib/vsprintf.c:149
+			size--;
+     580:	08000169 	j	5a4 <number+0x240>
+			580: R_MIPS_26	.text
+     584:	2412002d 	li	s2,45
+/home/mips/linux-2.4.19/lib/vsprintf.c:150
+		} else if (type & PLUS) {
+     588:	10400003 	beqz	v0,598 <number+0x234>
+     58c:	33020008 	andi	v0,t8,0x8
+/home/mips/linux-2.4.19/lib/vsprintf.c:152
+			sign = '+';
+			size--;
+     590:	08000169 	j	5a4 <number+0x240>
+			590: R_MIPS_26	.text
+     594:	2412002b 	li	s2,43
+/home/mips/linux-2.4.19/lib/vsprintf.c:153
+		} else if (type & SPACE) {
+     598:	10400004 	beqz	v0,5ac <number+0x248>
+     59c:	33020020 	andi	v0,t8,0x20
+/home/mips/linux-2.4.19/lib/vsprintf.c:154
+			sign = ' ';
+     5a0:	24120020 	li	s2,32
+/home/mips/linux-2.4.19/lib/vsprintf.c:155
+			size--;
+     5a4:	24e7ffff 	addiu	a3,a3,-1
+/home/mips/linux-2.4.19/lib/vsprintf.c:158
+		}
+	}
+	if (type & SPECIAL) {
+     5a8:	33020020 	andi	v0,t8,0x20
+     5ac:	1040000a 	beqz	v0,5d8 <number+0x274>
+     5b0:	018d1025 	or	v0,t4,t5
+/home/mips/linux-2.4.19/lib/vsprintf.c:159
+		if (base == 16)
+     5b4:	24020010 	li	v0,16
+     5b8:	15c20003 	bne	t6,v0,5c8 <number+0x264>
+     5bc:	24020008 	li	v0,8
+/home/mips/linux-2.4.19/lib/vsprintf.c:160
+			size -= 2;
+     5c0:	08000175 	j	5d4 <number+0x270>
+			5c0: R_MIPS_26	.text
+     5c4:	24e7fffe 	addiu	a3,a3,-2
+/home/mips/linux-2.4.19/lib/vsprintf.c:161
+		else if (base == 8)
+     5c8:	15c20003 	bne	t6,v0,5d8 <number+0x274>
+     5cc:	018d1025 	or	v0,t4,t5
+/home/mips/linux-2.4.19/lib/vsprintf.c:162
+			size--;
+     5d0:	24e7ffff 	addiu	a3,a3,-1
+/home/mips/linux-2.4.19/lib/vsprintf.c:165
+	}
+	i = 0;
+	if (num == 0)
+     5d4:	018d1025 	or	v0,t4,t5
+     5d8:	14400005 	bnez	v0,5f0 <number+0x28c>
+     5dc:	00005821 	move	t3,zero
+/home/mips/linux-2.4.19/lib/vsprintf.c:166
+		tmp[i++]='0';
+     5e0:	24020030 	li	v0,48
+     5e4:	a3a20000 	sb	v0,0(sp)
+     5e8:	080001a9 	j	6a4 <number+0x340>
+			5e8: R_MIPS_26	.text
+     5ec:	240b0001 	li	t3,1
+/home/mips/linux-2.4.19/lib/vsprintf.c:167
+	else while (num != 0)
+     5f0:	018d1025 	or	v0,t4,t5
+     5f4:	1040002c 	beqz	v0,6a8 <number+0x344>
+     5f8:	01eb102a 	slt	v0,t7,t3
+/home/mips/linux-2.4.19/lib/vsprintf.c:168
+		tmp[i++] = digits[do_div(num,base)];
+     5fc:	017dc821 	addu	t9,t3,sp
+     600:	256b0001 	addiu	t3,t3,1
+     604:	000c1802 	srl	v1,t4,0x0
+     608:	00604821 	move	t1,v1
+     60c:	01a04021 	move	t0,t5
+     610:	10600004 	beqz	v1,624 <number+0x2c0>
+     614:	00601021 	move	v0,v1
+     618:	006e001b 	divu	zero,v1,t6
+     61c:	00004812 	mflo	t1
+     620:	00001010 	mfhi	v0
+     624:	00403021 	move	a2,v0
+     628:	01002821 	move	a1,t0
+     62c:	00006021 	move	t4,zero
+     630:	00002021 	move	a0,zero
+     634:	10000006 	b	650 <number+0x2ec>
+     638:	24030021 	li	v1,33
+     63c:	00060840 	sll	at,a2,0x1
+     640:	000627c2 	srl	a0,a2,0x1f
+     644:	002d3025 	or	a2,at,t5
+     648:	00052840 	sll	a1,a1,0x1
+     64c:	000c6040 	sll	t4,t4,0x1
+     650:	14800002 	bnez	a0,65c <number+0x2f8>
+     654:	00ce682b 	sltu	t5,a2,t6
+     658:	15a00003 	bnez	t5,668 <number+0x304>
+     65c:	2463ffff 	addiu	v1,v1,-1
+     660:	00ce3023 	subu	a2,a2,t6
+     664:	258c0001 	addiu	t4,t4,1
+     668:	1460fff4 	bnez	v1,63c <number+0x2d8>
+     66c:	00056fc2 	srl	t5,a1,0x1f
+     670:	01804021 	move	t0,t4
+     674:	00092000 	sll	a0,t1,0x0
+     678:	00002821 	move	a1,zero
+     67c:	00001021 	move	v0,zero
+     680:	00826025 	or	t4,a0,v0
+     684:	00a86825 	or	t5,a1,t0
+     688:	02263021 	addu	a2,s1,a2
+     68c:	90c20000 	lbu	v0,0(a2)
+     690:	00000000 	nop
+     694:	a3220000 	sb	v0,0(t9)
+     698:	018d1025 	or	v0,t4,t5
+     69c:	1440ffd8 	bnez	v0,600 <number+0x29c>
+     6a0:	017dc821 	addu	t9,t3,sp
+/home/mips/linux-2.4.19/lib/vsprintf.c:169
+	if (i > precision)
+     6a4:	01eb102a 	slt	v0,t7,t3
+     6a8:	10400002 	beqz	v0,6b4 <number+0x350>
+     6ac:	33020011 	andi	v0,t8,0x11
+/home/mips/linux-2.4.19/lib/vsprintf.c:170
+		precision = i;
+     6b0:	01607821 	move	t7,t3
+/home/mips/linux-2.4.19/lib/vsprintf.c:172
+	size -= precision;
+	if (!(type&(ZEROPAD+LEFT))) {
+     6b4:	1440000d 	bnez	v0,6ec <number+0x388>
+     6b8:	00ef3823 	subu	a3,a3,t7
+/home/mips/linux-2.4.19/lib/vsprintf.c:173
+		while(size-->0) {
+     6bc:	00e01021 	move	v0,a3
+     6c0:	1840000a 	blez	v0,6ec <number+0x388>
+     6c4:	24e7ffff 	addiu	a3,a3,-1
+     6c8:	24030020 	li	v1,32
+/home/mips/linux-2.4.19/lib/vsprintf.c:174
+			if (buf <= end)
+     6cc:	020a102b 	sltu	v0,s0,t2
+     6d0:	14400002 	bnez	v0,6dc <number+0x378>
+     6d4:	00000000 	nop
+/home/mips/linux-2.4.19/lib/vsprintf.c:175
+				*buf = ' ';
+     6d8:	a1430000 	sb	v1,0(t2)
+/home/mips/linux-2.4.19/lib/vsprintf.c:176
+			++buf;
+     6dc:	254a0001 	addiu	t2,t2,1
+     6e0:	00e01021 	move	v0,a3
+     6e4:	1c40fff9 	bgtz	v0,6cc <number+0x368>
+     6e8:	24e7ffff 	addiu	a3,a3,-1
+/home/mips/linux-2.4.19/lib/vsprintf.c:179
+		}
+	}
+	if (sign) {
+     6ec:	12400007 	beqz	s2,70c <number+0x3a8>
+     6f0:	33020020 	andi	v0,t8,0x20
+/home/mips/linux-2.4.19/lib/vsprintf.c:180
+		if (buf <= end)
+     6f4:	020a102b 	sltu	v0,s0,t2
+     6f8:	14400002 	bnez	v0,704 <number+0x3a0>
+     6fc:	00000000 	nop
+/home/mips/linux-2.4.19/lib/vsprintf.c:181
+			*buf = sign;
+     700:	a1520000 	sb	s2,0(t2)
+/home/mips/linux-2.4.19/lib/vsprintf.c:182
+		++buf;
+     704:	254a0001 	addiu	t2,t2,1
+/home/mips/linux-2.4.19/lib/vsprintf.c:184
+	}
+	if (type & SPECIAL) {
+     708:	33020020 	andi	v0,t8,0x20
+     70c:	10400018 	beqz	v0,770 <number+0x40c>
+     710:	33020010 	andi	v0,t8,0x10
+/home/mips/linux-2.4.19/lib/vsprintf.c:185
+		if (base==8) {
+     714:	24020008 	li	v0,8
+     718:	15c20006 	bne	t6,v0,734 <number+0x3d0>
+     71c:	24020010 	li	v0,16
+/home/mips/linux-2.4.19/lib/vsprintf.c:186
+			if (buf <= end)
+     720:	020a102b 	sltu	v0,s0,t2
+     724:	14400010 	bnez	v0,768 <number+0x404>
+     728:	24020030 	li	v0,48
+/home/mips/linux-2.4.19/lib/vsprintf.c:188
+				*buf = '0';
+			++buf;
+     72c:	080001da 	j	768 <number+0x404>
+			72c: R_MIPS_26	.text
+     730:	a1420000 	sb	v0,0(t2)
+/home/mips/linux-2.4.19/lib/vsprintf.c:189
+		} else if (base==16) {
+     734:	15c2000e 	bne	t6,v0,770 <number+0x40c>
+     738:	33020010 	andi	v0,t8,0x10
+/home/mips/linux-2.4.19/lib/vsprintf.c:190
+			if (buf <= end)
+     73c:	020a102b 	sltu	v0,s0,t2
+     740:	14400002 	bnez	v0,74c <number+0x3e8>
+     744:	24020030 	li	v0,48
+/home/mips/linux-2.4.19/lib/vsprintf.c:191
+				*buf = '0';
+     748:	a1420000 	sb	v0,0(t2)
+/home/mips/linux-2.4.19/lib/vsprintf.c:192
+			++buf;
+     74c:	254a0001 	addiu	t2,t2,1
+/home/mips/linux-2.4.19/lib/vsprintf.c:193
+			if (buf <= end)
+     750:	020a102b 	sltu	v0,s0,t2
+     754:	14400004 	bnez	v0,768 <number+0x404>
+     758:	00000000 	nop
+/home/mips/linux-2.4.19/lib/vsprintf.c:194
+				*buf = digits[33];
+     75c:	92220021 	lbu	v0,33(s1)
+     760:	00000000 	nop
+     764:	a1420000 	sb	v0,0(t2)
+/home/mips/linux-2.4.19/lib/vsprintf.c:195
+			++buf;
+     768:	254a0001 	addiu	t2,t2,1
+/home/mips/linux-2.4.19/lib/vsprintf.c:198
+		}
+	}
+	if (!(type & LEFT)) {
+     76c:	33020010 	andi	v0,t8,0x10
+     770:	1440000d 	bnez	v0,7a8 <number+0x444>
+     774:	01e01021 	move	v0,t7
+/home/mips/linux-2.4.19/lib/vsprintf.c:199
+		while (size-- > 0) {
+     778:	00e01021 	move	v0,a3
+     77c:	18400009 	blez	v0,7a4 <number+0x440>
+     780:	24e7ffff 	addiu	a3,a3,-1
+/home/mips/linux-2.4.19/lib/vsprintf.c:200
+			if (buf <= end)
+     784:	020a102b 	sltu	v0,s0,t2
+     788:	14400002 	bnez	v0,794 <number+0x430>
+     78c:	00000000 	nop
+/home/mips/linux-2.4.19/lib/vsprintf.c:201
+				*buf = c;
+     790:	a1530000 	sb	s3,0(t2)
+/home/mips/linux-2.4.19/lib/vsprintf.c:202
+			++buf;
+     794:	254a0001 	addiu	t2,t2,1
+     798:	00e01021 	move	v0,a3
+     79c:	1c40fff9 	bgtz	v0,784 <number+0x420>
+     7a0:	24e7ffff 	addiu	a3,a3,-1
+/home/mips/linux-2.4.19/lib/vsprintf.c:205
+		}
+	}
+	while (i < precision--) {
+     7a4:	01e01021 	move	v0,t7
+     7a8:	0162102a 	slt	v0,t3,v0
+     7ac:	1040000b 	beqz	v0,7dc <number+0x478>
+     7b0:	25efffff 	addiu	t7,t7,-1
+     7b4:	24030030 	li	v1,48
+/home/mips/linux-2.4.19/lib/vsprintf.c:206
+		if (buf <= end)
+     7b8:	020a102b 	sltu	v0,s0,t2
+     7bc:	14400002 	bnez	v0,7c8 <number+0x464>
+     7c0:	00000000 	nop
+/home/mips/linux-2.4.19/lib/vsprintf.c:207
+			*buf = '0';
+     7c4:	a1430000 	sb	v1,0(t2)
+/home/mips/linux-2.4.19/lib/vsprintf.c:208
+		++buf;
+     7c8:	254a0001 	addiu	t2,t2,1
+     7cc:	01e01021 	move	v0,t7
+     7d0:	0162102a 	slt	v0,t3,v0
+     7d4:	1440fff8 	bnez	v0,7b8 <number+0x454>
+     7d8:	25efffff 	addiu	t7,t7,-1
+/home/mips/linux-2.4.19/lib/vsprintf.c:210
+	}
+	while (i-- > 0) {
+     7dc:	01601021 	move	v0,t3
+     7e0:	1840000b 	blez	v0,810 <number+0x4ac>
+     7e4:	256bffff 	addiu	t3,t3,-1
+/home/mips/linux-2.4.19/lib/vsprintf.c:211
+		if (buf <= end)
+     7e8:	020a102b 	sltu	v0,s0,t2
+     7ec:	14400004 	bnez	v0,800 <number+0x49c>
+     7f0:	03ab1021 	addu	v0,sp,t3
+/home/mips/linux-2.4.19/lib/vsprintf.c:212
+			*buf = tmp[i];
+     7f4:	90420000 	lbu	v0,0(v0)
+     7f8:	00000000 	nop
+     7fc:	a1420000 	sb	v0,0(t2)
+/home/mips/linux-2.4.19/lib/vsprintf.c:213
+		++buf;
+     800:	254a0001 	addiu	t2,t2,1
+     804:	01601021 	move	v0,t3
+     808:	1c40fff7 	bgtz	v0,7e8 <number+0x484>
+     80c:	256bffff 	addiu	t3,t3,-1
+/home/mips/linux-2.4.19/lib/vsprintf.c:215
+	}
+	while (size-- > 0) {
+     810:	00e01021 	move	v0,a3
+     814:	1840000a 	blez	v0,840 <number+0x4dc>
+     818:	24e7ffff 	addiu	a3,a3,-1
+     81c:	24030020 	li	v1,32
+/home/mips/linux-2.4.19/lib/vsprintf.c:216
+		if (buf <= end)
+     820:	020a102b 	sltu	v0,s0,t2
+     824:	14400002 	bnez	v0,830 <number+0x4cc>
+     828:	00000000 	nop
+/home/mips/linux-2.4.19/lib/vsprintf.c:217
+			*buf = ' ';
+     82c:	a1430000 	sb	v1,0(t2)
+/home/mips/linux-2.4.19/lib/vsprintf.c:218
+		++buf;
+     830:	254a0001 	addiu	t2,t2,1
+     834:	00e01021 	move	v0,a3
+     838:	1c40fff9 	bgtz	v0,820 <number+0x4bc>
+     83c:	24e7ffff 	addiu	a3,a3,-1
+/home/mips/linux-2.4.19/lib/vsprintf.c:220
+	}
+	return buf;
+     840:	01401821 	move	v1,t2
+/home/mips/linux-2.4.19/lib/vsprintf.c:221
+}
+     844:	00601021 	move	v0,v1
+     848:	8fb300a4 	lw	s3,164(sp)
+     84c:	8fb200a0 	lw	s2,160(sp)
+     850:	8fb1009c 	lw	s1,156(sp)
+     854:	8fb00098 	lw	s0,152(sp)
+     858:	03e00008 	jr	ra
+     85c:	27bd00a8 	addiu	sp,sp,168
+
+00000860 <vsnprintf>:
+vsnprintf():
+/home/mips/linux-2.4.19/lib/vsprintf.c:234
+
+/**
+* vsnprintf - Format a string and place it in a buffer
+* @buf: The buffer to place the result into
+* @size: The size of the buffer, including the trailing null space
+* @fmt: The format string to use
+* @args: Arguments for the format string
+*
+* Call this function if you are already dealing with a va_list.
+* You probably want snprintf instead.
+ */
+int vsnprintf(char *buf, size_t size, const char *fmt, va_list args)
+{
+     860:	27bdffb8 	addiu	sp,sp,-72
+     864:	afbf0040 	sw	ra,64(sp)
+     868:	afb7003c 	sw	s7,60(sp)
+     86c:	afb60038 	sw	s6,56(sp)
+     870:	afb50034 	sw	s5,52(sp)
+     874:	afb40030 	sw	s4,48(sp)
+     878:	afb3002c 	sw	s3,44(sp)
+     87c:	afb20028 	sw	s2,40(sp)
+     880:	afb10024 	sw	s1,36(sp)
+     884:	afb00020 	sw	s0,32(sp)
+     888:	0080b021 	move	s6,a0
+     88c:	00a0b821 	move	s7,a1
+     890:	afa60050 	sw	a2,80(sp)
+     894:	00e09821 	move	s3,a3
+/home/mips/linux-2.4.19/lib/vsprintf.c:251
+	int len;
+	unsigned long long num;
+	int i, base;
+	char *str, *end, c;
+	const char *s;
+
+	int flags;		/* flags to number() */
+
+	int field_width;	/* width of output field */
+	int precision;		/* min. # of digits for integers; max
+				   number of chars for from string */
+	int qualifier;		/* 'h', 'l', or 'L' for integer fields */
+				/* 'z' support added 23/7/1999 S.H.    */
+				/* 'z' changed to 'Z' --davidm 1/25/99 */
+
+	str = buf;
+	end = buf + size - 1;
+     898:	00859021 	addu	s2,a0,a1
+     89c:	2652ffff 	addiu	s2,s2,-1
+/home/mips/linux-2.4.19/lib/vsprintf.c:253
+
+	if (end < buf - 1) {
+     8a0:	2482ffff 	addiu	v0,a0,-1
+     8a4:	0242102b 	sltu	v0,s2,v0
+     8a8:	10400003 	beqz	v0,8b8 <vsnprintf+0x58>
+     8ac:	00808021 	move	s0,a0
+/home/mips/linux-2.4.19/lib/vsprintf.c:254
+		end = ((void *) -1);
+     8b0:	2412ffff 	li	s2,-1
+/home/mips/linux-2.4.19/lib/vsprintf.c:255
+		size = end - buf + 1;
+     8b4:	0004b823 	negu	s7,a0
+/home/mips/linux-2.4.19/lib/vsprintf.c:258
+	}
+
+	for (; *fmt ; ++fmt) {
+     8b8:	8fa20050 	lw	v0,80(sp)
+     8bc:	00000000 	nop
+     8c0:	00401821 	move	v1,v0
+     8c4:	80420000 	lb	v0,0(v0)
+     8c8:	00000000 	nop
+     8cc:	1040016d 	beqz	v0,e84 <vsnprintf+0x624>
+     8d0:	0250102b 	sltu	v0,s2,s0
+/home/mips/linux-2.4.19/lib/vsprintf.c:259
+		if (*fmt != '%') {
+     8d4:	90640000 	lbu	a0,0(v1)
+     8d8:	80630000 	lb	v1,0(v1)
+     8dc:	24020025 	li	v0,37
+     8e0:	10620005 	beq	v1,v0,8f8 <vsnprintf+0x98>
+     8e4:	0250102b 	sltu	v0,s2,s0
+/home/mips/linux-2.4.19/lib/vsprintf.c:260
+			if (str <= end)
+     8e8:	1440011f 	bnez	v0,d68 <vsnprintf+0x508>
+     8ec:	00000000 	nop
+/home/mips/linux-2.4.19/lib/vsprintf.c:263
+				*str = *fmt;
+			++str;
+			continue;
+     8f0:	0800035a 	j	d68 <vsnprintf+0x508>
+			8f0: R_MIPS_26	.text
+     8f4:	a2040000 	sb	a0,0(s0)
+/home/mips/linux-2.4.19/lib/vsprintf.c:267
+		}
+
+		/* process flags */
+		flags = 0;
+     8f8:	00008821 	move	s1,zero
+/home/mips/linux-2.4.19/lib/vsprintf.c:269
+		repeat:
+			++fmt;		/* this also skips first '%' */
+     8fc:	8fa20050 	lw	v0,80(sp)
+     900:	00000000 	nop
+     904:	24420001 	addiu	v0,v0,1
+     908:	afa20050 	sw	v0,80(sp)
+/home/mips/linux-2.4.19/lib/vsprintf.c:270
+			switch (*fmt) {
+     90c:	80420000 	lb	v0,0(v0)
+     910:	00000000 	nop
+     914:	2443ffe0 	addiu	v1,v0,-32
+     918:	2c620011 	sltiu	v0,v1,17
+     91c:	10400011 	beqz	v0,964 <vsnprintf+0x104>
+     920:	00031080 	sll	v0,v1,0x2
+     924:	3c010000 	lui	at,0x0
+			924: R_MIPS_HI16	.rodata
+     928:	00220821 	addu	at,at,v0
+     92c:	8c220058 	lw	v0,88(at)
+			92c: R_MIPS_LO16	.rodata
+     930:	00000000 	nop
+     934:	00400008 	jr	v0
+     938:	00000000 	nop
+/home/mips/linux-2.4.19/lib/vsprintf.c:271
+				case '-': flags |= LEFT; goto repeat;
+     93c:	0800023f 	j	8fc <vsnprintf+0x9c>
+			93c: R_MIPS_26	.text
+     940:	36310010 	ori	s1,s1,0x10
+/home/mips/linux-2.4.19/lib/vsprintf.c:272
+				case '+': flags |= PLUS; goto repeat;
+     944:	0800023f 	j	8fc <vsnprintf+0x9c>
+			944: R_MIPS_26	.text
+     948:	36310004 	ori	s1,s1,0x4
+/home/mips/linux-2.4.19/lib/vsprintf.c:273
+				case ' ': flags |= SPACE; goto repeat;
+     94c:	0800023f 	j	8fc <vsnprintf+0x9c>
+			94c: R_MIPS_26	.text
+     950:	36310008 	ori	s1,s1,0x8
+/home/mips/linux-2.4.19/lib/vsprintf.c:274
+				case '#': flags |= SPECIAL; goto repeat;
+     954:	0800023f 	j	8fc <vsnprintf+0x9c>
+			954: R_MIPS_26	.text
+     958:	36310020 	ori	s1,s1,0x20
+/home/mips/linux-2.4.19/lib/vsprintf.c:275
+				case '0': flags |= ZEROPAD; goto repeat;
+     95c:	0800023f 	j	8fc <vsnprintf+0x9c>
+			95c: R_MIPS_26	.text
+     960:	36310001 	ori	s1,s1,0x1
+/home/mips/linux-2.4.19/lib/vsprintf.c:280
+			}
+
+		/* get field width */
+		field_width = -1;
+		if (isdigit(*fmt))
+     964:	8fa20050 	lw	v0,80(sp)
+     968:	00000000 	nop
+     96c:	90420000 	lbu	v0,0(v0)
+     970:	3c010000 	lui	at,0x0
+			970: R_MIPS_HI16	_ctype
+     974:	00220821 	addu	at,at,v0
+     978:	90220000 	lbu	v0,0(at)
+			978: R_MIPS_LO16	_ctype
+     97c:	00000000 	nop
+     980:	30420004 	andi	v0,v0,0x4
+     984:	10400005 	beqz	v0,99c <vsnprintf+0x13c>
+     988:	2414ffff 	li	s4,-1
+/home/mips/linux-2.4.19/lib/vsprintf.c:281
+			field_width = skip_atoi(&fmt);
+     98c:	0c0000b8 	jal	2e0 <skip_atoi>
+			98c: R_MIPS_26	.text
+     990:	27a40050 	addiu	a0,sp,80
+     994:	08000279 	j	9e4 <vsnprintf+0x184>
+			994: R_MIPS_26	.text
+     998:	0040a021 	move	s4,v0
+/home/mips/linux-2.4.19/lib/vsprintf.c:282
+		else if (*fmt == '*') {
+     99c:	8fa40050 	lw	a0,80(sp)
+     9a0:	00000000 	nop
+     9a4:	80830000 	lb	v1,0(a0)
+     9a8:	2402002a 	li	v0,42
+     9ac:	14620011 	bne	v1,v0,9f4 <vsnprintf+0x194>
+     9b0:	2402002e 	li	v0,46
+/home/mips/linux-2.4.19/lib/vsprintf.c:283
+			++fmt;
+     9b4:	24820001 	addiu	v0,a0,1
+     9b8:	afa20050 	sw	v0,80(sp)
+/home/mips/linux-2.4.19/lib/vsprintf.c:285
+			/* it's the next argument */
+			field_width = va_arg(args, int);
+     9bc:	26630003 	addiu	v1,s3,3
+     9c0:	2402fffc 	li	v0,-4
+     9c4:	00629824 	and	s3,v1,v0
+     9c8:	02601021 	move	v0,s3
+     9cc:	8c540000 	lw	s4,0(v0)
+     9d0:	00000000 	nop
+/home/mips/linux-2.4.19/lib/vsprintf.c:286
+			if (field_width < 0) {
+     9d4:	06810003 	bgez	s4,9e4 <vsnprintf+0x184>
+     9d8:	26730004 	addiu	s3,s3,4
+/home/mips/linux-2.4.19/lib/vsprintf.c:287
+				field_width = -field_width;
+     9dc:	0014a023 	negu	s4,s4
+/home/mips/linux-2.4.19/lib/vsprintf.c:288
+				flags |= LEFT;
+     9e0:	36310010 	ori	s1,s1,0x10
+/home/mips/linux-2.4.19/lib/vsprintf.c:294
+			}
+		}
+
+		/* get the precision */
+		precision = -1;
+		if (*fmt == '.') {
+     9e4:	8fa40050 	lw	a0,80(sp)
+     9e8:	00000000 	nop
+     9ec:	80830000 	lb	v1,0(a0)
+     9f0:	2402002e 	li	v0,46
+     9f4:	14620020 	bne	v1,v0,a78 <vsnprintf+0x218>
+     9f8:	2405ffff 	li	a1,-1
+/home/mips/linux-2.4.19/lib/vsprintf.c:295
+			++fmt;	
+     9fc:	24820001 	addiu	v0,a0,1
+     a00:	afa20050 	sw	v0,80(sp)
+/home/mips/linux-2.4.19/lib/vsprintf.c:296
+			if (isdigit(*fmt))
+     a04:	90420000 	lbu	v0,0(v0)
+     a08:	3c010000 	lui	at,0x0
+			a08: R_MIPS_HI16	_ctype
+     a0c:	00220821 	addu	at,at,v0
+     a10:	90220000 	lbu	v0,0(at)
+			a10: R_MIPS_LO16	_ctype
+     a14:	00000000 	nop
+     a18:	30420004 	andi	v0,v0,0x4
+     a1c:	10400005 	beqz	v0,a34 <vsnprintf+0x1d4>
+     a20:	2402002a 	li	v0,42
+/home/mips/linux-2.4.19/lib/vsprintf.c:297
+				precision = skip_atoi(&fmt);
+     a24:	0c0000b8 	jal	2e0 <skip_atoi>
+			a24: R_MIPS_26	.text
+     a28:	27a40050 	addiu	a0,sp,80
+     a2c:	0800029b 	j	a6c <vsnprintf+0x20c>
+			a2c: R_MIPS_26	.text
+     a30:	00402821 	move	a1,v0
+/home/mips/linux-2.4.19/lib/vsprintf.c:298
+			else if (*fmt == '*') {
+     a34:	8fa40050 	lw	a0,80(sp)
+     a38:	00000000 	nop
+     a3c:	80830000 	lb	v1,0(a0)
+     a40:	00000000 	nop
+     a44:	14620009 	bne	v1,v0,a6c <vsnprintf+0x20c>
+     a48:	24820001 	addiu	v0,a0,1
+/home/mips/linux-2.4.19/lib/vsprintf.c:299
+				++fmt;
+     a4c:	afa20050 	sw	v0,80(sp)
+/home/mips/linux-2.4.19/lib/vsprintf.c:301
+				/* it's the next argument */
+				precision = va_arg(args, int);
+     a50:	26730003 	addiu	s3,s3,3
+     a54:	2402fffc 	li	v0,-4
+     a58:	02629824 	and	s3,s3,v0
+     a5c:	02601021 	move	v0,s3
+     a60:	26730004 	addiu	s3,s3,4
+     a64:	8c450000 	lw	a1,0(v0)
+     a68:	00000000 	nop
+/home/mips/linux-2.4.19/lib/vsprintf.c:303
+			}
+			if (precision < 0)
+     a6c:	04a10002 	bgez	a1,a78 <vsnprintf+0x218>
+     a70:	00000000 	nop
+/home/mips/linux-2.4.19/lib/vsprintf.c:304
+				precision = 0;
+     a74:	00002821 	move	a1,zero
+/home/mips/linux-2.4.19/lib/vsprintf.c:309
+		}
+
+		/* get the conversion qualifier */
+		qualifier = -1;
+		if (*fmt == 'h' || *fmt == 'l' || *fmt == 'L' || *fmt =='Z') {
+     a78:	8fa20050 	lw	v0,80(sp)
+     a7c:	00000000 	nop
+     a80:	80430000 	lb	v1,0(v0)
+     a84:	24020068 	li	v0,104
+     a88:	10620008 	beq	v1,v0,aac <vsnprintf+0x24c>
+     a8c:	2404ffff 	li	a0,-1
+     a90:	2402006c 	li	v0,108
+     a94:	10620005 	beq	v1,v0,aac <vsnprintf+0x24c>
+     a98:	2402004c 	li	v0,76
+     a9c:	10620003 	beq	v1,v0,aac <vsnprintf+0x24c>
+     aa0:	2402005a 	li	v0,90
+     aa4:	14620011 	bne	v1,v0,aec <vsnprintf+0x28c>
+     aa8:	00000000 	nop
+/home/mips/linux-2.4.19/lib/vsprintf.c:310
+			qualifier = *fmt;
+     aac:	8fa20050 	lw	v0,80(sp)
+     ab0:	00000000 	nop
+     ab4:	80440000 	lb	a0,0(v0)
+/home/mips/linux-2.4.19/lib/vsprintf.c:311
+			++fmt;
+     ab8:	24420001 	addiu	v0,v0,1
+     abc:	afa20050 	sw	v0,80(sp)
+/home/mips/linux-2.4.19/lib/vsprintf.c:312
+			if (qualifier == 'l' && *fmt == 'l') {
+     ac0:	2402006c 	li	v0,108
+     ac4:	14820009 	bne	a0,v0,aec <vsnprintf+0x28c>
+     ac8:	00000000 	nop
+     acc:	8fa30050 	lw	v1,80(sp)
+     ad0:	00000000 	nop
+     ad4:	80620000 	lb	v0,0(v1)
+     ad8:	00000000 	nop
+     adc:	14440003 	bne	v0,a0,aec <vsnprintf+0x28c>
+     ae0:	24620001 	addiu	v0,v1,1
+/home/mips/linux-2.4.19/lib/vsprintf.c:313
+				qualifier = 'L';
+     ae4:	2404004c 	li	a0,76
+/home/mips/linux-2.4.19/lib/vsprintf.c:314
+				++fmt;
+     ae8:	afa20050 	sw	v0,80(sp)
+/home/mips/linux-2.4.19/lib/vsprintf.c:321
+			}
+		}
+
+		/* default base */
+		base = 10;
+
+		switch (*fmt) {
+     aec:	8fa20050 	lw	v0,80(sp)
+     af0:	00000000 	nop
+     af4:	80420000 	lb	v0,0(v0)
+     af8:	00000000 	nop
+     afc:	2443ffdb 	addiu	v1,v0,-37
+     b00:	2c620054 	sltiu	v0,v1,84
+     b04:	10400089 	beqz	v0,d2c <vsnprintf+0x4cc>
+     b08:	2408000a 	li	t0,10
+     b0c:	00031080 	sll	v0,v1,0x2
+     b10:	3c010000 	lui	at,0x0
+			b10: R_MIPS_HI16	.rodata
+     b14:	00220821 	addu	at,at,v0
+     b18:	8c22009c 	lw	v0,156(at)
+			b18: R_MIPS_LO16	.rodata
+     b1c:	00000000 	nop
+     b20:	00400008 	jr	v0
+     b24:	00000000 	nop
+/home/mips/linux-2.4.19/lib/vsprintf.c:323
+			case 'c':
+				if (!(flags & LEFT)) {
+     b28:	32220010 	andi	v0,s1,0x10
+     b2c:	1440000b 	bnez	v0,b5c <vsnprintf+0x2fc>
+     b30:	00000000 	nop
+/home/mips/linux-2.4.19/lib/vsprintf.c:324
+					while (--field_width > 0) {
+     b34:	2694ffff 	addiu	s4,s4,-1
+     b38:	1a800008 	blez	s4,b5c <vsnprintf+0x2fc>
+     b3c:	24030020 	li	v1,32
+/home/mips/linux-2.4.19/lib/vsprintf.c:325
+						if (str <= end)
+     b40:	0250102b 	sltu	v0,s2,s0
+     b44:	14400002 	bnez	v0,b50 <vsnprintf+0x2f0>
+     b48:	00000000 	nop
+/home/mips/linux-2.4.19/lib/vsprintf.c:326
+							*str = ' ';
+     b4c:	a2030000 	sb	v1,0(s0)
+/home/mips/linux-2.4.19/lib/vsprintf.c:327
+						++str;
+     b50:	2694ffff 	addiu	s4,s4,-1
+     b54:	1e80fffa 	bgtz	s4,b40 <vsnprintf+0x2e0>
+     b58:	26100001 	addiu	s0,s0,1
+/home/mips/linux-2.4.19/lib/vsprintf.c:330
+					}
+				}
+				c = (unsigned char) va_arg(args, int);
+     b5c:	26730003 	addiu	s3,s3,3
+     b60:	2402fffc 	li	v0,-4
+     b64:	02629824 	and	s3,s3,v0
+     b68:	02601021 	move	v0,s3
+     b6c:	80430003 	lb	v1,3(v0)
+/home/mips/linux-2.4.19/lib/vsprintf.c:331
+				if (str <= end)
+     b70:	0250102b 	sltu	v0,s2,s0
+     b74:	14400002 	bnez	v0,b80 <vsnprintf+0x320>
+     b78:	26730004 	addiu	s3,s3,4
+/home/mips/linux-2.4.19/lib/vsprintf.c:332
+					*str = c;
+     b7c:	a2030000 	sb	v1,0(s0)
+/home/mips/linux-2.4.19/lib/vsprintf.c:334
+				++str;
+				while (--field_width > 0) {
+     b80:	2694ffff 	addiu	s4,s4,-1
+     b84:	1a8000b6 	blez	s4,e60 <vsnprintf+0x600>
+     b88:	26100001 	addiu	s0,s0,1
+     b8c:	24030020 	li	v1,32
+/home/mips/linux-2.4.19/lib/vsprintf.c:335
+					if (str <= end)
+     b90:	0250102b 	sltu	v0,s2,s0
+     b94:	14400002 	bnez	v0,ba0 <vsnprintf+0x340>
+     b98:	00000000 	nop
+/home/mips/linux-2.4.19/lib/vsprintf.c:336
+						*str = ' ';
+     b9c:	a2030000 	sb	v1,0(s0)
+/home/mips/linux-2.4.19/lib/vsprintf.c:337
+					++str;
+     ba0:	2694ffff 	addiu	s4,s4,-1
+     ba4:	1a8000ae 	blez	s4,e60 <vsnprintf+0x600>
+     ba8:	26100001 	addiu	s0,s0,1
+     bac:	080002e5 	j	b94 <vsnprintf+0x334>
+			bac: R_MIPS_26	.text
+     bb0:	0250102b 	sltu	v0,s2,s0
+/home/mips/linux-2.4.19/lib/vsprintf.c:342
+				}
+				continue;
+
+			case 's':
+				s = va_arg(args, char *);
+     bb4:	26730003 	addiu	s3,s3,3
+     bb8:	2402fffc 	li	v0,-4
+     bbc:	02629824 	and	s3,s3,v0
+     bc0:	02601021 	move	v0,s3
+     bc4:	8c550000 	lw	s5,0(v0)
+     bc8:	00000000 	nop
+/home/mips/linux-2.4.19/lib/vsprintf.c:343
+				if (!s)
+     bcc:	16a00003 	bnez	s5,bdc <vsnprintf+0x37c>
+     bd0:	26730004 	addiu	s3,s3,4
+/home/mips/linux-2.4.19/lib/vsprintf.c:344
+					s = "<NULL>";
+     bd4:	3c150000 	lui	s5,0x0
+			bd4: R_MIPS_HI16	.rodata
+     bd8:	26b50050 	addiu	s5,s5,80
+			bd8: R_MIPS_LO16	.rodata
+/home/mips/linux-2.4.19/lib/vsprintf.c:346
+
+				len = strnlen(s, precision);
+     bdc:	0c000000 	jal	0 <simple_strtoul>
+			bdc: R_MIPS_26	strnlen
+     be0:	02a02021 	move	a0,s5
+     be4:	00402021 	move	a0,v0
+/home/mips/linux-2.4.19/lib/vsprintf.c:348
+
+				if (!(flags & LEFT)) {
+     be8:	32220010 	andi	v0,s1,0x10
+     bec:	1440000e 	bnez	v0,c28 <vsnprintf+0x3c8>
+     bf0:	02801021 	move	v0,s4
+/home/mips/linux-2.4.19/lib/vsprintf.c:349
+					while (len < field_width--) {
+     bf4:	0082102a 	slt	v0,a0,v0
+     bf8:	1040000b 	beqz	v0,c28 <vsnprintf+0x3c8>
+     bfc:	2694ffff 	addiu	s4,s4,-1
+     c00:	24030020 	li	v1,32
+/home/mips/linux-2.4.19/lib/vsprintf.c:350
+						if (str <= end)
+     c04:	0250102b 	sltu	v0,s2,s0
+     c08:	14400002 	bnez	v0,c14 <vsnprintf+0x3b4>
+     c0c:	00000000 	nop
+/home/mips/linux-2.4.19/lib/vsprintf.c:351
+							*str = ' ';
+     c10:	a2030000 	sb	v1,0(s0)
+/home/mips/linux-2.4.19/lib/vsprintf.c:352
+						++str;
+     c14:	26100001 	addiu	s0,s0,1
+     c18:	02801021 	move	v0,s4
+     c1c:	0082102a 	slt	v0,a0,v0
+     c20:	1440fff8 	bnez	v0,c04 <vsnprintf+0x3a4>
+     c24:	2694ffff 	addiu	s4,s4,-1
+/home/mips/linux-2.4.19/lib/vsprintf.c:355
+					}
+				}
+				for (i = 0; i < len; ++i) {
+     c28:	1880000c 	blez	a0,c5c <vsnprintf+0x3fc>
+     c2c:	00001821 	move	v1,zero
+/home/mips/linux-2.4.19/lib/vsprintf.c:356
+					if (str <= end)
+     c30:	0250102b 	sltu	v0,s2,s0
+     c34:	14400004 	bnez	v0,c48 <vsnprintf+0x3e8>
+     c38:	00000000 	nop
+/home/mips/linux-2.4.19/lib/vsprintf.c:357
+						*str = *s;
+     c3c:	92a20000 	lbu	v0,0(s5)
+     c40:	00000000 	nop
+     c44:	a2020000 	sb	v0,0(s0)
+/home/mips/linux-2.4.19/lib/vsprintf.c:358
+					++str; ++s;
+     c48:	26100001 	addiu	s0,s0,1
+/home/mips/linux-2.4.19/lib/vsprintf.c:355
+     c4c:	24630001 	addiu	v1,v1,1
+     c50:	0064102a 	slt	v0,v1,a0
+     c54:	1440fff6 	bnez	v0,c30 <vsnprintf+0x3d0>
+     c58:	26b50001 	addiu	s5,s5,1
+/home/mips/linux-2.4.19/lib/vsprintf.c:360
+				}
+				while (len < field_width--) {
+     c5c:	02801021 	move	v0,s4
+     c60:	0082102a 	slt	v0,a0,v0
+     c64:	1040007e 	beqz	v0,e60 <vsnprintf+0x600>
+     c68:	2694ffff 	addiu	s4,s4,-1
+     c6c:	24030020 	li	v1,32
+/home/mips/linux-2.4.19/lib/vsprintf.c:361
+					if (str <= end)
+     c70:	0250102b 	sltu	v0,s2,s0
+     c74:	14400002 	bnez	v0,c80 <vsnprintf+0x420>
+     c78:	00000000 	nop
+/home/mips/linux-2.4.19/lib/vsprintf.c:362
+						*str = ' ';
+     c7c:	a2030000 	sb	v1,0(s0)
+/home/mips/linux-2.4.19/lib/vsprintf.c:363
+					++str;
+     c80:	26100001 	addiu	s0,s0,1
+     c84:	02801021 	move	v0,s4
+     c88:	0082102a 	slt	v0,a0,v0
+     c8c:	10400074 	beqz	v0,e60 <vsnprintf+0x600>
+     c90:	2694ffff 	addiu	s4,s4,-1
+     c94:	0800031d 	j	c74 <vsnprintf+0x414>
+			c94: R_MIPS_26	.text
+     c98:	0250102b 	sltu	v0,s2,s0
+/home/mips/linux-2.4.19/lib/vsprintf.c:368
+				}
+				continue;
+
+			case 'p':
+				if (field_width == -1) {
+     c9c:	2402ffff 	li	v0,-1
+     ca0:	16820003 	bne	s4,v0,cb0 <vsnprintf+0x450>
+     ca4:	00000000 	nop
+/home/mips/linux-2.4.19/lib/vsprintf.c:369
+					field_width = 2*sizeof(void *);
+     ca8:	24140008 	li	s4,8
+/home/mips/linux-2.4.19/lib/vsprintf.c:370
+					flags |= ZEROPAD;
+     cac:	36310001 	ori	s1,s1,0x1
+/home/mips/linux-2.4.19/lib/vsprintf.c:372
+				}
+				str = number(str, end,
+     cb0:	26730003 	addiu	s3,s3,3
+     cb4:	2402fffc 	li	v0,-4
+     cb8:	02629824 	and	s3,s3,v0
+     cbc:	02601021 	move	v0,s3
+     cc0:	26730004 	addiu	s3,s3,4
+     cc4:	8c470000 	lw	a3,0(v0)
+     cc8:	00003021 	move	a2,zero
+     ccc:	24020010 	li	v0,16
+/home/mips/linux-2.4.19/lib/vsprintf.c:375
+						(unsigned long) va_arg(args, void *),
+						16, field_width, precision, flags);
+				continue;
+     cd0:	08000391 	j	e44 <vsnprintf+0x5e4>
+			cd0: R_MIPS_26	.text
+     cd4:	afa20010 	sw	v0,16(sp)
+/home/mips/linux-2.4.19/lib/vsprintf.c:388
+
+
+			case 'n':
+				/* FIXME:
+				* What does C99 say about the overflow case here? */
+				if (qualifier == 'l') {
+					long * ip = va_arg(args, long *);
+					*ip = (str - buf);
+				} else if (qualifier == 'Z') {
+					size_t * ip = va_arg(args, size_t *);
+					*ip = (str - buf);
+				} else {
+					int * ip = va_arg(args, int *);
+     cd8:	26730003 	addiu	s3,s3,3
+     cdc:	2402fffc 	li	v0,-4
+     ce0:	02629824 	and	s3,s3,v0
+     ce4:	02601021 	move	v0,s3
+     ce8:	26730004 	addiu	s3,s3,4
+     cec:	8c430000 	lw	v1,0(v0)
+/home/mips/linux-2.4.19/lib/vsprintf.c:389
+					*ip = (str - buf);
+     cf0:	02161023 	subu	v0,s0,s6
+/home/mips/linux-2.4.19/lib/vsprintf.c:391
+				}
+				continue;
+     cf4:	08000398 	j	e60 <vsnprintf+0x600>
+			cf4: R_MIPS_26	.text
+     cf8:	ac620000 	sw	v0,0(v1)
+/home/mips/linux-2.4.19/lib/vsprintf.c:394
+
+			case '%':
+				if (str <= end)
+     cfc:	0250102b 	sltu	v0,s2,s0
+     d00:	14400019 	bnez	v0,d68 <vsnprintf+0x508>
+     d04:	24020025 	li	v0,37
+/home/mips/linux-2.4.19/lib/vsprintf.c:397
+					*str = '%';
+				++str;
+				continue;
+     d08:	0800035a 	j	d68 <vsnprintf+0x508>
+			d08: R_MIPS_26	.text
+     d0c:	a2020000 	sb	v0,0(s0)
+/home/mips/linux-2.4.19/lib/vsprintf.c:402
+
+				/* integer number formats - set up the flags and "break" */
+			case 'o':
+				base = 8;
+				break;
+     d10:	08000361 	j	d84 <vsnprintf+0x524>
+			d10: R_MIPS_26	.text
+     d14:	24080008 	li	t0,8
+/home/mips/linux-2.4.19/lib/vsprintf.c:405
+
+			case 'X':
+				flags |= LARGE;
+     d18:	36310040 	ori	s1,s1,0x40
+/home/mips/linux-2.4.19/lib/vsprintf.c:408
+			case 'x':
+				base = 16;
+				break;
+     d1c:	08000361 	j	d84 <vsnprintf+0x524>
+			d1c: R_MIPS_26	.text
+     d20:	24080010 	li	t0,16
+/home/mips/linux-2.4.19/lib/vsprintf.c:414
+
+			case 'd':
+			case 'i':
+				flags |= SIGN;
+			case 'u':
+				break;
+     d24:	08000361 	j	d84 <vsnprintf+0x524>
+			d24: R_MIPS_26	.text
+     d28:	36310002 	ori	s1,s1,0x2
+/home/mips/linux-2.4.19/lib/vsprintf.c:417
+
+			default:
+				if (str <= end)
+     d2c:	0250102b 	sltu	v0,s2,s0
+     d30:	14400002 	bnez	v0,d3c <vsnprintf+0x4dc>
+     d34:	24020025 	li	v0,37
+/home/mips/linux-2.4.19/lib/vsprintf.c:418
+					*str = '%';
+     d38:	a2020000 	sb	v0,0(s0)
+/home/mips/linux-2.4.19/lib/vsprintf.c:420
+				++str;
+				if (*fmt) {
+     d3c:	8fa20050 	lw	v0,80(sp)
+     d40:	00000000 	nop
+     d44:	90430000 	lbu	v1,0(v0)
+     d48:	80420000 	lb	v0,0(v0)
+     d4c:	00000000 	nop
+     d50:	10400007 	beqz	v0,d70 <vsnprintf+0x510>
+     d54:	26100001 	addiu	s0,s0,1
+/home/mips/linux-2.4.19/lib/vsprintf.c:421
+					if (str <= end)
+     d58:	0250102b 	sltu	v0,s2,s0
+     d5c:	14400002 	bnez	v0,d68 <vsnprintf+0x508>
+     d60:	00000000 	nop
+/home/mips/linux-2.4.19/lib/vsprintf.c:422
+						*str = *fmt;
+     d64:	a2030000 	sb	v1,0(s0)
+/home/mips/linux-2.4.19/lib/vsprintf.c:423
+					++str;
+     d68:	08000398 	j	e60 <vsnprintf+0x600>
+			d68: R_MIPS_26	.text
+     d6c:	26100001 	addiu	s0,s0,1
+/home/mips/linux-2.4.19/lib/vsprintf.c:425
+				} else {
+					--fmt;
+     d70:	8fa20050 	lw	v0,80(sp)
+     d74:	00000000 	nop
+     d78:	2442ffff 	addiu	v0,v0,-1
+/home/mips/linux-2.4.19/lib/vsprintf.c:427
+				}
+				continue;
+     d7c:	08000398 	j	e60 <vsnprintf+0x600>
+			d7c: R_MIPS_26	.text
+     d80:	afa20050 	sw	v0,80(sp)
+/home/mips/linux-2.4.19/lib/vsprintf.c:429
+		}
+		if (qualifier == 'L')
+     d84:	2402004c 	li	v0,76
+     d88:	14820009 	bne	a0,v0,db0 <vsnprintf+0x550>
+     d8c:	2402006c 	li	v0,108
+/home/mips/linux-2.4.19/lib/vsprintf.c:430
+			num = va_arg(args, long long);
+     d90:	26730007 	addiu	s3,s3,7
+     d94:	2402fff8 	li	v0,-8
+     d98:	02629824 	and	s3,s3,v0
+     d9c:	02601021 	move	v0,s3
+     da0:	8c460000 	lw	a2,0(v0)
+     da4:	8c470004 	lw	a3,4(v0)
+     da8:	08000390 	j	e40 <vsnprintf+0x5e0>
+			da8: R_MIPS_26	.text
+     dac:	26730008 	addiu	s3,s3,8
+/home/mips/linux-2.4.19/lib/vsprintf.c:431
+		else if (qualifier == 'l') {
+     db0:	10820018 	beq	a0,v0,e14 <vsnprintf+0x5b4>
+     db4:	2402005a 	li	v0,90
+/home/mips/linux-2.4.19/lib/vsprintf.c:435
+			num = va_arg(args, unsigned long);
+			if (flags & SIGN)
+				num = (signed long) num;
+		} else if (qualifier == 'Z') {
+     db8:	14820009 	bne	a0,v0,de0 <vsnprintf+0x580>
+     dbc:	24020068 	li	v0,104
+/home/mips/linux-2.4.19/lib/vsprintf.c:436
+			num = va_arg(args, size_t);
+     dc0:	26730003 	addiu	s3,s3,3
+     dc4:	2402fffc 	li	v0,-4
+     dc8:	02629824 	and	s3,s3,v0
+     dcc:	02601021 	move	v0,s3
+     dd0:	26730004 	addiu	s3,s3,4
+     dd4:	8c470000 	lw	a3,0(v0)
+     dd8:	08000390 	j	e40 <vsnprintf+0x5e0>
+			dd8: R_MIPS_26	.text
+     ddc:	00003021 	move	a2,zero
+/home/mips/linux-2.4.19/lib/vsprintf.c:437
+		} else if (qualifier == 'h') {
+     de0:	1482000c 	bne	a0,v0,e14 <vsnprintf+0x5b4>
+     de4:	2402fffc 	li	v0,-4
+/home/mips/linux-2.4.19/lib/vsprintf.c:438
+			num = (unsigned short) va_arg(args, int);
+     de8:	26730003 	addiu	s3,s3,3
+     dec:	02629824 	and	s3,s3,v0
+     df0:	02601021 	move	v0,s3
+     df4:	26730004 	addiu	s3,s3,4
+     df8:	94470002 	lhu	a3,2(v0)
+/home/mips/linux-2.4.19/lib/vsprintf.c:439
+			if (flags & SIGN)
+     dfc:	32220002 	andi	v0,s1,0x2
+     e00:	1040000f 	beqz	v0,e40 <vsnprintf+0x5e0>
+     e04:	00003021 	move	a2,zero
+/home/mips/linux-2.4.19/lib/vsprintf.c:440
+				num = (signed short) num;
+     e08:	00071400 	sll	v0,a3,0x10
+     e0c:	0800038f 	j	e3c <vsnprintf+0x5dc>
+			e0c: R_MIPS_26	.text
+     e10:	00023c03 	sra	a3,v0,0x10
+/home/mips/linux-2.4.19/lib/vsprintf.c:442
+		} else {
+			num = va_arg(args, unsigned int);
+     e14:	26730003 	addiu	s3,s3,3
+     e18:	2402fffc 	li	v0,-4
+     e1c:	02629824 	and	s3,s3,v0
+     e20:	02601021 	move	v0,s3
+     e24:	26730004 	addiu	s3,s3,4
+     e28:	8c470000 	lw	a3,0(v0)
+/home/mips/linux-2.4.19/lib/vsprintf.c:443
+			if (flags & SIGN)
+     e2c:	32220002 	andi	v0,s1,0x2
+     e30:	10400003 	beqz	v0,e40 <vsnprintf+0x5e0>
+     e34:	00003021 	move	a2,zero
+/home/mips/linux-2.4.19/lib/vsprintf.c:444
+				num = (signed int) num;
+     e38:	00e01021 	move	v0,a3
+     e3c:	000237c3 	sra	a2,v0,0x1f
+/home/mips/linux-2.4.19/lib/vsprintf.c:446
+		}
+		str = number(str, end, num, base,
+     e40:	afa80010 	sw	t0,16(sp)
+     e44:	afb40014 	sw	s4,20(sp)
+     e48:	afa50018 	sw	a1,24(sp)
+     e4c:	afb1001c 	sw	s1,28(sp)
+     e50:	02002021 	move	a0,s0
+     e54:	0c0000d9 	jal	364 <number>
+			e54: R_MIPS_26	.text
+     e58:	02402821 	move	a1,s2
+     e5c:	00408021 	move	s0,v0
+/home/mips/linux-2.4.19/lib/vsprintf.c:258
+     e60:	8fa20050 	lw	v0,80(sp)
+     e64:	00000000 	nop
+     e68:	24420001 	addiu	v0,v0,1
+     e6c:	afa20050 	sw	v0,80(sp)
+     e70:	00401821 	move	v1,v0
+     e74:	80420000 	lb	v0,0(v0)
+     e78:	00000000 	nop
+     e7c:	1440fe95 	bnez	v0,8d4 <vsnprintf+0x74>
+     e80:	0250102b 	sltu	v0,s2,s0
+/home/mips/linux-2.4.19/lib/vsprintf.c:449
+				field_width, precision, flags);
+	}
+	if (str <= end)
+     e84:	14400003 	bnez	v0,e94 <vsnprintf+0x634>
+     e88:	00000000 	nop
+/home/mips/linux-2.4.19/lib/vsprintf.c:450
+		*str = '\0';
+     e8c:	080003a8 	j	ea0 <vsnprintf+0x640>
+			e8c: R_MIPS_26	.text
+     e90:	a2000000 	sb	zero,0(s0)
+/home/mips/linux-2.4.19/lib/vsprintf.c:451
+	else if (size > 0)
+     e94:	12e00003 	beqz	s7,ea4 <vsnprintf+0x644>
+     e98:	02161023 	subu	v0,s0,s6
+/home/mips/linux-2.4.19/lib/vsprintf.c:453
+		/* don't write out a null byte if the buf size is zero */
+		*end = '\0';
+     e9c:	a2400000 	sb	zero,0(s2)
+/home/mips/linux-2.4.19/lib/vsprintf.c:457
+	/* the trailing null byte doesn't count towards the total
+	* ++str;
+	*/
+	return str-buf;
+     ea0:	02161023 	subu	v0,s0,s6
+/home/mips/linux-2.4.19/lib/vsprintf.c:458
+}
+     ea4:	8fbf0040 	lw	ra,64(sp)
+     ea8:	8fb7003c 	lw	s7,60(sp)
+     eac:	8fb60038 	lw	s6,56(sp)
+     eb0:	8fb50034 	lw	s5,52(sp)
+     eb4:	8fb40030 	lw	s4,48(sp)
+     eb8:	8fb3002c 	lw	s3,44(sp)
+     ebc:	8fb20028 	lw	s2,40(sp)
+     ec0:	8fb10024 	lw	s1,36(sp)
+     ec4:	8fb00020 	lw	s0,32(sp)
+     ec8:	03e00008 	jr	ra
+     ecc:	27bd0048 	addiu	sp,sp,72
+
+00000ed0 <snprintf>:
+snprintf():
+/home/mips/linux-2.4.19/lib/vsprintf.c:468
+
+/**
+ * snprintf - Format a string and place it in a buffer
+ * @buf: The buffer to place the result into
+ * @size: The size of the buffer, including the trailing null space
+ * @fmt: The format string to use
+ * @...: Arguments for the format string
+ */
+int snprintf(char * buf, size_t size, const char *fmt, ...)
+{
+     ed0:	afa60008 	sw	a2,8(sp)
+     ed4:	afa7000c 	sw	a3,12(sp)
+     ed8:	27bdffe8 	addiu	sp,sp,-24
+     edc:	afbf0010 	sw	ra,16(sp)
+/home/mips/linux-2.4.19/lib/vsprintf.c:473
+	va_list args;
+	int i;
+
+	va_start(args, fmt);
+	i=vsnprintf(buf,size,fmt,args);
+     ee0:	0c000000 	jal	0 <simple_strtoul>
+			ee0: R_MIPS_26	vsnprintf
+     ee4:	27a70024 	addiu	a3,sp,36
+/home/mips/linux-2.4.19/lib/vsprintf.c:476
+	va_end(args);
+	return i;
+}
+     ee8:	8fbf0010 	lw	ra,16(sp)
+     eec:	00000000 	nop
+     ef0:	03e00008 	jr	ra
+     ef4:	27bd0018 	addiu	sp,sp,24
+
+00000ef8 <vsprintf>:
+vsprintf():
+/home/mips/linux-2.4.19/lib/vsprintf.c:488
+
+/**
+ * vsprintf - Format a string and place it in a buffer
+ * @buf: The buffer to place the result into
+ * @fmt: The format string to use
+ * @args: Arguments for the format string
+ *
+ * Call this function if you are already dealing with a va_list.
+ * You probably want sprintf instead.
+ */
+int vsprintf(char *buf, const char *fmt, va_list args)
+{
+     ef8:	27bdffe8 	addiu	sp,sp,-24
+     efc:	afbf0010 	sw	ra,16(sp)
+     f00:	00a01021 	move	v0,a1
+     f04:	00c03821 	move	a3,a2
+/home/mips/linux-2.4.19/lib/vsprintf.c:489
+	return vsnprintf(buf, 0xFFFFFFFFUL, fmt, args);
+     f08:	2405ffff 	li	a1,-1
+     f0c:	0c000000 	jal	0 <simple_strtoul>
+			f0c: R_MIPS_26	vsnprintf
+     f10:	00403021 	move	a2,v0
+/home/mips/linux-2.4.19/lib/vsprintf.c:490
+}
+     f14:	8fbf0010 	lw	ra,16(sp)
+     f18:	00000000 	nop
+     f1c:	03e00008 	jr	ra
+     f20:	27bd0018 	addiu	sp,sp,24
+
+00000f24 <sprintf>:
+sprintf():
+/home/mips/linux-2.4.19/lib/vsprintf.c:500
+
+
+/**
+ * sprintf - Format a string and place it in a buffer
+ * @buf: The buffer to place the result into
+ * @fmt: The format string to use
+ * @...: Arguments for the format string
+ */
+int sprintf(char * buf, const char *fmt, ...)
+{
+     f24:	afa50004 	sw	a1,4(sp)
+     f28:	afa60008 	sw	a2,8(sp)
+     f2c:	afa7000c 	sw	a3,12(sp)
+     f30:	27bdffe8 	addiu	sp,sp,-24
+     f34:	afbf0010 	sw	ra,16(sp)
+/home/mips/linux-2.4.19/lib/vsprintf.c:505
+	va_list args;
+	int i;
+
+	va_start(args, fmt);
+	i=vsprintf(buf,fmt,args);
+     f38:	0c000000 	jal	0 <simple_strtoul>
+			f38: R_MIPS_26	vsprintf
+     f3c:	27a60020 	addiu	a2,sp,32
+/home/mips/linux-2.4.19/lib/vsprintf.c:508
+	va_end(args);
+	return i;
+}
+     f40:	8fbf0010 	lw	ra,16(sp)
+     f44:	00000000 	nop
+     f48:	03e00008 	jr	ra
+     f4c:	27bd0018 	addiu	sp,sp,24
+
+00000f50 <vsscanf>:
+vsscanf():
+/home/mips/linux-2.4.19/lib/vsprintf.c:517
+
+/**
+ * vsscanf - Unformat a buffer into a list of arguments
+ * @buf:	input buffer
+ * @fmt:	format of buffer
+ * @args:	arguments
+ */
+int vsscanf(const char * buf, const char * fmt, va_list args)
+{
+     f50:	27bdffc8 	addiu	sp,sp,-56
+     f54:	afbf0030 	sw	ra,48(sp)
+     f58:	afb5002c 	sw	s5,44(sp)
+     f5c:	afb40028 	sw	s4,40(sp)
+     f60:	afb30024 	sw	s3,36(sp)
+     f64:	afb20020 	sw	s2,32(sp)
+     f68:	afb1001c 	sw	s1,28(sp)
+     f6c:	afb00018 	sw	s0,24(sp)
+     f70:	0080a821 	move	s5,a0
+     f74:	afa5003c 	sw	a1,60(sp)
+     f78:	00c09021 	move	s2,a2
+/home/mips/linux-2.4.19/lib/vsprintf.c:518
+	const char *str = buf;
+     f7c:	00808821 	move	s1,a0
+/home/mips/linux-2.4.19/lib/vsprintf.c:520
+	char *next;
+	int num = 0;
+     f80:	0000a021 	move	s4,zero
+/home/mips/linux-2.4.19/lib/vsprintf.c:523
+	int qualifier;
+	int base;
+	int field_width = -1;
+     f84:	2413ffff 	li	s3,-1
+/home/mips/linux-2.4.19/lib/vsprintf.c:526
+	int is_sign = 0;
+
+	while(*fmt && *str) {
+     f88:	80a20000 	lb	v0,0(a1)
+     f8c:	00000000 	nop
+     f90:	1040019e 	beqz	v0,160c <vsscanf+0x6bc>
+     f94:	00a01821 	move	v1,a1
+     f98:	80820000 	lb	v0,0(a0)
+     f9c:	00000000 	nop
+     fa0:	1040019b 	beqz	v0,1610 <vsscanf+0x6c0>
+     fa4:	02802021 	move	a0,s4
+/home/mips/linux-2.4.19/lib/vsprintf.c:531
+		/* skip any white space in format */
+		/* white space in format matchs any amount of
+		 * white space, including none, in the input.
+		 */
+		if (isspace(*fmt)) {
+     fa8:	00602021 	move	a0,v1
+     fac:	90620000 	lbu	v0,0(v1)
+     fb0:	3c030000 	lui	v1,0x0
+			fb0: R_MIPS_HI16	_ctype
+     fb4:	24630000 	addiu	v1,v1,0
+			fb4: R_MIPS_LO16	_ctype
+     fb8:	00431021 	addu	v0,v0,v1
+     fbc:	90420000 	lbu	v0,0(v0)
+     fc0:	00000000 	nop
+     fc4:	30420020 	andi	v0,v0,0x20
+     fc8:	1040001e 	beqz	v0,1044 <vsscanf+0xf4>
+     fcc:	00602821 	move	a1,v1
+/home/mips/linux-2.4.19/lib/vsprintf.c:533
+			while (isspace(*fmt))
+				++fmt;
+     fd0:	24820001 	addiu	v0,a0,1
+     fd4:	afa2003c 	sw	v0,60(sp)
+     fd8:	00402021 	move	a0,v0
+     fdc:	90420000 	lbu	v0,0(v0)
+     fe0:	00000000 	nop
+     fe4:	00451021 	addu	v0,v0,a1
+     fe8:	90420000 	lbu	v0,0(v0)
+     fec:	00000000 	nop
+     ff0:	30420020 	andi	v0,v0,0x20
+     ff4:	1440fff7 	bnez	v0,fd4 <vsscanf+0x84>
+     ff8:	24820001 	addiu	v0,a0,1
+/home/mips/linux-2.4.19/lib/vsprintf.c:534
+			while (isspace(*str))
+     ffc:	92220000 	lbu	v0,0(s1)
+    1000:	3c030000 	lui	v1,0x0
+			1000: R_MIPS_HI16	_ctype
+    1004:	24630000 	addiu	v1,v1,0
+			1004: R_MIPS_LO16	_ctype
+    1008:	00431021 	addu	v0,v0,v1
+    100c:	90420000 	lbu	v0,0(v0)
+    1010:	00000000 	nop
+    1014:	30420020 	andi	v0,v0,0x20
+    1018:	1040000a 	beqz	v0,1044 <vsscanf+0xf4>
+    101c:	00602021 	move	a0,v1
+/home/mips/linux-2.4.19/lib/vsprintf.c:535
+				++str;
+    1020:	26310001 	addiu	s1,s1,1
+    1024:	92220000 	lbu	v0,0(s1)
+    1028:	00000000 	nop
+    102c:	00441021 	addu	v0,v0,a0
+    1030:	90420000 	lbu	v0,0(v0)
+    1034:	00000000 	nop
+    1038:	30420020 	andi	v0,v0,0x20
+    103c:	1440fff8 	bnez	v0,1020 <vsscanf+0xd0>
+    1040:	00000000 	nop
+/home/mips/linux-2.4.19/lib/vsprintf.c:539
+		}
+
+		/* anything that is not a conversion must match exactly */
+		if (*fmt != '%' && *fmt) {
+    1044:	8fa3003c 	lw	v1,60(sp)
+    1048:	00000000 	nop
+    104c:	80640000 	lb	a0,0(v1)
+    1050:	24020025 	li	v0,37
+    1054:	1082000c 	beq	a0,v0,1088 <vsscanf+0x138>
+    1058:	00000000 	nop
+    105c:	1080000a 	beqz	a0,1088 <vsscanf+0x138>
+    1060:	00000000 	nop
+/home/mips/linux-2.4.19/lib/vsprintf.c:540
+			if (*fmt++ != *str++)
+    1064:	92220000 	lbu	v0,0(s1)
+    1068:	26310001 	addiu	s1,s1,1
+    106c:	24630001 	addiu	v1,v1,1
+    1070:	00021600 	sll	v0,v0,0x18
+    1074:	00021603 	sra	v0,v0,0x18
+    1078:	14820164 	bne	a0,v0,160c <vsscanf+0x6bc>
+    107c:	afa3003c 	sw	v1,60(sp)
+/home/mips/linux-2.4.19/lib/vsprintf.c:542
+				break;
+			continue;
+    1080:	08000579 	j	15e4 <vsscanf+0x694>
+			1080: R_MIPS_26	.text
+    1084:	00000000 	nop
+/home/mips/linux-2.4.19/lib/vsprintf.c:545
+		}
+
+		if (!*fmt)
+    1088:	80620000 	lb	v0,0(v1)
+    108c:	00000000 	nop
+    1090:	1040015e 	beqz	v0,160c <vsscanf+0x6bc>
+    1094:	24620001 	addiu	v0,v1,1
+/home/mips/linux-2.4.19/lib/vsprintf.c:547
+			break;
+		++fmt;
+    1098:	afa2003c 	sw	v0,60(sp)
+/home/mips/linux-2.4.19/lib/vsprintf.c:552
+		
+		/* skip this conversion.
+		 * advance both strings to next white space
+		 */
+		if (*fmt == '*') {
+    109c:	00402021 	move	a0,v0
+    10a0:	00402821 	move	a1,v0
+    10a4:	80430000 	lb	v1,0(v0)
+    10a8:	2402002a 	li	v0,42
+    10ac:	14620036 	bne	v1,v0,1188 <vsscanf+0x238>
+    10b0:	00000000 	nop
+/home/mips/linux-2.4.19/lib/vsprintf.c:553
+			while (!isspace(*fmt) && *fmt)
+    10b4:	90820000 	lbu	v0,0(a0)
+    10b8:	3c030000 	lui	v1,0x0
+			10b8: R_MIPS_HI16	_ctype
+    10bc:	24630000 	addiu	v1,v1,0
+			10bc: R_MIPS_LO16	_ctype
+    10c0:	00431021 	addu	v0,v0,v1
+    10c4:	90420000 	lbu	v0,0(v0)
+    10c8:	00000000 	nop
+    10cc:	30420020 	andi	v0,v0,0x20
+    10d0:	14400010 	bnez	v0,1114 <vsscanf+0x1c4>
+    10d4:	00602021 	move	a0,v1
+/home/mips/linux-2.4.19/lib/vsprintf.c:554
+				fmt++;
+    10d8:	24a20001 	addiu	v0,a1,1
+    10dc:	afa2003c 	sw	v0,60(sp)
+    10e0:	00402821 	move	a1,v0
+    10e4:	90420000 	lbu	v0,0(v0)
+    10e8:	00000000 	nop
+    10ec:	00441021 	addu	v0,v0,a0
+    10f0:	90420000 	lbu	v0,0(v0)
+    10f4:	00000000 	nop
+    10f8:	30420020 	andi	v0,v0,0x20
+    10fc:	14400005 	bnez	v0,1114 <vsscanf+0x1c4>
+    1100:	00000000 	nop
+    1104:	80a20000 	lb	v0,0(a1)
+    1108:	00000000 	nop
+    110c:	1440fff3 	bnez	v0,10dc <vsscanf+0x18c>
+    1110:	24a20001 	addiu	v0,a1,1
+/home/mips/linux-2.4.19/lib/vsprintf.c:555
+			while (!isspace(*str) && *str)
+    1114:	92220000 	lbu	v0,0(s1)
+    1118:	3c010000 	lui	at,0x0
+			1118: R_MIPS_HI16	_ctype
+    111c:	00220821 	addu	at,at,v0
+    1120:	90220000 	lbu	v0,0(at)
+			1120: R_MIPS_LO16	_ctype
+    1124:	00000000 	nop
+    1128:	30420020 	andi	v0,v0,0x20
+    112c:	1440012d 	bnez	v0,15e4 <vsscanf+0x694>
+    1130:	00000000 	nop
+    1134:	82220000 	lb	v0,0(s1)
+    1138:	00000000 	nop
+    113c:	10400129 	beqz	v0,15e4 <vsscanf+0x694>
+    1140:	00000000 	nop
+    1144:	3c030000 	lui	v1,0x0
+			1144: R_MIPS_HI16	_ctype
+    1148:	24630000 	addiu	v1,v1,0
+			1148: R_MIPS_LO16	_ctype
+/home/mips/linux-2.4.19/lib/vsprintf.c:556
+				str++;
+    114c:	26310001 	addiu	s1,s1,1
+    1150:	92220000 	lbu	v0,0(s1)
+    1154:	00000000 	nop
+    1158:	00431021 	addu	v0,v0,v1
+    115c:	90420000 	lbu	v0,0(v0)
+    1160:	00000000 	nop
+    1164:	30420020 	andi	v0,v0,0x20
+    1168:	1440011e 	bnez	v0,15e4 <vsscanf+0x694>
+    116c:	00000000 	nop
+    1170:	82220000 	lb	v0,0(s1)
+    1174:	00000000 	nop
+    1178:	1440fff4 	bnez	v0,114c <vsscanf+0x1fc>
+    117c:	00000000 	nop
+    1180:	08000579 	j	15e4 <vsscanf+0x694>
+			1180: R_MIPS_26	.text
+    1184:	00000000 	nop
+/home/mips/linux-2.4.19/lib/vsprintf.c:561
+			continue;
+		}
+
+		/* get field width */
+		if (isdigit(*fmt))
+    1188:	8fa2003c 	lw	v0,60(sp)
+    118c:	00000000 	nop
+    1190:	90420000 	lbu	v0,0(v0)
+    1194:	3c010000 	lui	at,0x0
+			1194: R_MIPS_HI16	_ctype
+    1198:	00220821 	addu	at,at,v0
+    119c:	90220000 	lbu	v0,0(at)
+			119c: R_MIPS_LO16	_ctype
+    11a0:	00000000 	nop
+    11a4:	30420004 	andi	v0,v0,0x4
+    11a8:	10400004 	beqz	v0,11bc <vsscanf+0x26c>
+    11ac:	00000000 	nop
+/home/mips/linux-2.4.19/lib/vsprintf.c:562
+			field_width = skip_atoi(&fmt);
+    11b0:	0c0000b8 	jal	2e0 <skip_atoi>
+			11b0: R_MIPS_26	.text
+    11b4:	27a4003c 	addiu	a0,sp,60
+    11b8:	00409821 	move	s3,v0
+/home/mips/linux-2.4.19/lib/vsprintf.c:566
+
+		/* get conversion qualifier */
+		qualifier = -1;
+		if (*fmt == 'h' || *fmt == 'l' || *fmt == 'L' || *fmt == 'Z') {
+    11bc:	8fa2003c 	lw	v0,60(sp)
+    11c0:	00000000 	nop
+    11c4:	80430000 	lb	v1,0(v0)
+    11c8:	24020068 	li	v0,104
+    11cc:	10620008 	beq	v1,v0,11f0 <vsscanf+0x2a0>
+    11d0:	2405ffff 	li	a1,-1
+    11d4:	2402006c 	li	v0,108
+    11d8:	10620005 	beq	v1,v0,11f0 <vsscanf+0x2a0>
+    11dc:	2402004c 	li	v0,76
+    11e0:	10620003 	beq	v1,v0,11f0 <vsscanf+0x2a0>
+    11e4:	2402005a 	li	v0,90
+    11e8:	14620007 	bne	v1,v0,1208 <vsscanf+0x2b8>
+    11ec:	2406000a 	li	a2,10
+/home/mips/linux-2.4.19/lib/vsprintf.c:567
+			qualifier = *fmt;
+    11f0:	8fa2003c 	lw	v0,60(sp)
+    11f4:	00000000 	nop
+    11f8:	80450000 	lb	a1,0(v0)
+/home/mips/linux-2.4.19/lib/vsprintf.c:568
+			fmt++;
+    11fc:	24420001 	addiu	v0,v0,1
+    1200:	afa2003c 	sw	v0,60(sp)
+/home/mips/linux-2.4.19/lib/vsprintf.c:570
+		}
+		base = 10;
+    1204:	2406000a 	li	a2,10
+/home/mips/linux-2.4.19/lib/vsprintf.c:573
+		is_sign = 0;
+
+		if (!*fmt || !*str)
+    1208:	8fa4003c 	lw	a0,60(sp)
+    120c:	00000000 	nop
+    1210:	80830000 	lb	v1,0(a0)
+    1214:	00000000 	nop
+    1218:	106000fc 	beqz	v1,160c <vsscanf+0x6bc>
+    121c:	00003821 	move	a3,zero
+    1220:	82220000 	lb	v0,0(s1)
+    1224:	00000000 	nop
+    1228:	104000f8 	beqz	v0,160c <vsscanf+0x6bc>
+    122c:	24820001 	addiu	v0,a0,1
+/home/mips/linux-2.4.19/lib/vsprintf.c:576
+			break;
+
+		switch(*fmt++) {
+    1230:	2463ffdb 	addiu	v1,v1,-37
+    1234:	afa2003c 	sw	v0,60(sp)
+    1238:	2c620054 	sltiu	v0,v1,84
+    123c:	104000f3 	beqz	v0,160c <vsscanf+0x6bc>
+    1240:	00031080 	sll	v0,v1,0x2
+    1244:	3c010000 	lui	at,0x0
+			1244: R_MIPS_HI16	.rodata
+    1248:	00220821 	addu	at,at,v0
+    124c:	8c2201ec 	lw	v0,492(at)
+			124c: R_MIPS_LO16	.rodata
+    1250:	00000000 	nop
+    1254:	00400008 	jr	v0
+    1258:	00000000 	nop
+/home/mips/linux-2.4.19/lib/vsprintf.c:579
+		case 'c':
+		{
+			char *s = (char *) va_arg(args,char*);
+    125c:	26520003 	addiu	s2,s2,3
+    1260:	2402fffc 	li	v0,-4
+    1264:	02429024 	and	s2,s2,v0
+    1268:	02401021 	move	v0,s2
+    126c:	8c430000 	lw	v1,0(v0)
+/home/mips/linux-2.4.19/lib/vsprintf.c:580
+			if (field_width == -1)
+    1270:	2402ffff 	li	v0,-1
+    1274:	16620002 	bne	s3,v0,1280 <vsscanf+0x330>
+    1278:	26520004 	addiu	s2,s2,4
+/home/mips/linux-2.4.19/lib/vsprintf.c:581
+				field_width = 1;
+    127c:	24130001 	li	s3,1
+/home/mips/linux-2.4.19/lib/vsprintf.c:583
+			do {
+				*s++ = *str++;
+    1280:	92220000 	lbu	v0,0(s1)
+    1284:	00000000 	nop
+    1288:	a0620000 	sb	v0,0(v1)
+    128c:	26310001 	addiu	s1,s1,1
+    1290:	24630001 	addiu	v1,v1,1
+/home/mips/linux-2.4.19/lib/vsprintf.c:584
+			} while(field_width-- > 0 && *str);
+    1294:	02601021 	move	v0,s3
+    1298:	18400046 	blez	v0,13b4 <vsscanf+0x464>
+    129c:	2673ffff 	addiu	s3,s3,-1
+    12a0:	82220000 	lb	v0,0(s1)
+    12a4:	00000000 	nop
+    12a8:	1440fff5 	bnez	v0,1280 <vsscanf+0x330>
+    12ac:	00000000 	nop
+/home/mips/linux-2.4.19/lib/vsprintf.c:587
+			num++;
+		}
+		continue;
+    12b0:	08000579 	j	15e4 <vsscanf+0x694>
+			12b0: R_MIPS_26	.text
+    12b4:	26940001 	addiu	s4,s4,1
+/home/mips/linux-2.4.19/lib/vsprintf.c:590
+		case 's':
+		{
+			char *s = (char *) va_arg(args, char *);
+    12b8:	26520003 	addiu	s2,s2,3
+    12bc:	2402fffc 	li	v0,-4
+    12c0:	02429024 	and	s2,s2,v0
+    12c4:	02401021 	move	v0,s2
+    12c8:	8c450000 	lw	a1,0(v0)
+/home/mips/linux-2.4.19/lib/vsprintf.c:591
+			if(field_width == -1)
+    12cc:	2402ffff 	li	v0,-1
+    12d0:	16620003 	bne	s3,v0,12e0 <vsscanf+0x390>
+    12d4:	26520004 	addiu	s2,s2,4
+/home/mips/linux-2.4.19/lib/vsprintf.c:592
+				field_width = INT_MAX;
+    12d8:	3c137fff 	lui	s3,0x7fff
+    12dc:	3673ffff 	ori	s3,s3,0xffff
+/home/mips/linux-2.4.19/lib/vsprintf.c:594
+			/* first, skip leading white space in buffer */
+			while (isspace(*str))
+    12e0:	92220000 	lbu	v0,0(s1)
+    12e4:	3c030000 	lui	v1,0x0
+			12e4: R_MIPS_HI16	_ctype
+    12e8:	24630000 	addiu	v1,v1,0
+			12e8: R_MIPS_LO16	_ctype
+    12ec:	00431021 	addu	v0,v0,v1
+    12f0:	90420000 	lbu	v0,0(v0)
+    12f4:	00000000 	nop
+    12f8:	30420020 	andi	v0,v0,0x20
+    12fc:	1040000a 	beqz	v0,1328 <vsscanf+0x3d8>
+    1300:	00602021 	move	a0,v1
+/home/mips/linux-2.4.19/lib/vsprintf.c:595
+				str++;
+    1304:	26310001 	addiu	s1,s1,1
+    1308:	92220000 	lbu	v0,0(s1)
+    130c:	00000000 	nop
+    1310:	00441021 	addu	v0,v0,a0
+    1314:	90420000 	lbu	v0,0(v0)
+    1318:	00000000 	nop
+    131c:	30420020 	andi	v0,v0,0x20
+    1320:	1440fff8 	bnez	v0,1304 <vsscanf+0x3b4>
+    1324:	00000000 	nop
+/home/mips/linux-2.4.19/lib/vsprintf.c:598
+
+			/* now copy until next white space */
+			while (*str && !isspace(*str) && field_width--) {
+    1328:	92220000 	lbu	v0,0(s1)
+    132c:	00000000 	nop
+    1330:	1040001f 	beqz	v0,13b0 <vsscanf+0x460>
+    1334:	00402021 	move	a0,v0
+    1338:	304200ff 	andi	v0,v0,0xff
+    133c:	3c030000 	lui	v1,0x0
+			133c: R_MIPS_HI16	_ctype
+    1340:	24630000 	addiu	v1,v1,0
+			1340: R_MIPS_LO16	_ctype
+    1344:	00431021 	addu	v0,v0,v1
+    1348:	90420000 	lbu	v0,0(v0)
+    134c:	00000000 	nop
+    1350:	30420020 	andi	v0,v0,0x20
+    1354:	14400016 	bnez	v0,13b0 <vsscanf+0x460>
+    1358:	00603021 	move	a2,v1
+    135c:	2673ffff 	addiu	s3,s3,-1
+    1360:	2402ffff 	li	v0,-1
+    1364:	12620012 	beq	s3,v0,13b0 <vsscanf+0x460>
+    1368:	2403ffff 	li	v1,-1
+/home/mips/linux-2.4.19/lib/vsprintf.c:599
+				*s++ = *str++;
+    136c:	a0a40000 	sb	a0,0(a1)
+    1370:	26310001 	addiu	s1,s1,1
+    1374:	92240000 	lbu	a0,0(s1)
+    1378:	82220000 	lb	v0,0(s1)
+    137c:	00000000 	nop
+    1380:	1040000b 	beqz	v0,13b0 <vsscanf+0x460>
+    1384:	24a50001 	addiu	a1,a1,1
+    1388:	308200ff 	andi	v0,a0,0xff
+    138c:	00461021 	addu	v0,v0,a2
+    1390:	90420000 	lbu	v0,0(v0)
+    1394:	00000000 	nop
+    1398:	30420020 	andi	v0,v0,0x20
+    139c:	14400004 	bnez	v0,13b0 <vsscanf+0x460>
+    13a0:	00000000 	nop
+    13a4:	2673ffff 	addiu	s3,s3,-1
+    13a8:	1663fff0 	bne	s3,v1,136c <vsscanf+0x41c>
+    13ac:	00000000 	nop
+/home/mips/linux-2.4.19/lib/vsprintf.c:601
+			}
+			*s = '\0';
+    13b0:	a0a00000 	sb	zero,0(a1)
+/home/mips/linux-2.4.19/lib/vsprintf.c:604
+			num++;
+		}
+		continue;
+    13b4:	08000579 	j	15e4 <vsscanf+0x694>
+			13b4: R_MIPS_26	.text
+    13b8:	26940001 	addiu	s4,s4,1
+/home/mips/linux-2.4.19/lib/vsprintf.c:608
+		case 'n':
+			/* return number of characters read so far */
+		{
+			int *i = (int *)va_arg(args,int*);
+    13bc:	26520003 	addiu	s2,s2,3
+    13c0:	2402fffc 	li	v0,-4
+    13c4:	02429024 	and	s2,s2,v0
+    13c8:	02401021 	move	v0,s2
+    13cc:	26520004 	addiu	s2,s2,4
+    13d0:	8c430000 	lw	v1,0(v0)
+/home/mips/linux-2.4.19/lib/vsprintf.c:609
+			*i = str - buf;
+    13d4:	02351023 	subu	v0,s1,s5
+/home/mips/linux-2.4.19/lib/vsprintf.c:611
+		}
+		continue;
+    13d8:	08000579 	j	15e4 <vsscanf+0x694>
+			13d8: R_MIPS_26	.text
+    13dc:	ac620000 	sw	v0,0(v1)
+/home/mips/linux-2.4.19/lib/vsprintf.c:614
+		case 'o':
+			base = 8;
+			break;
+    13e0:	08000507 	j	141c <vsscanf+0x4cc>
+			13e0: R_MIPS_26	.text
+    13e4:	24060008 	li	a2,8
+/home/mips/linux-2.4.19/lib/vsprintf.c:618
+		case 'x':
+		case 'X':
+			base = 16;
+			break;
+    13e8:	08000507 	j	141c <vsscanf+0x4cc>
+			13e8: R_MIPS_26	.text
+    13ec:	24060010 	li	a2,16
+/home/mips/linux-2.4.19/lib/vsprintf.c:623
+		case 'd':
+		case 'i':
+			is_sign = 1;
+		case 'u':
+			break;
+    13f0:	08000507 	j	141c <vsscanf+0x4cc>
+			13f0: R_MIPS_26	.text
+    13f4:	24070001 	li	a3,1
+/home/mips/linux-2.4.19/lib/vsprintf.c:626
+		case '%':
+			/* looking for '%' in str */
+			if (*str++ != '%') 
+    13f8:	92220000 	lbu	v0,0(s1)
+    13fc:	26310001 	addiu	s1,s1,1
+    1400:	00021600 	sll	v0,v0,0x18
+    1404:	00021603 	sra	v0,v0,0x18
+    1408:	24030025 	li	v1,37
+    140c:	14430080 	bne	v0,v1,1610 <vsscanf+0x6c0>
+    1410:	02802021 	move	a0,s4
+    1414:	08000579 	j	15e4 <vsscanf+0x694>
+			1414: R_MIPS_26	.text
+    1418:	00000000 	nop
+/home/mips/linux-2.4.19/lib/vsprintf.c:637
+				return num;
+			continue;
+		default:
+			/* invalid format; stop here */
+			return num;
+		}
+
+		/* have some sort of integer conversion.
+		 * first, skip white space in buffer.
+		 */
+		while (isspace(*str))
+    141c:	92220000 	lbu	v0,0(s1)
+    1420:	3c030000 	lui	v1,0x0
+			1420: R_MIPS_HI16	_ctype
+    1424:	24630000 	addiu	v1,v1,0
+			1424: R_MIPS_LO16	_ctype
+    1428:	00431021 	addu	v0,v0,v1
+    142c:	90420000 	lbu	v0,0(v0)
+    1430:	00000000 	nop
+    1434:	30420020 	andi	v0,v0,0x20
+    1438:	1040000a 	beqz	v0,1464 <vsscanf+0x514>
+    143c:	00602021 	move	a0,v1
+/home/mips/linux-2.4.19/lib/vsprintf.c:638
+			str++;
+    1440:	26310001 	addiu	s1,s1,1
+    1444:	92220000 	lbu	v0,0(s1)
+    1448:	00000000 	nop
+    144c:	00441021 	addu	v0,v0,a0
+    1450:	90420000 	lbu	v0,0(v0)
+    1454:	00000000 	nop
+    1458:	30420020 	andi	v0,v0,0x20
+    145c:	1440fff8 	bnez	v0,1440 <vsscanf+0x4f0>
+    1460:	00000000 	nop
+/home/mips/linux-2.4.19/lib/vsprintf.c:640
+
+		if (!*str || !isdigit(*str))
+    1464:	82220000 	lb	v0,0(s1)
+    1468:	00000000 	nop
+    146c:	10400067 	beqz	v0,160c <vsscanf+0x6bc>
+    1470:	00000000 	nop
+    1474:	92220000 	lbu	v0,0(s1)
+    1478:	3c010000 	lui	at,0x0
+			1478: R_MIPS_HI16	_ctype
+    147c:	00220821 	addu	at,at,v0
+    1480:	90220000 	lbu	v0,0(at)
+			1480: R_MIPS_LO16	_ctype
+    1484:	00000000 	nop
+    1488:	30420004 	andi	v0,v0,0x4
+    148c:	1040005f 	beqz	v0,160c <vsscanf+0x6bc>
+    1490:	2402005a 	li	v0,90
+/home/mips/linux-2.4.19/lib/vsprintf.c:643
+			break;
+
+		switch(qualifier) {
+    1494:	10a20044 	beq	a1,v0,15a8 <vsscanf+0x658>
+    1498:	28a2005b 	slti	v0,a1,91
+    149c:	10400006 	beqz	v0,14b8 <vsscanf+0x568>
+    14a0:	24020068 	li	v0,104
+    14a4:	2402004c 	li	v0,76
+    14a8:	10a2001b 	beq	a1,v0,1518 <vsscanf+0x5c8>
+    14ac:	00000000 	nop
+    14b0:	0800055e 	j	1578 <vsscanf+0x628>
+			14b0: R_MIPS_26	.text
+    14b4:	00000000 	nop
+    14b8:	14a2002f 	bne	a1,v0,1578 <vsscanf+0x628>
+    14bc:	00000000 	nop
+/home/mips/linux-2.4.19/lib/vsprintf.c:645
+		case 'h':
+			if (is_sign) {
+    14c0:	10e0000b 	beqz	a3,14f0 <vsscanf+0x5a0>
+    14c4:	2402fffc 	li	v0,-4
+/home/mips/linux-2.4.19/lib/vsprintf.c:646
+				short *s = (short *) va_arg(args,short *);
+    14c8:	26520003 	addiu	s2,s2,3
+    14cc:	02429024 	and	s2,s2,v0
+    14d0:	02401021 	move	v0,s2
+    14d4:	26520004 	addiu	s2,s2,4
+    14d8:	8c500000 	lw	s0,0(v0)
+/home/mips/linux-2.4.19/lib/vsprintf.c:647
+				*s = (short) simple_strtol(str,&next,base);
+    14dc:	02202021 	move	a0,s1
+    14e0:	0c000000 	jal	0 <simple_strtoul>
+			14e0: R_MIPS_26	simple_strtol
+    14e4:	27a50010 	addiu	a1,sp,16
+    14e8:	08000574 	j	15d0 <vsscanf+0x680>
+			14e8: R_MIPS_26	.text
+    14ec:	a6020000 	sh	v0,0(s0)
+/home/mips/linux-2.4.19/lib/vsprintf.c:649
+			} else {
+				unsigned short *s = (unsigned short *) va_arg(args, unsigned short *);
+    14f0:	26520003 	addiu	s2,s2,3
+    14f4:	02429024 	and	s2,s2,v0
+    14f8:	02401021 	move	v0,s2
+    14fc:	26520004 	addiu	s2,s2,4
+    1500:	8c500000 	lw	s0,0(v0)
+/home/mips/linux-2.4.19/lib/vsprintf.c:650
+				*s = (unsigned short) simple_strtoul(str, &next, base);
+    1504:	02202021 	move	a0,s1
+    1508:	0c000000 	jal	0 <simple_strtoul>
+			1508: R_MIPS_26	simple_strtoul
+    150c:	27a50010 	addiu	a1,sp,16
+/home/mips/linux-2.4.19/lib/vsprintf.c:652
+			}
+			break;
+    1510:	08000574 	j	15d0 <vsscanf+0x680>
+			1510: R_MIPS_26	.text
+    1514:	a6020000 	sh	v0,0(s0)
+/home/mips/linux-2.4.19/lib/vsprintf.c:663
+		case 'l':
+			if (is_sign) {
+				long *l = (long *) va_arg(args,long *);
+				*l = simple_strtol(str,&next,base);
+			} else {
+				unsigned long *l = (unsigned long*) va_arg(args,unsigned long*);
+				*l = simple_strtoul(str,&next,base);
+			}
+			break;
+		case 'L':
+			if (is_sign) {
+    1518:	10e0000b 	beqz	a3,1548 <vsscanf+0x5f8>
+    151c:	02202021 	move	a0,s1
+/home/mips/linux-2.4.19/lib/vsprintf.c:664
+				long long *l = (long long*) va_arg(args,long long *);
+    1520:	26520003 	addiu	s2,s2,3
+    1524:	2402fffc 	li	v0,-4
+    1528:	02429024 	and	s2,s2,v0
+    152c:	02401021 	move	v0,s2
+    1530:	26520004 	addiu	s2,s2,4
+    1534:	8c500000 	lw	s0,0(v0)
+/home/mips/linux-2.4.19/lib/vsprintf.c:665
+				*l = simple_strtoll(str,&next,base);
+    1538:	0c000000 	jal	0 <simple_strtoul>
+			1538: R_MIPS_26	simple_strtoll
+    153c:	27a50010 	addiu	a1,sp,16
+    1540:	0800055a 	j	1568 <vsscanf+0x618>
+			1540: R_MIPS_26	.text
+    1544:	00000000 	nop
+/home/mips/linux-2.4.19/lib/vsprintf.c:667
+			} else {
+				unsigned long long *l = (unsigned long long*) va_arg(args,unsigned long long*);
+    1548:	26520003 	addiu	s2,s2,3
+    154c:	2402fffc 	li	v0,-4
+    1550:	02429024 	and	s2,s2,v0
+    1554:	02401021 	move	v0,s2
+    1558:	26520004 	addiu	s2,s2,4
+    155c:	8c500000 	lw	s0,0(v0)
+/home/mips/linux-2.4.19/lib/vsprintf.c:668
+				*l = simple_strtoull(str,&next,base);
+    1560:	0c000000 	jal	0 <simple_strtoul>
+			1560: R_MIPS_26	simple_strtoull
+    1564:	27a50010 	addiu	a1,sp,16
+    1568:	ae020000 	sw	v0,0(s0)
+    156c:	ae030004 	sw	v1,4(s0)
+/home/mips/linux-2.4.19/lib/vsprintf.c:670
+			}
+			break;
+    1570:	08000575 	j	15d4 <vsscanf+0x684>
+			1570: R_MIPS_26	.text
+    1574:	26940001 	addiu	s4,s4,1
+/home/mips/linux-2.4.19/lib/vsprintf.c:678
+		case 'Z':
+		{
+			size_t *s = (size_t*) va_arg(args,size_t*);
+			*s = (size_t) simple_strtoul(str,&next,base);
+		}
+		break;
+		default:
+			if (is_sign) {
+    1578:	10e0000b 	beqz	a3,15a8 <vsscanf+0x658>
+    157c:	2402fffc 	li	v0,-4
+/home/mips/linux-2.4.19/lib/vsprintf.c:679
+				int *i = (int *) va_arg(args, int*);
+    1580:	26520003 	addiu	s2,s2,3
+    1584:	02429024 	and	s2,s2,v0
+    1588:	02401021 	move	v0,s2
+    158c:	26520004 	addiu	s2,s2,4
+    1590:	8c500000 	lw	s0,0(v0)
+/home/mips/linux-2.4.19/lib/vsprintf.c:680
+				*i = (int) simple_strtol(str,&next,base);
+    1594:	02202021 	move	a0,s1
+    1598:	0c000000 	jal	0 <simple_strtoul>
+			1598: R_MIPS_26	simple_strtol
+    159c:	27a50010 	addiu	a1,sp,16
+    15a0:	08000574 	j	15d0 <vsscanf+0x680>
+			15a0: R_MIPS_26	.text
+    15a4:	ae020000 	sw	v0,0(s0)
+/home/mips/linux-2.4.19/lib/vsprintf.c:682
+			} else {
+				unsigned int *i = (unsigned int*) va_arg(args, unsigned int*);
+    15a8:	26520003 	addiu	s2,s2,3
+    15ac:	2402fffc 	li	v0,-4
+    15b0:	02429024 	and	s2,s2,v0
+    15b4:	02401021 	move	v0,s2
+    15b8:	26520004 	addiu	s2,s2,4
+    15bc:	8c500000 	lw	s0,0(v0)
+/home/mips/linux-2.4.19/lib/vsprintf.c:683
+				*i = (unsigned int) simple_strtoul(str,&next,base);
+    15c0:	02202021 	move	a0,s1
+    15c4:	0c000000 	jal	0 <simple_strtoul>
+			15c4: R_MIPS_26	simple_strtoul
+    15c8:	27a50010 	addiu	a1,sp,16
+    15cc:	ae020000 	sw	v0,0(s0)
+/home/mips/linux-2.4.19/lib/vsprintf.c:687
+			}
+			break;
+		}
+		num++;
+    15d0:	26940001 	addiu	s4,s4,1
+/home/mips/linux-2.4.19/lib/vsprintf.c:689
+
+		if (!next)
+    15d4:	8fa40010 	lw	a0,16(sp)
+    15d8:	00000000 	nop
+    15dc:	1080000b 	beqz	a0,160c <vsscanf+0x6bc>
+    15e0:	00808821 	move	s1,a0
+/home/mips/linux-2.4.19/lib/vsprintf.c:691
+			break;
+		str = next;
+    15e4:	8fa3003c 	lw	v1,60(sp)
+    15e8:	00000000 	nop
+    15ec:	80620000 	lb	v0,0(v1)
+    15f0:	00000000 	nop
+    15f4:	10400006 	beqz	v0,1610 <vsscanf+0x6c0>
+    15f8:	02802021 	move	a0,s4
+    15fc:	82220000 	lb	v0,0(s1)
+    1600:	00000000 	nop
+    1604:	1440fe69 	bnez	v0,fac <vsscanf+0x5c>
+    1608:	00602021 	move	a0,v1
+/home/mips/linux-2.4.19/lib/vsprintf.c:693
+	}
+	return num;
+    160c:	02802021 	move	a0,s4
+/home/mips/linux-2.4.19/lib/vsprintf.c:694
+}
+    1610:	00801021 	move	v0,a0
+    1614:	8fbf0030 	lw	ra,48(sp)
+    1618:	8fb5002c 	lw	s5,44(sp)
+    161c:	8fb40028 	lw	s4,40(sp)
+    1620:	8fb30024 	lw	s3,36(sp)
+    1624:	8fb20020 	lw	s2,32(sp)
+    1628:	8fb1001c 	lw	s1,28(sp)
+    162c:	8fb00018 	lw	s0,24(sp)
+    1630:	03e00008 	jr	ra
+    1634:	27bd0038 	addiu	sp,sp,56
+
+00001638 <sscanf>:
+sscanf():
+/home/mips/linux-2.4.19/lib/vsprintf.c:703
+
+/**
+ * sscanf - Unformat a buffer into a list of arguments
+ * @buf:	input buffer
+ * @fmt:	formatting of buffer
+ * @...:	resulting arguments
+ */
+int sscanf(const char * buf, const char * fmt, ...)
+{
+    1638:	afa50004 	sw	a1,4(sp)
+    163c:	afa60008 	sw	a2,8(sp)
+    1640:	afa7000c 	sw	a3,12(sp)
+    1644:	27bdffe8 	addiu	sp,sp,-24
+    1648:	afbf0010 	sw	ra,16(sp)
+/home/mips/linux-2.4.19/lib/vsprintf.c:708
+	va_list args;
+	int i;
+
+	va_start(args,fmt);
+	i = vsscanf(buf,fmt,args);
+    164c:	0c000000 	jal	0 <simple_strtoul>
+			164c: R_MIPS_26	vsscanf
+    1650:	27a60020 	addiu	a2,sp,32
+/home/mips/linux-2.4.19/lib/vsprintf.c:711
+	va_end(args);
+	return i;
+}
+    1654:	8fbf0010 	lw	ra,16(sp)
+    1658:	00000000 	nop
+    165c:	03e00008 	jr	ra
+    1660:	27bd0018 	addiu	sp,sp,24
+	...
+Disassembly of section .data:
+Disassembly of section .reginfo:
+
+00000000 <.reginfo>:
+simple_strtoul():
+/home/mips/linux-2.4.19/lib/vsprintf.c:35
+   0:	a3fffffe 	sb	ra,-2(ra)
+	...
+Disassembly of section .rodata:
+
+00000000 <.rodata>:
+   0:	30313233 	andi	s1,at,0x3233
+   4:	34353637 	ori	s5,at,0x3637
+/home/mips/linux-2.4.19/lib/vsprintf.c:37
+   8:	38396162 	xori	t9,at,0x6162
+   c:	63646566 	0x63646566
+  10:	6768696a 	0x6768696a
+  14:	6b6c6d6e 	0x6b6c6d6e
+/home/mips/linux-2.4.19/lib/vsprintf.c:39
+  18:	6f707172 	0x6f707172
+/home/mips/linux-2.4.19/lib/vsprintf.c:40
+  1c:	73747576 	0x73747576
+  20:	7778797a 	0x7778797a
+  24:	00000000 	nop
+  28:	30313233 	andi	s1,at,0x3233
+  2c:	34353637 	ori	s5,at,0x3637
+  30:	38394142 	xori	t9,at,0x4142
+  34:	43444546 	c0	0x1444546
+  38:	4748494a 	c1	0x148494a
+  3c:	4b4c4d4e 	c2	0x14c4d4e
+  40:	4f505152 	c3	0x1505152
+  44:	53545556 	0x53545556
+  48:	5758595a 	0x5758595a
+/home/mips/linux-2.4.19/lib/vsprintf.c:41
+  4c:	00000000 	nop
+/home/mips/linux-2.4.19/lib/vsprintf.c:42
+  50:	3c4e554c 	0x3c4e554c
+/home/mips/linux-2.4.19/lib/vsprintf.c:46
+  54:	4c3e0000 	0x4c3e0000
+  58:	0000094c 	syscall	0x25
+			58: R_MIPS_32	.text
+  5c:	00000964 	0x964
+			5c: R_MIPS_32	.text
+  60:	00000964 	0x964
+			60: R_MIPS_32	.text
+/home/mips/linux-2.4.19/lib/vsprintf.c:48
+  64:	00000954 	0x954
+			64: R_MIPS_32	.text
+  68:	00000964 	0x964
+			68: R_MIPS_32	.text
+/home/mips/linux-2.4.19/lib/vsprintf.c:49
+  6c:	00000964 	0x964
+			6c: R_MIPS_32	.text
+  70:	00000964 	0x964
+			70: R_MIPS_32	.text
+  74:	00000964 	0x964
+			74: R_MIPS_32	.text
+  78:	00000964 	0x964
+			78: R_MIPS_32	.text
+  7c:	00000964 	0x964
+			7c: R_MIPS_32	.text
+  80:	00000964 	0x964
+			80: R_MIPS_32	.text
+  84:	00000944 	0x944
+			84: R_MIPS_32	.text
+  88:	00000964 	0x964
+			88: R_MIPS_32	.text
+  8c:	0000093c 	0x93c
+			8c: R_MIPS_32	.text
+  90:	00000964 	0x964
+			90: R_MIPS_32	.text
+  94:	00000964 	0x964
+			94: R_MIPS_32	.text
+  98:	0000095c 	0x95c
+			98: R_MIPS_32	.text
+  9c:	00000cfc 	0xcfc
+			9c: R_MIPS_32	.text
+  a0:	00000d2c 	0xd2c
+			a0: R_MIPS_32	.text
+/home/mips/linux-2.4.19/include/linux/ctype.h:45
+	return c;
+}
+
+static inline unsigned char __toupper(unsigned char c)
+{
+  a4:	00000d2c 	0xd2c
+			a4: R_MIPS_32	.text
+  a8:	00000d2c 	0xd2c
+			a8: R_MIPS_32	.text
+/home/mips/linux-2.4.19/include/linux/ctype.h:46
+	if (islower(c))
+  ac:	00000d2c 	0xd2c
+			ac: R_MIPS_32	.text
+  b0:	00000d2c 	0xd2c
+			b0: R_MIPS_32	.text
+  b4:	00000d2c 	0xd2c
+			b4: R_MIPS_32	.text
+  b8:	00000d2c 	0xd2c
+			b8: R_MIPS_32	.text
+  bc:	00000d2c 	0xd2c
+			bc: R_MIPS_32	.text
+  c0:	00000d2c 	0xd2c
+			c0: R_MIPS_32	.text
+/home/mips/linux-2.4.19/include/linux/ctype.h:47
+		c -= 'a'-'A';
+  c4:	00000d2c 	0xd2c
+			c4: R_MIPS_32	.text
+  c8:	00000d2c 	0xd2c
+			c8: R_MIPS_32	.text
+/home/mips/linux-2.4.19/include/linux/ctype.h:45
+  cc:	00000d2c 	0xd2c
+			cc: R_MIPS_32	.text
+  d0:	00000d2c 	0xd2c
+			d0: R_MIPS_32	.text
+  d4:	00000d2c 	0xd2c
+			d4: R_MIPS_32	.text
+  d8:	00000d2c 	0xd2c
+			d8: R_MIPS_32	.text
+  dc:	00000d2c 	0xd2c
+			dc: R_MIPS_32	.text
+/home/mips/linux-2.4.19/lib/vsprintf.c:51
+  e0:	00000d2c 	0xd2c
+			e0: R_MIPS_32	.text
+  e4:	00000d2c 	0xd2c
+			e4: R_MIPS_32	.text
+/home/mips/linux-2.4.19/lib/vsprintf.c:52
+  e8:	00000d2c 	0xd2c
+			e8: R_MIPS_32	.text
+/home/mips/linux-2.4.19/lib/vsprintf.c:54
+  ec:	00000d2c 	0xd2c
+			ec: R_MIPS_32	.text
+  f0:	00000d2c 	0xd2c
+			f0: R_MIPS_32	.text
+simple_strtol():
+/home/mips/linux-2.4.19/lib/vsprintf.c:63
+  f4:	00000d2c 	0xd2c
+			f4: R_MIPS_32	.text
+  f8:	00000d2c 	0xd2c
+			f8: R_MIPS_32	.text
+/home/mips/linux-2.4.19/lib/vsprintf.c:64
+  fc:	00000d2c 	0xd2c
+			fc: R_MIPS_32	.text
+ 100:	00000d2c 	0xd2c
+			100: R_MIPS_32	.text
+ 104:	00000d2c 	0xd2c
+			104: R_MIPS_32	.text
+ 108:	00000d2c 	0xd2c
+			108: R_MIPS_32	.text
+/home/mips/linux-2.4.19/lib/vsprintf.c:65
+ 10c:	00000d2c 	0xd2c
+			10c: R_MIPS_32	.text
+ 110:	00000d2c 	0xd2c
+			110: R_MIPS_32	.text
+ 114:	00000d2c 	0xd2c
+			114: R_MIPS_32	.text
+ 118:	00000d2c 	0xd2c
+			118: R_MIPS_32	.text
+/home/mips/linux-2.4.19/lib/vsprintf.c:66
+ 11c:	00000d2c 	0xd2c
+			11c: R_MIPS_32	.text
+ 120:	00000d2c 	0xd2c
+			120: R_MIPS_32	.text
+/home/mips/linux-2.4.19/lib/vsprintf.c:67
+ 124:	00000d2c 	0xd2c
+			124: R_MIPS_32	.text
+ 128:	00000d2c 	0xd2c
+			128: R_MIPS_32	.text
+ 12c:	00000d2c 	0xd2c
+			12c: R_MIPS_32	.text
+ 130:	00000d2c 	0xd2c
+			130: R_MIPS_32	.text
+simple_strtoull():
+/home/mips/linux-2.4.19/lib/vsprintf.c:76
+ 134:	00000d2c 	0xd2c
+			134: R_MIPS_32	.text
+ 138:	00000d2c 	0xd2c
+			138: R_MIPS_32	.text
+/home/mips/linux-2.4.19/lib/vsprintf.c:77
+ 13c:	00000d2c 	0xd2c
+			13c: R_MIPS_32	.text
+ 140:	00000d2c 	0xd2c
+			140: R_MIPS_32	.text
+/home/mips/linux-2.4.19/lib/vsprintf.c:79
+ 144:	00000d2c 	0xd2c
+			144: R_MIPS_32	.text
+ 148:	00000d2c 	0xd2c
+			148: R_MIPS_32	.text
+/home/mips/linux-2.4.19/lib/vsprintf.c:81
+ 14c:	00000d2c 	0xd2c
+			14c: R_MIPS_32	.text
+ 150:	00000d2c 	0xd2c
+			150: R_MIPS_32	.text
+ 154:	00000d2c 	0xd2c
+			154: R_MIPS_32	.text
+ 158:	00000d2c 	0xd2c
+			158: R_MIPS_32	.text
+/home/mips/linux-2.4.19/lib/vsprintf.c:83
+ 15c:	00000d2c 	0xd2c
+			15c: R_MIPS_32	.text
+/home/mips/linux-2.4.19/lib/vsprintf.c:84
+ 160:	00000d2c 	0xd2c
+			160: R_MIPS_32	.text
+ 164:	00000d2c 	0xd2c
+			164: R_MIPS_32	.text
+ 168:	00000d18 	0xd18
+			168: R_MIPS_32	.text
+ 16c:	00000d2c 	0xd2c
+			16c: R_MIPS_32	.text
+ 170:	00000d2c 	0xd2c
+			170: R_MIPS_32	.text
+ 174:	00000d2c 	0xd2c
+			174: R_MIPS_32	.text
+ 178:	00000d2c 	0xd2c
+			178: R_MIPS_32	.text
+ 17c:	00000d2c 	0xd2c
+			17c: R_MIPS_32	.text
+ 180:	00000d2c 	0xd2c
+			180: R_MIPS_32	.text
+ 184:	00000d2c 	0xd2c
+			184: R_MIPS_32	.text
+ 188:	00000d2c 	0xd2c
+			188: R_MIPS_32	.text
+ 18c:	00000d2c 	0xd2c
+			18c: R_MIPS_32	.text
+/home/mips/linux-2.4.19/lib/vsprintf.c:85
+ 190:	00000d2c 	0xd2c
+			190: R_MIPS_32	.text
+/home/mips/linux-2.4.19/lib/vsprintf.c:86
+ 194:	00000b28 	0xb28
+			194: R_MIPS_32	.text
+/home/mips/linux-2.4.19/lib/vsprintf.c:90
+ 198:	00000d24 	0xd24
+			198: R_MIPS_32	.text
+ 19c:	00000d2c 	0xd2c
+			19c: R_MIPS_32	.text
+ 1a0:	00000d2c 	0xd2c
+			1a0: R_MIPS_32	.text
+ 1a4:	00000d2c 	0xd2c
+			1a4: R_MIPS_32	.text
+/home/mips/linux-2.4.19/lib/vsprintf.c:92
+ 1a8:	00000d2c 	0xd2c
+			1a8: R_MIPS_32	.text
+ 1ac:	00000d24 	0xd24
+			1ac: R_MIPS_32	.text
+ 1b0:	00000d2c 	0xd2c
+			1b0: R_MIPS_32	.text
+ 1b4:	00000d2c 	0xd2c
+			1b4: R_MIPS_32	.text
+ 1b8:	00000d2c 	0xd2c
+			1b8: R_MIPS_32	.text
+ 1bc:	00000d2c 	0xd2c
+			1bc: R_MIPS_32	.text
+ 1c0:	00000cd8 	0xcd8
+			1c0: R_MIPS_32	.text
+ 1c4:	00000d10 	0xd10
+			1c4: R_MIPS_32	.text
+ 1c8:	00000c9c 	0xc9c
+			1c8: R_MIPS_32	.text
+ 1cc:	00000d2c 	0xd2c
+			1cc: R_MIPS_32	.text
+ 1d0:	00000d2c 	0xd2c
+			1d0: R_MIPS_32	.text
+ 1d4:	00000bb4 	0xbb4
+			1d4: R_MIPS_32	.text
+ 1d8:	00000d2c 	0xd2c
+			1d8: R_MIPS_32	.text
+ 1dc:	00000d84 	0xd84
+			1dc: R_MIPS_32	.text
+ 1e0:	00000d2c 	0xd2c
+			1e0: R_MIPS_32	.text
+ 1e4:	00000d2c 	0xd2c
+			1e4: R_MIPS_32	.text
+/home/mips/linux-2.4.19/lib/vsprintf.c:93
+ 1e8:	00000d1c 	0xd1c
+			1e8: R_MIPS_32	.text
+ 1ec:	000013f8 	0x13f8
+			1ec: R_MIPS_32	.text
+ 1f0:	0000160c 	syscall	0x58
+			1f0: R_MIPS_32	.text
+ 1f4:	0000160c 	syscall	0x58
+			1f4: R_MIPS_32	.text
+ 1f8:	0000160c 	syscall	0x58
+			1f8: R_MIPS_32	.text
+ 1fc:	0000160c 	syscall	0x58
+			1fc: R_MIPS_32	.text
+ 200:	0000160c 	syscall	0x58
+			200: R_MIPS_32	.text
+ 204:	0000160c 	syscall	0x58
+			204: R_MIPS_32	.text
+ 208:	0000160c 	syscall	0x58
+			208: R_MIPS_32	.text
+ 20c:	0000160c 	syscall	0x58
+			20c: R_MIPS_32	.text
+ 210:	0000160c 	syscall	0x58
+			210: R_MIPS_32	.text
+ 214:	0000160c 	syscall	0x58
+			214: R_MIPS_32	.text
+ 218:	0000160c 	syscall	0x58
+			218: R_MIPS_32	.text
+ 21c:	0000160c 	syscall	0x58
+			21c: R_MIPS_32	.text
+ 220:	0000160c 	syscall	0x58
+			220: R_MIPS_32	.text
+ 224:	0000160c 	syscall	0x58
+			224: R_MIPS_32	.text
+ 228:	0000160c 	syscall	0x58
+			228: R_MIPS_32	.text
+ 22c:	0000160c 	syscall	0x58
+			22c: R_MIPS_32	.text
+ 230:	0000160c 	syscall	0x58
+			230: R_MIPS_32	.text
+ 234:	0000160c 	syscall	0x58
+			234: R_MIPS_32	.text
+ 238:	0000160c 	syscall	0x58
+			238: R_MIPS_32	.text
+ 23c:	0000160c 	syscall	0x58
+			23c: R_MIPS_32	.text
+ 240:	0000160c 	syscall	0x58
+			240: R_MIPS_32	.text
+/home/mips/linux-2.4.19/include/linux/ctype.h:45
+	return c;
+}
+
+static inline unsigned char __toupper(unsigned char c)
+{
+ 244:	0000160c 	syscall	0x58
+			244: R_MIPS_32	.text
+ 248:	0000160c 	syscall	0x58
+			248: R_MIPS_32	.text
+ 24c:	0000160c 	syscall	0x58
+			24c: R_MIPS_32	.text
+ 250:	0000160c 	syscall	0x58
+			250: R_MIPS_32	.text
+ 254:	0000160c 	syscall	0x58
+			254: R_MIPS_32	.text
+ 258:	0000160c 	syscall	0x58
+			258: R_MIPS_32	.text
+ 25c:	0000160c 	syscall	0x58
+			25c: R_MIPS_32	.text
+ 260:	0000160c 	syscall	0x58
+			260: R_MIPS_32	.text
+ 264:	0000160c 	syscall	0x58
+			264: R_MIPS_32	.text
+ 268:	0000160c 	syscall	0x58
+			268: R_MIPS_32	.text
+ 26c:	0000160c 	syscall	0x58
+			26c: R_MIPS_32	.text
+ 270:	0000160c 	syscall	0x58
+			270: R_MIPS_32	.text
+ 274:	0000160c 	syscall	0x58
+			274: R_MIPS_32	.text
+ 278:	0000160c 	syscall	0x58
+			278: R_MIPS_32	.text
+/home/mips/linux-2.4.19/lib/vsprintf.c:95
+ 27c:	0000160c 	syscall	0x58
+			27c: R_MIPS_32	.text
+ 280:	0000160c 	syscall	0x58
+			280: R_MIPS_32	.text
+/home/mips/linux-2.4.19/lib/vsprintf.c:96
+ 284:	0000160c 	syscall	0x58
+			284: R_MIPS_32	.text
+/home/mips/linux-2.4.19/lib/vsprintf.c:98
+ 288:	0000160c 	syscall	0x58
+			288: R_MIPS_32	.text
+ 28c:	0000160c 	syscall	0x58
+			28c: R_MIPS_32	.text
+ 290:	0000160c 	syscall	0x58
+			290: R_MIPS_32	.text
+simple_strtoll():
+/home/mips/linux-2.4.19/lib/vsprintf.c:107
+ 294:	0000160c 	syscall	0x58
+			294: R_MIPS_32	.text
+ 298:	0000160c 	syscall	0x58
+			298: R_MIPS_32	.text
+/home/mips/linux-2.4.19/lib/vsprintf.c:108
+ 29c:	0000160c 	syscall	0x58
+			29c: R_MIPS_32	.text
+ 2a0:	0000160c 	syscall	0x58
+			2a0: R_MIPS_32	.text
+ 2a4:	0000160c 	syscall	0x58
+			2a4: R_MIPS_32	.text
+ 2a8:	0000160c 	syscall	0x58
+			2a8: R_MIPS_32	.text
+/home/mips/linux-2.4.19/lib/vsprintf.c:109
+ 2ac:	0000160c 	syscall	0x58
+			2ac: R_MIPS_32	.text
+ 2b0:	0000160c 	syscall	0x58
+			2b0: R_MIPS_32	.text
+ 2b4:	0000160c 	syscall	0x58
+			2b4: R_MIPS_32	.text
+ 2b8:	000013e8 	0x13e8
+			2b8: R_MIPS_32	.text
+ 2bc:	0000160c 	syscall	0x58
+			2bc: R_MIPS_32	.text
+ 2c0:	0000160c 	syscall	0x58
+			2c0: R_MIPS_32	.text
+ 2c4:	0000160c 	syscall	0x58
+			2c4: R_MIPS_32	.text
+/home/mips/linux-2.4.19/lib/vsprintf.c:110
+ 2c8:	0000160c 	syscall	0x58
+			2c8: R_MIPS_32	.text
+ 2cc:	0000160c 	syscall	0x58
+			2cc: R_MIPS_32	.text
+/home/mips/linux-2.4.19/lib/vsprintf.c:111
+ 2d0:	0000160c 	syscall	0x58
+			2d0: R_MIPS_32	.text
+ 2d4:	0000160c 	syscall	0x58
+			2d4: R_MIPS_32	.text
+ 2d8:	0000160c 	syscall	0x58
+			2d8: R_MIPS_32	.text
+ 2dc:	0000160c 	syscall	0x58
+			2dc: R_MIPS_32	.text
+skip_atoi():
+/home/mips/linux-2.4.19/lib/vsprintf.c:114
+ 2e0:	0000160c 	syscall	0x58
+			2e0: R_MIPS_32	.text
+/home/mips/linux-2.4.19/lib/vsprintf.c:115
+ 2e4:	0000125c 	0x125c
+			2e4: R_MIPS_32	.text
+/home/mips/linux-2.4.19/lib/vsprintf.c:117
+ 2e8:	000013f0 	0x13f0
+			2e8: R_MIPS_32	.text
+ 2ec:	0000160c 	syscall	0x58
+			2ec: R_MIPS_32	.text
+ 2f0:	0000160c 	syscall	0x58
+			2f0: R_MIPS_32	.text
+ 2f4:	0000160c 	syscall	0x58
+			2f4: R_MIPS_32	.text
+ 2f8:	0000160c 	syscall	0x58
+			2f8: R_MIPS_32	.text
+ 2fc:	000013f0 	0x13f0
+			2fc: R_MIPS_32	.text
+ 300:	0000160c 	syscall	0x58
+			300: R_MIPS_32	.text
+ 304:	0000160c 	syscall	0x58
+			304: R_MIPS_32	.text
+ 308:	0000160c 	syscall	0x58
+			308: R_MIPS_32	.text
+ 30c:	0000160c 	syscall	0x58
+			30c: R_MIPS_32	.text
+ 310:	000013bc 	0x13bc
+			310: R_MIPS_32	.text
+ 314:	000013e0 	0x13e0
+			314: R_MIPS_32	.text
+/home/mips/linux-2.4.19/lib/vsprintf.c:118
+ 318:	0000160c 	syscall	0x58
+			318: R_MIPS_32	.text
+ 31c:	0000160c 	syscall	0x58
+			31c: R_MIPS_32	.text
+ 320:	0000160c 	syscall	0x58
+			320: R_MIPS_32	.text
+ 324:	000012b8 	0x12b8
+			324: R_MIPS_32	.text
+ 328:	0000160c 	syscall	0x58
+			328: R_MIPS_32	.text
+ 32c:	0000141c 	0x141c
+			32c: R_MIPS_32	.text
+ 330:	0000160c 	syscall	0x58
+			330: R_MIPS_32	.text
+ 334:	0000160c 	syscall	0x58
+			334: R_MIPS_32	.text
+ 338:	000013e8 	0x13e8
+			338: R_MIPS_32	.text
+ 33c:	00000000 	nop

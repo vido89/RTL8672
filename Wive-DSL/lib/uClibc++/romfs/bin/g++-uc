@@ -1,0 +1,24 @@
+#!/bin/bash
+
+WRAPPER_INCLUDEDIR="${WRAPPER_INCLUDEDIR:=-I/opt/Wive-DSL-2.6/romfs/opt/Wive-DSL-2.6/linux-2.6.x/include/}"
+WRAPPER_LIBDIR="${WRAPPER_LIBDIR:=-L/opt/Wive-DSL-2.6/romfs/lib/}"
+
+WRAPPER_OPTIONS=""
+WRAPPER_LIBS=" -L/opt/toolchain-2.6/lib/gcc-lib/mips-linux-uclibc/3.3.3/ -lc -lgcc"
+
+WRAPPER_INCLIB="Y"
+while [ -n "$1" ]
+do
+	WRAPPER_OPTIONS="$WRAPPER_OPTIONS $1"
+	if [ "$1" = "-c" -o "$1" = "-E" -o "$1" = "-S" ]
+	then
+		WRAPPER_INCLIB="N"
+	fi
+	shift
+done
+if [ "$WRAPPER_INCLIB" == "Y" ]
+then
+	WRAPPER_OPTIONS="$WRAPPER_OPTIONS -nodefaultlibs $WRAPPER_LIBDIR -llibstdc++ $WRAPPER_LIBS"
+fi
+
+exec /opt/Wive-DSL-2.6/toolchain/bin/mips-linux-g++ -fno-builtin -nostdinc++   $WRAPPER_INCLUDEDIR $WRAPPER_OPTIONS

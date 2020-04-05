@@ -1,0 +1,43 @@
+#!/bin/sh
+
+PWD=`pwd`
+
+echo "Clean temporary files..."
+find $PWD/user -name '*.o' | xargs rm -f
+find $PWD/lib -name '*.o' | xargs rm -f
+find $PWD -name '*.old' | xargs rm -f
+find $PWD -name '*.log' | xargs rm -f
+find $PWD -name CVS -type d | xargs rm -rf
+
+rm -f $PWD/user/boa/default_web_id
+
+rm -f *.o
+rm -f rootfs*
+
+make clean -C linux-2.4.x
+make mrproper -C linux-2.4.x
+cp -f linux-2.4.x/config-110 linux-2.4.x/.config
+
+make clean -C tools
+make clean -C lib
+make clean -C uClibc
+make clean -C user
+make clean
+
+make fullclean -C lib
+make fullclean -C user
+
+rm -f images/*
+rm -f linux-2.4.x/*.img
+rm -f linux-2.4.x/vm*
+rm -f linux-2.4.x/*.log
+
+rm -fr romfs/*
+rm -f linux-2.4.x/*.img
+rm -f linux-2.4.x/vm*
+rm -fr linux-2.4.x/.tmp*
+rm -fr linux-2.4.x/..tmp*
+rm -f linux-2.4.x/*.log
+rm -f linux-2.4.x/linux
+
+rm -rf dev

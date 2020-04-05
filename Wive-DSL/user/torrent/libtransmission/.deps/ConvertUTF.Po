@@ -1,0 +1,18 @@
+ConvertUTF.o: ConvertUTF.c /opt/Wive-DSL-2.6/lib/uClibc/include/string.h \
+  /opt/Wive-DSL-2.6/lib/uClibc/include/features.h \
+  /opt/Wive-DSL-2.6/lib/uClibc/include/sys/cdefs.h \
+  /opt/Wive-DSL-2.6/lib/uClibc/include/bits/uClibc_config.h \
+  /opt/toolchain-2.6/lib/gcc-lib/mips-linux-uclibc/3.3.3/include/stddef.h \
+  ConvertUTF.h
+
+/opt/Wive-DSL-2.6/lib/uClibc/include/string.h:
+
+/opt/Wive-DSL-2.6/lib/uClibc/include/features.h:
+
+/opt/Wive-DSL-2.6/lib/uClibc/include/sys/cdefs.h:
+
+/opt/Wive-DSL-2.6/lib/uClibc/include/bits/uClibc_config.h:
+
+/opt/toolchain-2.6/lib/gcc-lib/mips-linux-uclibc/3.3.3/include/stddef.h:
+
+ConvertUTF.h:

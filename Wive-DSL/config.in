@@ -1,0 +1,18 @@
+mainmenu_name 'uClinux Configuration'
+mainmenu_option next_comment
+comment 'Target Platform Selection'
+comment 'Choose a Vendor/Product combination.'
+choice 'Vendor/Product' "GDB/ARMulator CONFIG_DEFAULTS_GDB_ARMULATOR \
+GDB/ARMulator-EB CONFIG_DEFAULTS_GDB_ARMULATOR_EB \
+Realtek/RTL8670 CONFIG_DEFAULTS_REALTEK_RTL8670 \
+" SecureEdge/SecureEdgeVPN
+comment 'Kernel is linux-2.4.x'
+define_bool CONFIG_DEFAULTS_KERNEL_2_4 y
+choice 'Libc Version' "uC-libc CONFIG_DEFAULTS_LIBC_UC_LIBC \
+uClibc CONFIG_DEFAULTS_LIBC_UCLIBC \
+" uClibc
+bool 'Default all settings (lose changes)'	CONFIG_DEFAULTS_OVERRIDE
+bool 'Customize Kernel Settings'			CONFIG_DEFAULTS_KERNEL
+bool 'Customize Vendor/User Settings'		CONFIG_DEFAULTS_VENDOR
+bool 'Update Default Vendor Settings'		CONFIG_DEFAULTS_VENDOR_UPDATE
+endmenu

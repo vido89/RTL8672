@@ -1,0 +1,2 @@
+../tools/packimg/kfspad ../rootfs vmlinux.lzma vm.img
+ls -l vm.img

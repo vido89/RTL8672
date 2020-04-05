@@ -1,0 +1,2 @@
+#!/bin/sh
+ifconfig $interface 0.0.0.0

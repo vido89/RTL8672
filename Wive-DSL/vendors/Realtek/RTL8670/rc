@@ -1,0 +1,25 @@
+echo "Check flash consistently" > /dev/console
+flash check > /dev/console
+
+mkdir /var/tmp
+mkdir /var/log
+mkdir /var/run
+mkdir /var/lock
+mkdir /var/ppp
+mkdir /var/config
+mkdir /var/udhcpd
+mkdir /var/udhcpc
+
+ifconfig lo 127.0.0.1 up
+route add -net 127.0.0.0 netmask 255.0.0.0 lo
+
+echo "Restore time to build time"
+BUILDDATE=`cat /etc/compile-date`
+date -s $BUILDDATE
+
+PATH=.:$PATH
+cd /etc/scripts
+configd &
+startup &
+sleep 10
+inetd &

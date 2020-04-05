@@ -1,0 +1,10 @@
+# We want fine grained libraries, so use the new code to build the
+# floating point emulation libraries.
+
+MULTILIB_OPTIONS = march=5280/march=4180/march=5181/march=4181
+MULTILIB_DIRNAMES = 5280 4180 5181 4181
+MULTILIB_MATCHES =
+EXTRA_MULTILIB_PARTS = crtbegin.o crtbeginT.o crtbeginS.o crtendS.o crtend.o
+
+LIBGCC = stmp-multilib
+INSTALL_LIBGCC = install-multilib

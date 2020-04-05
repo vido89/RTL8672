@@ -1,0 +1,573 @@
+#############################################################################
+#
+# NOTE : it is fairly important that changes to this file consider their
+#        effect on other platforms and default setups.  If you can, only
+#        add to the file,  changing the name of a variable will break
+#        many configurations.
+#
+#############################################################################
+
+mainmenu_name "uClinux Application Configuration"
+
+#############################################################################
+
+mainmenu_option next_comment
+comment 'Core Applications'
+
+bool 'init'				CONFIG_USER_INIT_INIT
+bool '  enable console shell'		CONFIG_USER_INIT_CONSOLE_SH
+bool '  execute firewall rules'		CONFIG_USER_INIT_RUN_FIREWALL
+bool 'expand'			CONFIG_USER_INIT_EXPAND
+if [ "$CONFIG_USER_INIT_EXPAND" = "y" ]; then
+	bool '  expand should not write zeroes'	CONFIG_USER_INIT_EXPAND_NOZEROES
+fi
+bool 'login'			CONFIG_USER_LOGIN_LOGIN
+bool 'Command Line Interface'	CONFIG_USER_CLI
+if [ "$CONFIG_USER_CLI" = "y" ]; then
+choice 'Cli_Mode' \
+   "Menu_Cli CONFIG_USER_MENU_CLI \
+    Command_Cli CONFIG_USER_CMD_CLI" Menu_Cli
+fi
+
+bool 'passwd'			CONFIG_USER_LOGIN_PASSWD
+
+endmenu
+#############################################################################
+
+mainmenu_option next_comment
+bool 'Build libPCAP'          CONFIG_LIB_LIBPCAP_FORCE
+bool 'Build libmd5'           CONFIG_LIB_LIBMD5_FORCE
+bool 'Build libncurses'       CONFIG_LIB_NCURSES
+bool 'Build libcurl'	      CONFIG_LIB_CURL
+bool 'Build zlib'	      CONFIG_LIB_ZLIB
+
+comment 'Library Configuration'
+bool 'Support time zones'	CONFIG_LIB_UC_LIBC_TIMEZONE
+if [ "$CONFIG_LIB_UC_LIBC_TIMEZONE" = "y" ]; then
+	bool '  Always load from file'	CONFIG_LIB_UC_LIBC_TZ_FROM_FILE
+fi
+
+endmenu
+
+#############################################################################
+
+mainmenu_option next_comment
+comment 'Filesystem Applications'
+
+bool 'flatfsd'			CONFIG_USER_FLATFSD_XXX
+if [ "$CONFIG_USER_FLATFSD_XXX" = "y" ]; then
+choice '  flatfsd storage type' "Auto     CONFIG_USER_FLATFSD_AUTO \
+                         Filesystem                     CONFIG_USER_FLATFSD_USE_FLASH_FS \
+                         Disklike                       CONFIG_USER_FLATFSD_DISKLIKE \
+                        " Auto
+bool '  Compress /etc/config to flash as required' CONFIG_USER_FLATFSD_COMPRESSED
+bool '  Device has Real Time Clock' CONFIG_USER_FLATFSD_HAS_RTC
+fi
+
+endmenu
+
+#############################################################################
+
+mainmenu_option next_comment
+comment 'Network Applications'
+
+bool 'arp'			CONFIG_USER_ROUTE_ARP
+bool 'auto-provisioning'	CONFIG_USER_AUTO_PROVISIONING
+bool 'libsig'			CONFIG_LIB_LIBSIG
+bool 'ssl'			CONFIG_SSLLIB
+
+if [ "$CONFIG_SSLLIB" = "y" ]; then
+	  choice '  select the ssl library' "OPENSSL      CONFIG_USER_OPENSSL \
+                                           MATRIXSSL    CONFIG_USER_MATRIXSSL \
+                                          " MATRIXSSL
+          if [ "$CONFIG_USER_OPENSSL" = "y" ]; then
+                 define_bool     CONFIG_LIB_LIBSSL y
+          fi
+          if [ "$CONFIG_USER_MATRIXSSL" = "y" ]; then
+                 define_bool     CONFIG_LIB_LIBMATRIXSSL y
+          fi
+fi
+bool 'boa'			CONFIG_USER_BOA_SRC_BOA
+if [ "$CONFIG_USER_BOA_SRC_BOA" = "y" ]; then
+    if [ "$CONFIG_USER_OPENSSL" = "y" ] || [ "$CONFIG_USER_MATRIXSSL" = "y" ]; then
+	bool '  boa uses SSL'	CONFIG_USER_BOA_WITH_SSL
+    fi
+fi
+##add by ramen shen for choosing the web directory
+if [ "$CONFIG_USER_BOA_SRC_BOA" = "y" ]; then
+ choice 'web-dir' \
+   "Default CONFIG_DEFAULT_WEB" Default
+fi
+bool 'br2684ctl'		CONFIG_USER_BR2684CTL_BR2684CTL
+bool 'bridge utils'		CONFIG_USER_BRCTL_BRCTL
+
+bool 'cwmp-tr069'		CONFIG_USER_CWMP_TR069
+if [ "$CONFIG_USER_CWMP_TR069" = "y" ]; then
+	bool   '  support TR-143' CONFIG_USER_TR143
+	choice '  select the ssl library' "NONE		CONFIG_USER_CWMP_WITHOUT_SSL \
+					   OPENSSL	CONFIG_USER_CWMP_WITH_OPENSSL \
+					   MATRIXSSL	CONFIG_USER_CWMP_WITH_MATRIXSSL \
+					  " NONE
+	if [ "$CONFIG_USER_CWMP_WITH_OPENSSL" = "y" ]; then
+		define_bool	CONFIG_USER_CWMP_WITH_SSL y
+		define_bool	CONFIG_LIB_LIBSSL y
+	fi
+	if [ "$CONFIG_USER_CWMP_WITH_MATRIXSSL" = "y" ]; then
+		define_bool     CONFIG_USER_CWMP_WITH_SSL y
+		define_bool	CONFIG_LIB_LIBMATRIXSSL y
+	fi
+	define_bool             CONFIG_USER_FLATFSD_XXX y
+	define_bool             CONFIG_USER_FLATFSD_AUTO y
+fi
+
+bool 'DDNS'			CONFIG_USER_DDNS
+if [ "$CONFIG_USER_DHCPCD_DHCPCD" = "y" ]; then
+	bool '  dhcpcd link-local support'	CONFIG_USER_DHCPCD_LLIP
+fi
+bool 'dhcrelay (ISC)'		CONFIG_USER_DHCP_ISC_RELAY_DHCRELAY
+bool 'dnsmasq'			CONFIG_USER_DNSMASQ_DNSMASQ
+bool 'dropbear (ssh server)'	CONFIG_USER_SSH_DROPBEAR
+bool 'ftp'			CONFIG_USER_FTP_FTP_FTP
+bool 'ftpd'			CONFIG_USER_FTPD_FTPD
+
+
+bool 'freeswan-apps'	CONFIG_USER_FREESWAN
+if [ "$CONFIG_USER_FREESWAN" = "y" ]; then
+
+	bool '  pluto'		CONFIG_USER_FREESWAN_PLUTO_PLUTO
+	if [ "$CONFIG_USER_FREESWAN_PLUTO_PLUTO" = "y" ]; then
+		define_bool 	CONFIG_LIB_LIBGMP y
+		define_bool 	CONFIG_LIB_LIBDES y
+	fi
+	bool '  whack'		CONFIG_USER_FREESWAN_PLUTO_WHACK
+	bool '  ranbits'	CONFIG_USER_FREESWAN_UTILS_RANBITS
+	bool '  rsasigkey'	CONFIG_USER_FREESWAN_UTILS_RSASIGKEY
+	if [ "$CONFIG_USER_FREESWAN_UTILS_RSASIGKEY" = "y" ]; then
+		define_bool 	CONFIG_LIB_LIBGMP y
+	fi
+	bool '  eroute'		CONFIG_USER_FREESWAN_KLIPS_EROUTE
+	bool '  klipsdebug'	CONFIG_USER_FREESWAN_KLIPS_KLIPSDEBUG
+	bool '  spi'		CONFIG_USER_FREESWAN_KLIPS_SPI
+	bool '  spigrp'		CONFIG_USER_FREESWAN_KLIPS_SPIGRP
+	bool '  tncfg'		CONFIG_USER_FREESWAN_KLIPS_TNCFG
+	bool '  fswcert'	CONFIG_USER_FSWCERT_FSWCERT
+ 	if [ "$CONFIG_USER_FSWCERT_FSWCERT" = "y" ]; then
+ 		define_bool	CONFIG_LIB_LIBSSL y
+ 	fi
+fi
+
+bool 'idb'			CONFIG_USER_IDB_IDB
+bool 'ifconfig'			CONFIG_USER_ROUTE_IFCONFIG
+
+bool 'ifmond2'			CONFIG_USER_IFMOND2_IFMOND
+bool 'igmpproxy'		CONFIG_USER_IGMPPROXY
+
+comment 'SAMBA'
+bool 'samba'			CONFIG_USER_SAMBA
+bool '  smbd'			CONFIG_USER_SAMBA_SMBD
+bool '  nmbd'			CONFIG_USER_SAMBA_NMBD
+bool '  smbmount'		CONFIG_USER_SAMBA_SMBMOUNT
+bool '  smbumount'		CONFIG_USER_SAMBA_SMBUMOUNT
+
+bool 'ctorrent'			CONFIG_USER_CTORRENT
+bool 'mc'			CONFIG_USER_MC
+bool 'inetd'			CONFIG_USER_INETD_INETD
+bool 'iproute2'			CONFIG_USER_IPROUTE2
+if [ "$CONFIG_USER_IPROUTE2" = "y" ]; then
+	bool '  tc'			CONFIG_USER_IPROUTE2_TC_TC
+	bool '  ifcfg (complex scripting reqd.)' CONFIG_USER_IPROUTE2_IP_IFCFG
+	bool '  ip'			CONFIG_USER_IPROUTE2_IP_IP
+	bool '  routef'		CONFIG_USER_IPROUTE2_IP_ROUTEF
+	bool '  routel'		CONFIG_USER_IPROUTE2_IP_ROUTEL
+	bool '  rtacct'		CONFIG_USER_IPROUTE2_IP_RTACCT
+	bool '  rtmon'		CONFIG_USER_IPROUTE2_IP_RTMON
+	bool '  rtpr'		CONFIG_USER_IPROUTE2_IP_RTPR
+fi
+
+bool 'iptables'			CONFIG_USER_IPTABLES_IPTABLES
+bool 'ebtables'			CONFIG_BRIDGE_NF_EBTABLES
+bool 'netstat'			CONFIG_USER_ROUTE_NETSTAT
+bool 'mii-tool'			CONFIG_USER_ROUTE_MIITOOL
+bool 'openssl'			CONFIG_USER_OPENSSL_APPS
+if [ "$CONFIG_USER_OPENSSL_APPS" = "y" ]; then
+	define_bool	CONFIG_LIB_LIBSSL y
+fi
+bool 'parental-control'			CONFIG_USER_PARENTAL_CONTROL
+bool 'remote management'	CONFIG_USER_REMOTE_MANAGEMENT
+bool 'route'			CONFIG_USER_ROUTE_ROUTE
+bool 'routed'			CONFIG_USER_ROUTED_ROUTED
+bool 'snmpdv2cTrap'		CONFIG_USER_SNMPD_SNMPD_V2CTRAP
+
+if [ "$CONFIG_USER_MGMT_MGMT" = "y" ]; then
+	define_bool CONFIG_USER_SGSNMPD_AGENT y
+
+fi
+bool 'tcpdump (web interface)'  CONFIG_USER_TCPDUMP_WEB
+if [ "$CONFIG_USER_TCPDUMP_WEB" = "y" ]; then
+        define_bool             CONFIG_LIB_LIBPCAP y
+fi
+bool 'tcpdump'                  CONFIG_USER_TCPDUMP_TCPDUMP
+if [ "$CONFIG_USER_TCPDUMP_TCPDUMP" = "y" ]; then
+        define_bool             CONFIG_LIB_LIBPCAP y
+fi
+bool 'telnetd'			CONFIG_USER_TELNETD_TELNETD
+bool 'tftpd'			CONFIG_USER_TFTPD_TFTPD
+bool 'miniupnpd'		CONFIG_USER_MINIUPNPD
+if [ "$CONFIG_USER_MINIUPNPD" = "y" ]; then
+	bool '  use shared library'	CONFIG_USE_SHARED_LIB
+fi
+if [ "$CONFIG_USE_SHARED_LIB" = "y" ]; then
+	define_bool		CONFIG_USER_MINI_UPNPD y
+fi
+
+bool 'vsntp'			CONFIG_USER_VSNTP
+
+comment 'Wireless-tools'
+bool 'wireless_tools support'	CONFIG_USER_WIRELESS_TOOLS
+if [ "$CONFIG_USER_WIRELESS_TOOLS" = "y" ]; then
+	bool 'iwconfig'	CONFIG_USER_WIRELESS_TOOLS_IWCONFIG
+	bool 'iwgetid'	CONFIG_USER_WIRELESS_TOOLS_IWGETID
+	bool 'iwlist'	CONFIG_USER_WIRELESS_TOOLS_IWLIST
+	bool 'iwpriv'	CONFIG_USER_WIRELESS_TOOLS_IWPRIV
+	bool 'iwspy'	CONFIG_USER_WIRELESS_TOOLS_IWSPY
+	bool 'MBSSID'		CONFIG_USER_WIRELESS_MBSSID
+	bool 'RTL8185 auth'	CONFIG_USER_WIRELESS_TOOLS_RTL8185_AUTH
+	bool 'RTL8185 iapp'	CONFIG_USER_WIRELESS_TOOLS_RTL8185_IAPP	
+	if [ "$CONFIG_WIFI_SIMPLE_CONFIG" = "y" ]; then
+        	define_bool CONFIG_USER_BUSYBOX_CP y
+        	define_bool CONFIG_USER_MINI_UPNPD y
+	fi
+	bool 'WDS'		CONFIG_USER_WIRELESS_WDS
+
+fi
+
+endmenu
+
+#############################################################################
+
+mainmenu_option next_comment
+comment 'Miscellaneous Applications'
+
+bool 'chat'			CONFIG_USER_CHAT_CHAT
+bool 'perl'			CONFIG_USER_PERL_PERL
+bool 'python'			CONFIG_USER_PYTHON_PYTHON
+bool 'setserial'		CONFIG_USER_SETSERIAL_SETSERIAL
+bool 'usbmount'			CONFIG_USER_USBMOUNT_USBMOUNT
+if [ "$CONFIG_USER_USBMOUNT_USBMOUNT" = "y" ]; then
+  bool 'CT-USBMOUNT_DIRECTORY'		CONFIG_CT_USBMOUNT_DIRECTORY
+fi
+comment 'USB tools'
+bool 'usbtools'			CONFIG_USER_USBTOOLS
+if [ "$CONFIG_USER_USBTOOLS" = "y" ]; then
+	define_bool		CONFIG_USER_USBTOOLS_LIBUSB y
+
+	bool '  usb_modeswitch'	CONFIG_USER_USBTOOLS_USBMODESWITCH
+	bool '  lsusb'		CONFIG_USER_USBTOOLS_LSUSB
+fi
+
+comment 'LIRC'
+bool 'Enable LIRC tools'	CONFIG_USER_LIRC
+dep_bool '  lircd'		CONFIG_USER_LIRC_LIRCD    $CONFIG_USER_LIRC
+dep_bool '  irrecord'		CONFIG_USER_LIRC_IRRECORD $CONFIG_USER_LIRC
+dep_bool '  lircmd'		CONFIG_USER_LIRC_LIRCMD   $CONFIG_USER_LIRC
+dep_bool '  irexec'		CONFIG_USER_LIRC_IREXEC   $CONFIG_USER_LIRC
+dep_bool '  irw'		CONFIG_USER_LIRC_IRW      $CONFIG_USER_LIRC
+dep_bool '  mode2'		CONFIG_USER_LIRC_MODE2    $CONFIG_USER_LIRC
+
+endmenu
+
+#############################################################################
+
+mainmenu_option next_comment
+comment 'BusyBox'
+
+# Kao added
+bool 'BusyBox'			CONFIG_USER_BUSYBOX_BUSYBOX
+                                
+if [ "$CONFIG_USER_BUSYBOX_BUSYBOX" = "y" ]; then
+	comment "Applets"
+	bool 'adjtimex' CONFIG_USER_BUSYBOX_ADJTIMEX
+	bool 'time' CONFIG_USER_BUSYBOX_TIME
+	bool 'ash' CONFIG_USER_BUSYBOX_ASH
+	bool 'ash job control' CONFIG_USER_BUSYBOX_ASH_JOB_CONTROL
+	bool 'ar' CONFIG_USER_BUSYBOX_AR
+	bool 'basename' CONFIG_USER_BUSYBOX_BASENAME
+	bool 'cat' CONFIG_USER_BUSYBOX_CAT
+	bool 'chgrp' CONFIG_USER_BUSYBOX_CHGRP
+	bool 'chmod' CONFIG_USER_BUSYBOX_CHMOD
+	bool 'chown' CONFIG_USER_BUSYBOX_CHOWN
+	bool 'chroot' CONFIG_USER_BUSYBOX_CHROOT
+	# bool 'chvt' CONFIG_USER_BUSYBOX_CHVT
+	bool 'clear' CONFIG_USER_BUSYBOX_CLEAR
+	bool 'cmp' CONFIG_USER_BUSYBOX_CMP
+	bool 'cp' CONFIG_USER_BUSYBOX_CP
+	# bool 'cpio' CONFIG_USER_BUSYBOX_CPIO
+	bool 'cut' CONFIG_USER_BUSYBOX_CUT
+	bool 'date' CONFIG_USER_BUSYBOX_DATE
+	bool 'dc' CONFIG_USER_BUSYBOX_DC
+	bool 'dd' CONFIG_USER_BUSYBOX_DD
+	# bool 'deallocvt' CONFIG_USER_BUSYBOX_DEALLOCVT
+	bool 'df' CONFIG_USER_BUSYBOX_DF
+	bool 'dirname' CONFIG_USER_BUSYBOX_DIRNAME
+	bool 'dmesg' CONFIG_USER_BUSYBOX_DMESG
+	# bool 'dos2unix' CONFIG_USER_BUSYBOX_DOS2UNIX
+	# bool 'dpkg' CONFIG_USER_BUSYBOX_DPKG
+	# bool 'deb' CONFIG_USER_BUSYBOX_DPKG_DEB
+	bool 'dutmp' CONFIG_USER_BUSYBOX_DUTMP
+	bool 'du' CONFIG_USER_BUSYBOX_DU
+	# bool 'dumpkmap' CONFIG_USER_BUSYBOX_DUMPKMAP
+	bool 'echo' CONFIG_USER_BUSYBOX_ECHO
+	bool 'env' CONFIG_USER_BUSYBOX_ENV
+	bool 'expr' CONFIG_USER_BUSYBOX_EXPR
+	# bool 'fbset' CONFIG_USER_BUSYBOX_FBSET
+#	if [ "$CONFIG_USER_BUSYBOX_FBSET" = "y" ]; then
+		#bool 'fbset: facny options' CONFIG_USER_BUSYBOX_FBSET_FANCY
+		# bool 'fbset: readmode' CONFIG_USER_BUSYBOX_FBSET_READMODE
+#	fi
+	# bool 'fdflush' CONFIG_USER_BUSYBOX_FDFLUSH
+	bool 'find' CONFIG_USER_BUSYBOX_FIND
+	if [ "$CONFIG_USER_BUSYBOX_FIND" = "y" ]; then
+		bool 'find: -type' CONFIG_USER_BUSYBOX_FIND_TYPE
+		bool 'find: -perm' CONFIG_USER_BUSYBOX_FIND_PERM
+		bool 'find: -mtime' CONFIG_USER_BUSYBOX_FIND_MTIME
+	fi
+	bool 'free' CONFIG_USER_BUSYBOX_FREE
+	bool 'freeramdisk' CONFIG_USER_BUSYBOX_FREERAMDISK
+	bool 'fsck_minix' CONFIG_USER_BUSYBOX_FSCK_MINIX
+	bool 'getopt' CONFIG_USER_BUSYBOX_GETOPT
+	bool 'grep' CONFIG_USER_BUSYBOX_GREP
+	if [ "$CONFIG_USER_BUSYBOX_GREP" = "y" ]; then
+		bool 'grep: enable context' CONFIG_USER_BUSYBOX_GREP_CONTEXT
+		bool 'grep: egrep alias' CONFIG_USER_BUSYBOX_GREP_EGREP_ALIAS
+	fi
+	bool 'gunzip' CONFIG_USER_BUSYBOX_GUNZIP
+	bool 'gzip' CONFIG_USER_BUSYBOX_GZIP
+	bool 'halt' CONFIG_USER_BUSYBOX_HALT
+	bool 'head' CONFIG_USER_BUSYBOX_HEAD
+	# bool 'hostid' CONFIG_USER_BUSYBOX_HOSTID
+	bool 'hostname' CONFIG_USER_BUSYBOX_HOSTNAME
+	bool 'id' CONFIG_USER_BUSYBOX_ID
+	bool 'ifconfig' CONFIG_USER_BUSYBOX_IFCONFIG
+	if [ "$CONFIG_USER_BUSYBOX_IFCONFIG" = "y" ]; then
+		bool 'ifconfig: status reporting' CONFIG_USER_BUSYBOX_IFCONFIG_STATUS
+		bool 'ifconfig: slip' CONFIG_USER_BUSYBOX_IFCONFIG_SLIP
+		bool 'ifconfig: enable hw option' CONFIG_USER_BUSYBOX_IFCONFIG_HW
+		bool 'ifconfig: extra options' CONFIG_USER_BUSYBOX_IFCONFIG_MEMSTART_IOADDR_IRQ
+	fi
+	bool 'init' CONFIG_USER_BUSYBOX_INIT
+	if [ "$CONFIG_USER_BUSYBOX_INIT" = "y" ]; then
+		bool 'init: use inittab' CONFIG_USER_BUSYBOX_USE_INITTAB
+		bool 'init: /linuxrc' CONFIG_USER_BUSYBOX_LINUXRC
+		bool 'init: core dumps' CONFIG_USER_BUSYBOX_INIT_COREDUMPS
+	fi
+	bool 'insmod' CONFIG_USER_BUSYBOX_INSMOD
+	if [ "$CONFIG_USER_BUSYBOX_INSMOD" = "y" ]; then
+		bool 'insmod: load in kernel memory' CONFIG_USER_BUSYBOX_INSMOD_LOADINKMEM
+	fi
+	bool 'kill' CONFIG_USER_BUSYBOX_KILL
+	bool 'killall' CONFIG_USER_BUSYBOX_KILLALL
+	bool 'klogd' CONFIG_USER_BUSYBOX_KLOGD
+	bool 'length' CONFIG_USER_BUSYBOX_LENGTH
+	bool 'ln' CONFIG_USER_BUSYBOX_LN
+	# bool 'loadacm' CONFIG_USER_BUSYBOX_LOADACM
+	# bool 'loadfont' CONFIG_USER_BUSYBOX_LOADFONT
+	# bool 'loadkmap' CONFIG_USER_BUSYBOX_LOADKMAP
+	bool 'logger' CONFIG_USER_BUSYBOX_LOGGER
+	bool 'logname' CONFIG_USER_BUSYBOX_LOGNAME
+	bool 'ls' CONFIG_USER_BUSYBOX_LS
+	if [ "$CONFIG_USER_BUSYBOX_LS" = "y" ]; then
+		bool 'ls: show color' CONFIG_USER_BUSYBOX_LS_COLOR
+		bool 'ls: show usernames' CONFIG_USER_BUSYBOX_LS_USERNAME
+		bool 'ls: show timestamps' CONFIG_USER_BUSYBOX_LS_TIMESTAMPS
+		bool 'ls: file types' CONFIG_USER_BUSYBOX_LS_FILETYPES
+		bool 'ls: sort files' CONFIG_USER_BUSYBOX_LS_SORTFILES
+		bool 'ls: recursive' CONFIG_USER_BUSYBOX_LS_RECURSIVE
+		bool 'ls: follow links' CONFIG_USER_BUSYBOX_LS_FOLLOWLINKS
+	fi
+	bool 'lsmod' CONFIG_USER_BUSYBOX_LSMOD
+	bool 'makedevs' CONFIG_USER_BUSYBOX_MAKEDEVS
+	bool 'md5sum' CONFIG_USER_BUSYBOX_MD5SUM
+	bool 'mkdir' CONFIG_USER_BUSYBOX_MKDIR
+	# bool 'mkfifo' CONFIG_USER_BUSYBOX_MKFIFO
+	bool 'mkfs_minix' CONFIG_USER_BUSYBOX_MKFS_MINIX
+	bool 'mknod' CONFIG_USER_BUSYBOX_MKNOD
+	# bool 'mkswap' CONFIG_USER_BUSYBOX_MKSWAP
+	bool 'mktemp' CONFIG_USER_BUSYBOX_MKTEMP
+	bool 'modprobe' CONFIG_USER_BUSYBOX_MODPROBE
+	bool 'more' CONFIG_USER_BUSYBOX_MORE
+#	if [ "$CONFIG_USER_BUSYBOX_MORE" = "y" ]; then
+	bool 'more: use termios' CONFIG_USER_BUSYBOX_USE_TERMIOS
+#	fi
+	bool 'mount' CONFIG_USER_BUSYBOX_MOUNT
+	if [ "$CONFIG_USER_BUSYBOX_MOUNT" = "y" ]; then
+		bool 'mount: loop devices' CONFIG_USER_BUSYBOX_MOUNT_LOOP
+		bool 'mount: support /etc/mtab' CONFIG_USER_BUSYBOX_MTAB_SUPPORT
+		bool 'mount: support NFS mounts' CONFIG_USER_BUSYBOX_NFSMOUNT
+	fi
+	# bool 'mt' CONFIG_USER_BUSYBOX_MT
+	bool 'mv' CONFIG_USER_BUSYBOX_MV
+	bool 'nc' CONFIG_USER_BUSYBOX_NC
+	bool 'nslookup' CONFIG_USER_BUSYBOX_NSLOOKUP
+	bool 'pidof' CONFIG_USER_BUSYBOX_PIDOF
+	bool 'ping' CONFIG_USER_BUSYBOX_PING
+	if [ "$CONFIG_USER_BUSYBOX_PING" = "y" ]; then
+		bool 'ping: fancy' CONFIG_USER_BUSYBOX_FANCY_PING
+	fi
+	bool 'pivot_root' CONFIG_USER_BUSYBOX_PIVOT_ROOT
+	bool 'poweroff' CONFIG_USER_BUSYBOX_POWEROFF
+	bool 'printf' CONFIG_USER_BUSYBOX_PRINTF
+	bool 'ps' CONFIG_USER_BUSYBOX_PS
+	bool 'pwd' CONFIG_USER_BUSYBOX_PWD
+	bool 'rdate' CONFIG_USER_BUSYBOX_RDATE
+	bool 'readlink' CONFIG_USER_BUSYBOX_READLINK
+	bool 'reboot' CONFIG_USER_BUSYBOX_REBOOT
+	bool 'renice' CONFIG_USER_BUSYBOX_RENICE
+	bool 'reset' CONFIG_USER_BUSYBOX_RESET
+	bool 'rm' CONFIG_USER_BUSYBOX_RM
+	bool 'rmdir' CONFIG_USER_BUSYBOX_RMDIR
+	bool 'rmmod' CONFIG_USER_BUSYBOX_RMMOD
+	bool 'route' CONFIG_USER_BUSYBOX_ROUTE
+	bool 'netstat' CONFIG_USER_BUSYBOX_NETSTAT
+	bool 'rpm2cpio' CONFIG_USER_BUSYBOX_RPM2CPIO
+	bool 'sed' CONFIG_USER_BUSYBOX_SED
+	# bool 'setkeycodes' CONFIG_USER_BUSYBOX_SETKEYCODES
+	bool 'shell' CONFIG_USER_BUSYBOX_SHELL
+	if [ "$CONFIG_USER_BUSYBOX_SHELL" = "y" ]; then
+		bool 'ash:  ASH shell' CONFIG_USER_BUSYBOX_ASH
+		bool '      ASH is /bin/sh' CONFIG_USER_BUSYBOX_SH_IS_ASH
+		bool 'hush: HUSH shell' CONFIG_USER_BUSYBOX_HUSH
+		bool '      HUSH is /bin/sh' CONFIG_USER_BUSYBOX_SH_IS_HUSH
+		bool 'lash: LASH shell' CONFIG_USER_BUSYBOX_LASH
+		bool '      LASH is /bin/sh' CONFIG_USER_BUSYBOX_SH_IS_LASH
+		bool 'msh:  Minix shell' CONFIG_USER_BUSYBOX_MSH
+		bool '      MSH is /bin/sh' CONFIG_USER_BUSYBOX_SH_IS_MSH
+		bool 'sh: command editing' CONFIG_USER_BUSYBOX_COMMAND_EDITING
+		bool 'sh: tab completion' CONFIG_USER_BUSYBOX_TAB_COMPLETION
+		bool 'sh: username completion' CONFIG_USER_BUSYBOX_USERNAME_COMPLETION
+		bool 'sh: stand alone' CONFIG_USER_BUSYBOX_SH_STANDALONE_SHELL
+		if [ "$CONFIG_USER_BUSYBOX_SH_STANDALONE_SHELL" = "y" ]; then
+			bool 'sh: applets first' CONFIG_USER_BUSYBOX_SH_APPLETS_ALWAYS_WIN
+		fi
+		bool 'sh: fancy prompt' CONFIG_USER_BUSYBOX_SH_FANCY_PROMPT
+	fi
+	bool 'sleep' CONFIG_USER_BUSYBOX_SLEEP
+	bool 'sort' CONFIG_USER_BUSYBOX_SORT
+	if [ "$CONFIG_USER_BUSYBOX_SORT" = "y" ]; then
+		bool 'sort: allow reverse' CONFIG_USER_BUSYBOX_SORT_REVERSE
+		bool 'sort: allow unique' CONFIG_USER_BUSYBOX_SORT_UNIQUE
+	fi
+	bool 'stty' CONFIG_USER_BUSYBOX_STTY
+	# bool 'swaponoff' CONFIG_USER_BUSYBOX_SWAPONOFF
+	bool 'sync' CONFIG_USER_BUSYBOX_SYNC
+	bool 'syslogd' CONFIG_USER_BUSYBOX_SYSLOGD
+	if [ "$CONFIG_USER_BUSYBOX_SYSLOGD" = "y" ]; then
+		bool 'syslogd: -R' CONFIG_USER_BUSYBOX_REMOTE_LOG
+		bool 'syslogd: -C' CONFIG_USER_BUSYBOX_IPC_SYSLOG
+	fi
+	bool 'tail' CONFIG_USER_BUSYBOX_TAIL
+	if [ "$CONFIG_USER_BUSYBOX_TAIL" = "y" ]; then
+		bool 'tail: fancy' CONFIG_USER_BUSYBOX_FANCY_TAIL
+	fi
+	bool 'tar' CONFIG_USER_BUSYBOX_TAR
+	if [ "$CONFIG_USER_BUSYBOX_TAR" = "y" ]; then
+		bool 'tar: allow creation' CONFIG_USER_BUSYBOX_TAR_CREATE
+		bool 'tar: allow exclude' CONFIG_USER_BUSYBOX_TAR_EXCLUDE
+		# bool 'tar: allow gzip' CONFIG_USER_BUSYBOX_TAR_GZIP
+	fi
+	bool 'tee' CONFIG_USER_BUSYBOX_TEE
+	bool 'telnet' CONFIG_USER_BUSYBOX_TELNET
+	if [ "$CONFIG_USER_BUSYBOX_TELNET" = "y" ]; then
+		bool 'telnet: TERM type' CONFIG_USER_BUSYBOX_TELNET_TTYPE
+	fi
+	bool 'test' CONFIG_USER_BUSYBOX_TEST
+	bool 'tftp' CONFIG_USER_BUSYBOX_TFTP
+	if [ "$CONFIG_USER_BUSYBOX_TFTP" = "y" ]; then
+		bool 'tftp: put' CONFIG_USER_BUSYBOX_TFTP_PUT
+		bool 'tftp: get' CONFIG_USER_BUSYBOX_TFTP_GET
+	fi
+	bool 'top' CONFIG_USER_BUSYBOX_TOP
+	bool 'touch' CONFIG_USER_BUSYBOX_TOUCH
+	bool 'tr' CONFIG_USER_BUSYBOX_TR
+	bool 'traceroute' CONFIG_USER_BUSYBOX_TRACEROUTE
+	bool 'true_false' CONFIG_USER_BUSYBOX_TRUE_FALSE
+	bool 'tty' CONFIG_USER_BUSYBOX_TTY
+	bool 'umount' CONFIG_USER_BUSYBOX_UMOUNT
+	if [ "$CONFIG_USER_BUSYBOX_UMOUNT" = "y" ]; then
+		bool 'umount: forced unmounts' CONFIG_USER_BUSYBOX_MOUNT_FORCE
+	fi
+	bool 'uname' CONFIG_USER_BUSYBOX_UNAME
+	bool 'uniq' CONFIG_USER_BUSYBOX_UNIQ
+	bool 'unix2dos' CONFIG_USER_BUSYBOX_UNIX2DOS
+	# bool 'update' CONFIG_USER_BUSYBOX_UPDATE
+	bool 'uptime' CONFIG_USER_BUSYBOX_UPTIME
+	bool 'usleep' CONFIG_USER_BUSYBOX_USLEEP
+	bool 'uudecode' CONFIG_USER_BUSYBOX_UUDECODE
+	bool 'uuencode' CONFIG_USER_BUSYBOX_UUENCODE
+	bool 'vi' CONFIG_USER_BUSYBOX_VI
+	if [ "$CONFIG_USER_BUSYBOX_VI" = "y" ]; then
+		bool 'vi: colon commands' CONFIG_USER_BUSYBOX_VI_COLON
+		bool 'vi: yank / put / mark' CONFIG_USER_BUSYBOX_VI_YANKMARK
+		bool 'vi: search / replace' CONFIG_USER_BUSYBOX_VI_SEARCH
+		bool 'vi: catch signals' CONFIG_USER_BUSYBOX_VI_USE_SIGNALS
+		bool 'vi: previous command' CONFIG_USER_BUSYBOX_VI_DOT_CMD
+		bool 'vi: enable read only' CONFIG_USER_BUSYBOX_VI_READONLY
+		bool 'vi: setable options' CONFIG_USER_BUSYBOX_VI_SETOPTS
+		bool 'vi: allow :set' CONFIG_USER_BUSYBOX_VI_SET
+		bool 'vi: window resizes' CONFIG_USER_BUSYBOX_VI_WIN_RESIZE
+	fi
+	bool 'watchdog' CONFIG_USER_BUSYBOX_WATCHDOG
+	bool 'wc' CONFIG_USER_BUSYBOX_WC
+	bool 'wget' CONFIG_USER_BUSYBOX_WGET
+	if [ "$CONFIG_USER_BUSYBOX_WGET" = "y" ]; then
+		bool 'wget: status bar' CONFIG_USER_BUSYBOX_WGET_STATUSBAR
+		bool 'wget: authentication' CONFIG_USER_BUSYBOX_WGET_AUTHENTICATION
+	fi
+	bool 'which' CONFIG_USER_BUSYBOX_WHICH
+	bool 'whoami' CONFIG_USER_BUSYBOX_WHOAMI
+	bool 'xargs' CONFIG_USER_BUSYBOX_XARGS
+	bool 'yes' CONFIG_USER_BUSYBOX_YES
+	
+	# Global features go here
+	comment "other features"
+	# bool 'buffers on stack' CONFIG_USER_BUSYBOX_BUFFERS_GO_ON_STACK
+	# bool 'buffers in BSS' CONFIG_USER_BUSYBOX_BUFFERS_GO_IN_BSS
+	# bool 'Use devps' CONFIG_USER_BUSYBOX_USE_DEVPS_PATCH
+	bool 'Verbose usages' CONFIG_USER_BUSYBOX_VERBOSE_USAGE
+	bool 'Auto Width' CONFIG_USER_BUSYBOX_AUTOWIDTH
+	# bool 'Silent boot' CONFIG_USER_BUSYBOX_EXTRA_QUIET
+	bool 'Post 2.1 kernel modules' CONFIG_USER_BUSYBOX_NEW_MODULE_INTERFACE
+	bool 'Pre 2.1 kernel modules' CONFIG_USER_BUSYBOX_OLD_MODULE_INTERFACE
+	bool 'Model version checks' CONFIG_USER_BUSYBOX_INSMOD_VERSION_CHECKING
+	# bool 'Minix 2' CONFIG_USER_BUSYBOX_MINIX2
+	# bool 'Enable --install' CONFIG_USER_BUSYBOX_INSTALLER
+	# bool 'Clean up' CONFIG_USER_BUSYBOX_CLEAN_UP
+	bool 'Readable sizes' CONFIG_USER_BUSYBOX_HUMAN_READABLE
+	# bool 'Locale Support' CONFIG_USER_BUSYBOX_LOCALE_SUPPORT
+fi
+endmenu
+
+############################################################################
+mainmenu_option next_comment
+comment 'RTK VoIP User applications'
+
+bool 'RTK VoIP applications Support'		CONFIG_USER_RTK_VOIP
+if [ "$CONFIG_USER_RTK_VOIP" = "y" ]; then
+bool 'RTK VoIP test utility'         CONFIG_RTK_VOIP_TEST_TOOL
+source ../user/rtk_voip/src/Config.in
+fi
+endmenu
+
+#############################################################################
+
+mainmenu_option next_comment
+comment 'Debug Builds'
+
+bool 'build debugable libraries'	CONFIG_LIB_DEBUG
+bool 'build debugable applications'	CONFIG_USER_DEBUG
+
+comment "Debug libraries"
+bool 'ccmalloc'				CONFIG_LIB_LIBCCMALLOC
+
+endmenu
+
+#############################################################################

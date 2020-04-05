@@ -1,0 +1,61 @@
+version 1.3.6
+    
+    * Fix GDB core dump on certain ELF binaries (Build 55)
+    * Add automatic mix-mode inline-asm jalx wrapping (Build 55)
+    * Add RX4281/RX5281 support (Build 54)
+    * Fix RADIAX lhp/shp lwp/swp displacement decoding (Build 54)
+    * Add -mce custom engine support (Build 54)
+    * Fix Insight simulator target list (Build 54)
+    * Fix -mno-data-in-code implementation (Build 54)
+
+version 1.3.5
+
+    * Fix libgcc shared library naming 
+    * Update binutils to 2.16.94
+    * Fix ld section start address miscalculation
+    * Fix ltw relocation check
+    * Fix ld no memory region warnings for ignored sections
+    * Fix mtlxc0/mflxc0 used at warning
+
+version 1.3.4
+
+    * Add libuls to RSDK supplementary library
+    * Add rsdk-linux- symbolic link for uclibc toolchain
+    * Fix insight mips sim compiler warnings
+    * Fix RADIAX instruction parsing
+
+version 1.3.3
+
+    * Add DVR Mars OPCODE support
+    * Add DVR Venus OPCODE support
+    * Fix uClibc ld share library loader path 
+    * Fix mips16/mips1 inline function mix-mode compilation
+    * Add kernel 2.4 porting guide
+
+version 1.3.2
+
+    * Add run-time opcode support
+    * Add default asm/offset.h
+    * Change GCC to put zeroed globa data in data/sdata
+    * Fix gdb breakpoint address calculation on symbols
+
+version 1.3.1
+
+    * Add bi-endian support
+    * Add pthread library debug support
+    * Fix uClibc multilib support
+    * Fix uClibc bi-endian support
+    * Fix objdump segmentation fault on invalid encoding
+    * Fix multa2 code generation
+    * Fix RADIAX register name translation
+    * Disable -KPIC by default
+    * Fix NOP insertion for LT/ST
+
+version 1.3.0
+
+    * Add -fdafile-relative option
+    * Disable -fmerge-constants by default
+    * Initial version of RSDK toolchain branch 1.3
+    * Upgrade gcc from 3.2.3 to 3.4.6
+    * Upgrade uclibc from 0.9.27 to 0.9.28
+    * Upgrade insight/gdb from 6.0 to 6.4

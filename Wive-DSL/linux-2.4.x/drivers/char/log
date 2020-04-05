@@ -1,0 +1,815 @@
+In file included from ../../include/linux/sched.h:14,
+                 from tty_io.c:74:
+../../include/linux/timex.h:173: field `time' has incomplete type
+In file included from ../../include/linux/sched.h:18,
+                 from tty_io.c:74:
+../../include/asm/semaphore.h:31: syntax error before "wait_queue_head_t"
+../../include/asm/semaphore.h:31: warning: no semicolon at end of struct or union
+../../include/asm/semaphore.h:35: warning: empty declaration
+../../include/asm/semaphore.h: In function `sema_init':
+../../include/asm/semaphore.h:65: dereferencing pointer to incomplete type
+../../include/asm/semaphore.h:66: dereferencing pointer to incomplete type
+../../include/asm/semaphore.h:67: dereferencing pointer to incomplete type
+../../include/asm/semaphore.h: In function `down':
+../../include/asm/semaphore.h:93: dereferencing pointer to incomplete type
+../../include/asm/semaphore.h: In function `down_interruptible':
+../../include/asm/semaphore.h:108: dereferencing pointer to incomplete type
+../../include/asm/semaphore.h: In function `down_trylock':
+../../include/asm/semaphore.h:122: dereferencing pointer to incomplete type
+../../include/asm/semaphore.h: In function `up':
+../../include/asm/semaphore.h:193: dereferencing pointer to incomplete type
+In file included from ../../include/linux/sched.h:90,
+                 from tty_io.c:74:
+../../include/asm/processor.h: At top level:
+../../include/asm/processor.h:107: syntax error before "fpureg_t"
+../../include/asm/processor.h:107: warning: data definition has no type or storage class
+../../include/asm/processor.h:109: syntax error before "fpureg_t"
+../../include/asm/processor.h:109: warning: no semicolon at end of struct or union
+../../include/asm/processor.h:111: syntax error before '}' token
+../../include/asm/processor.h:115: field `soft' has incomplete type
+In file included from tty_io.c:75:
+../../include/linux/interrupt.h:78: syntax error before '(' token
+../../include/linux/interrupt.h:79: syntax error before '(' token
+../../include/linux/interrupt.h:155: syntax error before '(' token
+../../include/linux/interrupt.h:163: syntax error before '(' token
+In file included from tty_io.c:77:
+../../include/linux/tty_driver.h:130: field `init_termios' has incomplete type
+../../include/linux/tty_driver.h:148: warning: `struct file' declared inside parameter list
+../../include/linux/tty_driver.h:148: warning: its scope is only this definition or declaration, which is probably not what you want
+../../include/linux/tty_driver.h:149: warning: `struct file' declared inside parameter list
+../../include/linux/tty_driver.h:157: warning: `struct file' declared inside parameter list
+../../include/linux/tty_driver.h:172: warning: `struct file' declared inside parameter list
+In file included from tty_io.c:78:
+../../include/linux/tty_flip.h: In function `tty_insert_flip_char':
+../../include/linux/tty_flip.h:13: dereferencing pointer to incomplete type
+../../include/linux/tty_flip.h:13: `TTY_FLIPBUF_SIZE' undeclared (first use in this function)
+../../include/linux/tty_flip.h:13: (Each undeclared identifier is reported only once
+../../include/linux/tty_flip.h:13: for each function it appears in.)
+../../include/linux/tty_flip.h:14: dereferencing pointer to incomplete type
+../../include/linux/tty_flip.h:15: dereferencing pointer to incomplete type
+../../include/linux/tty_flip.h:16: dereferencing pointer to incomplete type
+../../include/linux/tty_flip.h: In function `tty_schedule_flip':
+../../include/linux/tty_flip.h:22: dereferencing pointer to incomplete type
+../../include/linux/tty_flip.h:22: `tq_timer' undeclared (first use in this function)
+In file included from tty_io.c:79:
+../../include/linux/devpts_fs.h: At top level:
+../../include/linux/devpts_fs.h:28: syntax error before "kdev_t"
+In file included from tty_io.c:80:
+../../include/linux/file.h:8: syntax error before '(' token
+../../include/linux/file.h:9: syntax error before '(' token
+../../include/linux/file.h: In function `get_close_on_exec':
+../../include/linux/file.h:13: `current' undeclared (first use in this function)
+../../include/linux/file.h:15: dereferencing pointer to incomplete type
+../../include/linux/file.h:16: dereferencing pointer to incomplete type
+../../include/linux/file.h: In function `set_close_on_exec':
+../../include/linux/file.h:23: `current' undeclared (first use in this function)
+../../include/linux/file.h:24: dereferencing pointer to incomplete type
+../../include/linux/file.h:26: dereferencing pointer to incomplete type
+../../include/linux/file.h:28: dereferencing pointer to incomplete type
+../../include/linux/file.h: At top level:
+../../include/linux/file.h:32: warning: `struct files_struct' declared inside parameter list
+../../include/linux/file.h: In function `fcheck_files':
+../../include/linux/file.h:36: dereferencing pointer to incomplete type
+../../include/linux/file.h:37: dereferencing pointer to incomplete type
+../../include/linux/file.h: In function `fcheck':
+../../include/linux/file.h:47: `current' undeclared (first use in this function)
+../../include/linux/file.h:49: dereferencing pointer to incomplete type
+../../include/linux/file.h:50: dereferencing pointer to incomplete type
+../../include/linux/file.h: At top level:
+../../include/linux/file.h:58: warning: `struct files_struct' declared inside parameter list
+../../include/linux/file.h: In function `__put_unused_fd':
+../../include/linux/file.h:60: dereferencing pointer to incomplete type
+../../include/linux/file.h:61: dereferencing pointer to incomplete type
+../../include/linux/file.h:62: dereferencing pointer to incomplete type
+../../include/linux/file.h: In function `put_unused_fd':
+../../include/linux/file.h:67: `current' undeclared (first use in this function)
+../../include/linux/file.h:69: dereferencing pointer to incomplete type
+../../include/linux/file.h:70: warning: passing arg 1 of `__put_unused_fd' from incompatible pointer type
+../../include/linux/file.h: At top level:
+../../include/linux/file.h:75: warning: `struct files_struct' declared inside parameter list
+In file included from tty_io.c:81:
+../../include/linux/console.h:47: syntax error before "u8"
+../../include/linux/console.h:47: warning: no semicolon at end of struct or union
+../../include/linux/console.h:48: syntax error before "u16"
+../../include/linux/console.h:49: syntax error before '*' token
+../../include/linux/console.h:49: warning: data definition has no type or storage class
+../../include/linux/console.h:51: syntax error before '}' token
+../../include/linux/console.h:99: syntax error before "kdev_t"
+../../include/linux/console.h:99: warning: no semicolon at end of struct or union
+../../include/linux/console.h:103: warning: built-in function `index' declared as non-function
+../../include/linux/console.h:106: syntax error before '}' token
+In file included from tty_io.c:82:
+../../include/linux/timer.h:17: field `list' has incomplete type
+In file included from tty_io.c:89:
+../../include/linux/proc_fs.h:72: syntax error before "kdev_t"
+../../include/linux/proc_fs.h:72: warning: no semicolon at end of struct or union
+../../include/linux/proc_fs.h:89: warning: `struct inode' declared inside parameter list
+../../include/linux/proc_fs.h:90: warning: `struct inode' declared inside parameter list
+../../include/linux/proc_fs.h:91: syntax error before "filldir_t"
+../../include/linux/proc_fs.h:110: syntax error before "filldir_t"
+../../include/linux/proc_fs.h:144: syntax error before "kdev_t"
+../../include/linux/proc_fs.h: In function `create_proc_read_entry':
+../../include/linux/proc_fs.h:153: dereferencing pointer to incomplete type
+../../include/linux/proc_fs.h:154: dereferencing pointer to incomplete type
+../../include/linux/proc_fs.h: In function `create_proc_info_entry':
+../../include/linux/proc_fs.h:163: dereferencing pointer to incomplete type
+In file included from tty_io.c:94:
+../../include/asm/uaccess.h: In function `verify_area':
+../../include/asm/uaccess.h:64: `current' undeclared (first use in this function)
+In file included from tty_io.c:98:
+../../include/linux/kbd_kern.h: In function `con_schedule_flip':
+../../include/linux/kbd_kern.h:152: dereferencing pointer to incomplete type
+In file included from tty_io.c:99:
+../../include/linux/vt_kern.h: At top level:
+../../include/linux/vt_kern.h:31: syntax error before "wait_queue_head_t"
+../../include/linux/vt_kern.h:31: warning: no semicolon at end of struct or union
+../../include/linux/vt_kern.h:32: warning: data definition has no type or storage class
+In file included from ../../include/linux/selection.h:10,
+                 from tty_io.c:100:
+../../include/linux/vt_buffer.h:32: syntax error before '*' token
+../../include/linux/vt_buffer.h: In function `scr_memsetw':
+../../include/linux/vt_buffer.h:34: `count' undeclared (first use in this function)
+../../include/linux/vt_buffer.h:36: `s' undeclared (first use in this function)
+../../include/linux/vt_buffer.h:36: `c' undeclared (first use in this function)
+In file included from tty_io.c:100:
+../../include/linux/selection.h: At top level:
+../../include/linux/selection.h:34: syntax error before "screen_glyph"
+../../include/linux/selection.h:34: warning: data definition has no type or storage class
+../../include/linux/selection.h:41: syntax error before "vcs_scr_readw"
+../../include/linux/selection.h:41: syntax error before '*' token
+../../include/linux/selection.h:41: warning: data definition has no type or storage class
+../../include/linux/selection.h:42: syntax error before "u16"
+In file included from tty_io.c:101:
+../../include/linux/devfs_fs_kernel.h:250: warning: `struct block_device_operations' declared inside parameter list
+../../include/linux/devfs_fs_kernel.h:289: syntax error before "devfs_alloc_devnum"
+../../include/linux/devfs_fs_kernel.h: In function `devfs_alloc_devnum':
+../../include/linux/devfs_fs_kernel.h:291: `NODEV' undeclared (first use in this function)
+../../include/linux/devfs_fs_kernel.h: At top level:
+../../include/linux/devfs_fs_kernel.h:294: syntax error before "kdev_t"
+tty_io.c:121: `NR_LDISCS' undeclared here (not in a function)
+tty_io.c:138: syntax error before "poll_table"
+tty_io.c: In function `alloc_tty_struct':
+tty_io.c:180: sizeof applied to an incomplete type
+tty_io.c:180: `GFP_KERNEL' undeclared (first use in this function)
+tty_io.c:180: warning: assignment makes pointer from integer without a cast
+tty_io.c:182: sizeof applied to an incomplete type
+tty_io.c: In function `_tty_make_name':
+tty_io.c:197: dereferencing pointer to incomplete type
+tty_io.c:197: dereferencing pointer to incomplete type
+tty_io.c:203: dereferencing pointer to incomplete type
+tty_io.c: In function `tty_name':
+tty_io.c:213: dereferencing pointer to incomplete type
+tty_io.c: At top level:
+tty_io.c:216: syntax error before "kdev_t"
+tty_io.c: In function `tty_paranoia_check':
+tty_io.c:221: `KERN_WARNING' undeclared (first use in this function)
+tty_io.c:221: syntax error before string constant
+tty_io.c:223: syntax error before string constant
+tty_io.c:225: `tty' undeclared (first use in this function)
+tty_io.c:226: `device' undeclared (first use in this function)
+tty_io.c:226: `routine' undeclared (first use in this function)
+tty_io.c:229: `TTY_MAGIC' undeclared (first use in this function)
+tty_io.c: In function `check_tty_count':
+tty_io.c:244: dereferencing pointer to incomplete type
+tty_io.c:244: dereferencing pointer to incomplete type
+tty_io.c:244: dereferencing pointer to incomplete type
+tty_io.c:245: syntax error before "struct"
+tty_io.c:249: dereferencing pointer to incomplete type
+tty_io.c:250: dereferencing pointer to incomplete type
+tty_io.c:251: dereferencing pointer to incomplete type
+tty_io.c:251: dereferencing pointer to incomplete type
+tty_io.c:253: dereferencing pointer to incomplete type
+tty_io.c:254: `KERN_WARNING' undeclared (first use in this function)
+tty_io.c:254: syntax error before string constant
+tty_io.c: In function `tty_register_ldisc':
+tty_io.c:265: `N_TTY' undeclared (first use in this function)
+tty_io.c:265: `NR_LDISCS' undeclared (first use in this function)
+tty_io.c:269: dereferencing pointer to incomplete type
+tty_io.c:270: `LDISC_FLAG_DEFINED' undeclared (first use in this function)
+tty_io.c:273: sizeof applied to an incomplete type
+tty_io.c: At top level:
+tty_io.c:278: syntax error before "this_object_must_be_defined_as_export_objs_in_the_Makefile"
+tty_io.c:278: warning: data definition has no type or storage class
+tty_io.c: In function `tty_set_ldisc':
+tty_io.c:284: storage size of `o_ldisc' isn't known
+tty_io.c:287: `N_TTY' undeclared (first use in this function)
+tty_io.c:287: `NR_LDISCS' undeclared (first use in this function)
+tty_io.c:291: `LDISC_FLAG_DEFINED' undeclared (first use in this function)
+tty_io.c:299: dereferencing pointer to incomplete type
+tty_io.c:301: dereferencing pointer to incomplete type
+tty_io.c:306: dereferencing pointer to incomplete type
+tty_io.c:307: dereferencing pointer to incomplete type
+tty_io.c:310: dereferencing pointer to incomplete type
+tty_io.c:311: dereferencing pointer to incomplete type
+tty_io.c:312: dereferencing pointer to incomplete type
+tty_io.c:313: dereferencing pointer to incomplete type
+tty_io.c:315: dereferencing pointer to incomplete type
+tty_io.c:316: dereferencing pointer to incomplete type
+tty_io.c:316: dereferencing pointer to incomplete type
+tty_io.c:317: dereferencing pointer to incomplete type
+tty_io.c:317: dereferencing pointer to incomplete type
+tty_io.c:318: dereferencing pointer to incomplete type
+tty_io.c:319: dereferencing pointer to incomplete type
+tty_io.c:320: dereferencing pointer to incomplete type
+tty_io.c:321: dereferencing pointer to incomplete type
+tty_io.c:330: dereferencing pointer to incomplete type
+tty_io.c:330: dereferencing pointer to incomplete type
+tty_io.c:331: dereferencing pointer to incomplete type
+tty_io.c: At top level:
+tty_io.c:338: syntax error before "device"
+tty_io.c: In function `get_tty_driver':
+tty_io.c:343: `device' undeclared (first use in this function)
+tty_io.c: In function `tty_check_change':
+tty_io.c:365: `current' undeclared (first use in this function)
+tty_io.c:367: dereferencing pointer to incomplete type
+tty_io.c:368: `KERN_WARNING' undeclared (first use in this function)
+tty_io.c:368: syntax error before string constant
+tty_io.c:371: dereferencing pointer to incomplete type
+tty_io.c:378: `ERESTARTSYS' undeclared (first use in this function)
+tty_io.c: In function `hung_up_tty_read':
+tty_io.c:385: dereferencing pointer to incomplete type
+tty_io.c: In function `hung_up_tty_write':
+tty_io.c:394: dereferencing pointer to incomplete type
+tty_io.c: At top level:
+tty_io.c:400: syntax error before "poll_table"
+tty_io.c: In function `hung_up_tty_ioctl':
+tty_io.c:408: `TIOCSPGRP' undeclared (first use in this function)
+tty_io.c: At top level:
+tty_io.c:411: variable `tty_fops' has initializer but incomplete type
+tty_io.c:412: unknown field `llseek' specified in initializer
+tty_io.c:412: `no_llseek' undeclared here (not in a function)
+tty_io.c:412: warning: excess elements in struct initializer
+tty_io.c:412: warning: (near initialization for `tty_fops')
+tty_io.c:413: unknown field `read' specified in initializer
+tty_io.c:413: warning: excess elements in struct initializer
+tty_io.c:413: warning: (near initialization for `tty_fops')
+tty_io.c:414: unknown field `write' specified in initializer
+tty_io.c:414: warning: excess elements in struct initializer
+tty_io.c:414: warning: (near initialization for `tty_fops')
+tty_io.c:415: unknown field `poll' specified in initializer
+tty_io.c:415: warning: excess elements in struct initializer
+tty_io.c:415: warning: (near initialization for `tty_fops')
+tty_io.c:416: unknown field `ioctl' specified in initializer
+tty_io.c:416: warning: excess elements in struct initializer
+tty_io.c:416: warning: (near initialization for `tty_fops')
+tty_io.c:417: unknown field `open' specified in initializer
+tty_io.c:417: warning: excess elements in struct initializer
+tty_io.c:417: warning: (near initialization for `tty_fops')
+tty_io.c:418: unknown field `release' specified in initializer
+tty_io.c:418: warning: excess elements in struct initializer
+tty_io.c:418: warning: (near initialization for `tty_fops')
+tty_io.c:419: unknown field `fasync' specified in initializer
+tty_io.c:419: warning: excess elements in struct initializer
+tty_io.c:419: warning: (near initialization for `tty_fops')
+tty_io.c:422: variable `hung_up_tty_fops' has initializer but incomplete type
+tty_io.c:423: unknown field `llseek' specified in initializer
+tty_io.c:423: `no_llseek' undeclared here (not in a function)
+tty_io.c:423: warning: excess elements in struct initializer
+tty_io.c:423: warning: (near initialization for `hung_up_tty_fops')
+tty_io.c:424: unknown field `read' specified in initializer
+tty_io.c:424: warning: excess elements in struct initializer
+tty_io.c:424: warning: (near initialization for `hung_up_tty_fops')
+tty_io.c:425: unknown field `write' specified in initializer
+tty_io.c:425: warning: excess elements in struct initializer
+tty_io.c:425: warning: (near initialization for `hung_up_tty_fops')
+tty_io.c:426: unknown field `poll' specified in initializer
+tty_io.c:426: warning: excess elements in struct initializer
+tty_io.c:426: warning: (near initialization for `hung_up_tty_fops')
+tty_io.c:427: unknown field `ioctl' specified in initializer
+tty_io.c:427: warning: excess elements in struct initializer
+tty_io.c:427: warning: (near initialization for `hung_up_tty_fops')
+tty_io.c:428: unknown field `release' specified in initializer
+tty_io.c:428: warning: excess elements in struct initializer
+tty_io.c:428: warning: (near initialization for `hung_up_tty_fops')
+tty_io.c: In function `do_tty_hangup':
+tty_io.c:452: dereferencing pointer to incomplete type
+tty_io.c:452: dereferencing pointer to incomplete type
+tty_io.c:452: dereferencing pointer to incomplete type
+tty_io.c:453: syntax error before "struct"
+tty_io.c:454: dereferencing pointer to incomplete type
+tty_io.c:455: dereferencing pointer to incomplete type
+tty_io.c:459: dereferencing pointer to incomplete type
+tty_io.c:463: dereferencing pointer to incomplete type
+tty_io.c:472: dereferencing pointer to incomplete type
+tty_io.c:473: dereferencing pointer to incomplete type
+tty_io.c:474: dereferencing pointer to incomplete type
+tty_io.c:475: dereferencing pointer to incomplete type
+tty_io.c:476: `TTY_DO_WRITE_WAKEUP' undeclared (first use in this function)
+tty_io.c:476: dereferencing pointer to incomplete type
+tty_io.c:477: dereferencing pointer to incomplete type
+tty_io.c:478: dereferencing pointer to incomplete type
+tty_io.c:482: dereferencing pointer to incomplete type
+tty_io.c:483: dereferencing pointer to incomplete type
+tty_io.c:489: dereferencing pointer to incomplete type
+tty_io.c:490: dereferencing pointer to incomplete type
+tty_io.c:490: dereferencing pointer to incomplete type
+tty_io.c:491: dereferencing pointer to incomplete type
+tty_io.c:491: `N_TTY' undeclared (first use in this function)
+tty_io.c:492: dereferencing pointer to incomplete type
+tty_io.c:493: dereferencing pointer to incomplete type
+tty_io.c:494: dereferencing pointer to incomplete type
+tty_io.c:495: dereferencing pointer to incomplete type
+tty_io.c:496: dereferencing pointer to incomplete type
+tty_io.c:497: dereferencing pointer to incomplete type
+tty_io.c:499: `KERN_ERR' undeclared (first use in this function)
+tty_io.c:499: syntax error before string constant
+tty_io.c:500: syntax error before ')' token
+tty_io.c:504: `tasklist_lock' undeclared (first use in this function)
+tty_io.c:505: syntax error before '{' token
+tty_io.c:510: dereferencing pointer to incomplete type
+tty_io.c:511: dereferencing pointer to incomplete type
+tty_io.c:511: dereferencing pointer to incomplete type
+tty_io.c: At top level:
+tty_io.c:513: syntax error before "if"
+tty_io.c: In function `tty_hangup':
+tty_io.c:544: dereferencing pointer to incomplete type
+tty_io.c: In function `tty_hung_up_p':
+tty_io.c:559: dereferencing pointer to incomplete type
+tty_io.c: In function `disassociate_ctty':
+tty_io.c:577: `current' undeclared (first use in this function)
+tty_io.c:582: dereferencing pointer to incomplete type
+tty_io.c:583: dereferencing pointer to incomplete type
+tty_io.c:599: dereferencing pointer to incomplete type
+tty_io.c:600: dereferencing pointer to incomplete type
+tty_io.c:602: `tasklist_lock' undeclared (first use in this function)
+tty_io.c:604: syntax error before "if"
+tty_io.c: In function `stop_tty':
+tty_io.c:611: dereferencing pointer to incomplete type
+tty_io.c:613: dereferencing pointer to incomplete type
+tty_io.c:614: dereferencing pointer to incomplete type
+tty_io.c:614: dereferencing pointer to incomplete type
+tty_io.c:615: dereferencing pointer to incomplete type
+tty_io.c:615: `TIOCPKT_START' undeclared (first use in this function)
+tty_io.c:616: dereferencing pointer to incomplete type
+tty_io.c:616: `TIOCPKT_STOP' undeclared (first use in this function)
+tty_io.c:617: dereferencing pointer to incomplete type
+tty_io.c:619: dereferencing pointer to incomplete type
+tty_io.c:620: dereferencing pointer to incomplete type
+tty_io.c: In function `start_tty':
+tty_io.c:625: dereferencing pointer to incomplete type
+tty_io.c:625: dereferencing pointer to incomplete type
+tty_io.c:627: dereferencing pointer to incomplete type
+tty_io.c:628: dereferencing pointer to incomplete type
+tty_io.c:628: dereferencing pointer to incomplete type
+tty_io.c:629: dereferencing pointer to incomplete type
+tty_io.c:629: `TIOCPKT_STOP' undeclared (first use in this function)
+tty_io.c:630: dereferencing pointer to incomplete type
+tty_io.c:630: `TIOCPKT_START' undeclared (first use in this function)
+tty_io.c:631: dereferencing pointer to incomplete type
+tty_io.c:633: dereferencing pointer to incomplete type
+tty_io.c:634: dereferencing pointer to incomplete type
+tty_io.c:635: `TTY_DO_WRITE_WAKEUP' undeclared (first use in this function)
+tty_io.c:635: dereferencing pointer to incomplete type
+tty_io.c:636: dereferencing pointer to incomplete type
+tty_io.c:637: dereferencing pointer to incomplete type
+tty_io.c:638: dereferencing pointer to incomplete type
+tty_io.c: In function `tty_read':
+tty_io.c:649: dereferencing pointer to incomplete type
+tty_io.c:652: dereferencing pointer to incomplete type
+tty_io.c:653: dereferencing pointer to incomplete type
+tty_io.c:654: dereferencing pointer to incomplete type
+tty_io.c:656: `TTY_IO_ERROR' undeclared (first use in this function)
+tty_io.c:656: dereferencing pointer to incomplete type
+tty_io.c:676: dereferencing pointer to incomplete type
+tty_io.c:677: dereferencing pointer to incomplete type
+tty_io.c:682: dereferencing pointer to incomplete type
+tty_io.c:682: `CURRENT_TIME' undeclared (first use in this function)
+tty_io.c: In function `do_tty_write':
+tty_io.c:699: dereferencing pointer to incomplete type
+tty_io.c:700: dereferencing pointer to incomplete type
+tty_io.c:704: dereferencing pointer to incomplete type
+tty_io.c:705: `ERESTARTSYS' undeclared (first use in this function)
+tty_io.c:707: `TTY_NO_WRITE_SPLIT' undeclared (first use in this function)
+tty_io.c:707: dereferencing pointer to incomplete type
+tty_io.c:727: `current' undeclared (first use in this function)
+tty_io.c:734: dereferencing pointer to incomplete type
+tty_io.c:734: `CURRENT_TIME' undeclared (first use in this function)
+tty_io.c:737: dereferencing pointer to incomplete type
+tty_io.c: In function `tty_write':
+tty_io.c:750: dereferencing pointer to incomplete type
+tty_io.c:757: dereferencing pointer to incomplete type
+tty_io.c:758: dereferencing pointer to incomplete type
+tty_io.c:759: dereferencing pointer to incomplete type
+tty_io.c:764: dereferencing pointer to incomplete type
+tty_io.c:765: dereferencing pointer to incomplete type
+tty_io.c:767: dereferencing pointer to incomplete type
+tty_io.c:767: `TTY_IO_ERROR' undeclared (first use in this function)
+tty_io.c:767: dereferencing pointer to incomplete type
+tty_io.c:780: dereferencing pointer to incomplete type
+tty_io.c:782: dereferencing pointer to incomplete type
+tty_io.c: At top level:
+tty_io.c:787: variable `tty_sem' has initializer but incomplete type
+tty_io.c:787: warning: excess elements in struct initializer
+tty_io.c:787: warning: (near initialization for `tty_sem')
+tty_io.c:787: warning: excess elements in struct initializer
+tty_io.c:787: warning: (near initialization for `tty_sem')
+tty_io.c:787: invalid use of undefined type `struct semaphore'
+tty_io.c:787: warning: excess elements in struct initializer
+tty_io.c:787: warning: (near initialization for `tty_sem')
+tty_io.c:807: syntax error before "device"
+tty_io.c: In function `init_dev':
+tty_io.c:816: `device' undeclared (first use in this function)
+tty_io.c:848: dereferencing pointer to incomplete type
+tty_io.c:849: dereferencing pointer to incomplete type
+tty_io.c:853: sizeof applied to an incomplete type
+tty_io.c:854: `GFP_KERNEL' undeclared (first use in this function)
+tty_io.c:857: dereferencing pointer to incomplete type
+tty_io.c:862: sizeof applied to an incomplete type
+tty_io.c:866: sizeof applied to an incomplete type
+tty_io.c:874: dereferencing pointer to incomplete type
+tty_io.c:874: `kdev_t' undeclared (first use in this function)
+tty_io.c:876: dereferencing pointer to incomplete type
+tty_io.c:881: sizeof applied to an incomplete type
+tty_io.c:884: dereferencing pointer to incomplete type
+tty_io.c:890: sizeof applied to an incomplete type
+tty_io.c:893: sizeof applied to an incomplete type
+tty_io.c:904: dereferencing pointer to incomplete type
+tty_io.c:905: dereferencing pointer to incomplete type
+tty_io.c:908: dereferencing pointer to incomplete type
+tty_io.c:911: dereferencing pointer to incomplete type
+tty_io.c:912: dereferencing pointer to incomplete type
+tty_io.c:926: dereferencing pointer to incomplete type
+tty_io.c:927: dereferencing pointer to incomplete type
+tty_io.c:929: dereferencing pointer to incomplete type
+tty_io.c:936: dereferencing pointer to incomplete type
+tty_io.c:937: dereferencing pointer to incomplete type
+tty_io.c:941: dereferencing pointer to incomplete type
+tty_io.c:942: dereferencing pointer to incomplete type
+tty_io.c:944: dereferencing pointer to incomplete type
+tty_io.c:945: dereferencing pointer to incomplete type
+tty_io.c:958: `TTY_CLOSING' undeclared (first use in this function)
+tty_io.c:958: dereferencing pointer to incomplete type
+tty_io.c:968: dereferencing pointer to incomplete type
+tty_io.c:972: dereferencing pointer to incomplete type
+tty_io.c:974: dereferencing pointer to incomplete type
+tty_io.c:975: dereferencing pointer to incomplete type
+tty_io.c:978: `ret_tty' undeclared (first use in this function)
+tty_io.c:1003: `KERN_INFO' undeclared (first use in this function)
+tty_io.c:1003: syntax error before string constant
+tty_io.c: In function `release_mem':
+tty_io.c:1018: dereferencing pointer to incomplete type
+tty_io.c:1019: dereferencing pointer to incomplete type
+tty_io.c:1020: dereferencing pointer to incomplete type
+tty_io.c:1021: dereferencing pointer to incomplete type
+tty_io.c:1022: dereferencing pointer to incomplete type
+tty_io.c:1025: dereferencing pointer to incomplete type
+tty_io.c:1026: dereferencing pointer to incomplete type
+tty_io.c:1027: dereferencing pointer to incomplete type
+tty_io.c:1031: dereferencing pointer to incomplete type
+tty_io.c:1032: dereferencing pointer to incomplete type
+tty_io.c:1033: dereferencing pointer to incomplete type
+tty_io.c:1034: dereferencing pointer to incomplete type
+tty_io.c:1037: dereferencing pointer to incomplete type
+tty_io.c:1038: dereferencing pointer to incomplete type
+tty_io.c:1039: dereferencing pointer to incomplete type
+tty_io.c: In function `release_dev':
+tty_io.c:1058: dereferencing pointer to incomplete type
+tty_io.c:1059: dereferencing pointer to incomplete type
+tty_io.c:1066: dereferencing pointer to incomplete type
+tty_io.c:1066: dereferencing pointer to incomplete type
+tty_io.c:1067: dereferencing pointer to incomplete type
+tty_io.c:1068: dereferencing pointer to incomplete type
+tty_io.c:1069: dereferencing pointer to incomplete type
+tty_io.c:1072: dereferencing pointer to incomplete type
+tty_io.c:1073: `KERN_DEBUG' undeclared (first use in this function)
+tty_io.c:1073: syntax error before string constant
+tty_io.c:1077: dereferencing pointer to incomplete type
+tty_io.c:1078: syntax error before string constant
+tty_io.c:1082: dereferencing pointer to incomplete type
+tty_io.c:1082: dereferencing pointer to incomplete type
+tty_io.c:1083: syntax error before string constant
+tty_io.c:1088: dereferencing pointer to incomplete type
+tty_io.c:1088: dereferencing pointer to incomplete type
+tty_io.c:1089: syntax error before string constant
+tty_io.c:1102: dereferencing pointer to incomplete type
+tty_io.c:1103: dereferencing pointer to incomplete type
+tty_io.c:1104: syntax error before string constant
+tty_io.c:1109: dereferencing pointer to incomplete type
+tty_io.c:1109: dereferencing pointer to incomplete type
+tty_io.c:1110: syntax error before string constant
+tty_io.c:1115: dereferencing pointer to incomplete type
+tty_io.c:1116: dereferencing pointer to incomplete type
+tty_io.c:1117: syntax error before string constant
+tty_io.c:1122: dereferencing pointer to incomplete type
+tty_io.c:1123: syntax error before string constant
+tty_io.c:1129: dereferencing pointer to incomplete type
+tty_io.c:1130: dereferencing pointer to incomplete type
+tty_io.c:1150: dereferencing pointer to incomplete type
+tty_io.c:1152: dereferencing pointer to incomplete type
+tty_io.c:1156: dereferencing pointer to incomplete type
+tty_io.c:1157: dereferencing pointer to incomplete type
+tty_io.c:1160: dereferencing pointer to incomplete type
+tty_io.c:1161: dereferencing pointer to incomplete type
+tty_io.c:1166: dereferencing pointer to incomplete type
+tty_io.c:1167: dereferencing pointer to incomplete type
+tty_io.c:1170: dereferencing pointer to incomplete type
+tty_io.c:1171: dereferencing pointer to incomplete type
+tty_io.c:1178: `KERN_WARNING' undeclared (first use in this function)
+tty_io.c:1178: syntax error before string constant
+tty_io.c:1189: dereferencing pointer to incomplete type
+tty_io.c:1190: syntax error before string constant
+tty_io.c:1193: dereferencing pointer to incomplete type
+tty_io.c:1196: dereferencing pointer to incomplete type
+tty_io.c:1197: syntax error before string constant
+tty_io.c:1199: dereferencing pointer to incomplete type
+tty_io.c:1210: dereferencing pointer to incomplete type
+tty_io.c:1220: `TTY_CLOSING' undeclared (first use in this function)
+tty_io.c:1220: dereferencing pointer to incomplete type
+tty_io.c:1222: dereferencing pointer to incomplete type
+tty_io.c:1232: `tasklist_lock' undeclared (first use in this function)
+tty_io.c:1233: syntax error before '{' token
+tty_io.c: At top level:
+tty_io.c:1244: syntax error before "if"
+tty_io.c:1268: syntax error before '&' token
+tty_io.c:1268: warning: data definition has no type or storage class
+tty_io.c:1269: warning: data definition has no type or storage class
+tty_io.c:1275: warning: parameter names (without types) in function declaration
+tty_io.c:1275: conflicting types for `release_mem'
+tty_io.c:1014: previous declaration of `release_mem'
+tty_io.c:1275: warning: data definition has no type or storage class
+tty_io.c:1276: syntax error before '}' token
+tty_io.c: In function `tty_open':
+tty_io.c:1294: `kdev_t' undeclared (first use in this function)
+tty_io.c:1294: syntax error before "device"
+tty_io.c:1298: dereferencing pointer to incomplete type
+tty_io.c:1300: dereferencing pointer to incomplete type
+tty_io.c:1301: `device' undeclared (first use in this function)
+tty_io.c:1301: dereferencing pointer to incomplete type
+tty_io.c:1303: `current' undeclared (first use in this function)
+tty_io.c:1306: dereferencing pointer to incomplete type
+tty_io.c:1318: dereferencing pointer to incomplete type
+tty_io.c:1319: dereferencing pointer to incomplete type
+tty_io.c:1322: dereferencing pointer to incomplete type
+tty_io.c:1323: dereferencing pointer to incomplete type
+tty_io.c:1336: `UNIX98_NR_MAJORS' undeclared (first use in this function)
+tty_io.c:1347: `TTY_PTY_LOCK' undeclared (first use in this function)
+tty_io.c:1347: dereferencing pointer to incomplete type
+tty_io.c:1369: dereferencing pointer to incomplete type
+tty_io.c:1370: dereferencing pointer to incomplete type
+tty_io.c:1372: dereferencing pointer to incomplete type
+tty_io.c:1373: dereferencing pointer to incomplete type
+tty_io.c:1378: dereferencing pointer to incomplete type
+tty_io.c:1379: dereferencing pointer to incomplete type
+tty_io.c:1382: dereferencing pointer to incomplete type
+tty_io.c:1384: `TTY_EXCLUSIVE' undeclared (first use in this function)
+tty_io.c:1384: dereferencing pointer to incomplete type
+tty_io.c:1394: `ERESTARTSYS' undeclared (first use in this function)
+tty_io.c:1402: dereferencing pointer to incomplete type
+tty_io.c:1408: dereferencing pointer to incomplete type
+tty_io.c:1413: dereferencing pointer to incomplete type
+tty_io.c:1414: dereferencing pointer to incomplete type
+tty_io.c:1416: dereferencing pointer to incomplete type
+tty_io.c:1417: dereferencing pointer to incomplete type
+tty_io.c:1418: dereferencing pointer to incomplete type
+tty_io.c:1421: `KERN_WARNING' undeclared (first use in this function)
+tty_io.c:1421: syntax error before string constant
+tty_io.c: At top level:
+tty_io.c:1441: syntax error before "poll_table"
+tty_io.c: In function `tty_poll':
+tty_io.c:1445: `filp' undeclared (first use in this function)
+tty_io.c:1449: dereferencing pointer to incomplete type
+tty_io.c:1450: dereferencing pointer to incomplete type
+tty_io.c:1450: `wait' undeclared (first use in this function)
+tty_io.c: In function `tty_fasync':
+tty_io.c:1459: dereferencing pointer to incomplete type
+tty_io.c:1460: dereferencing pointer to incomplete type
+tty_io.c:1463: dereferencing pointer to incomplete type
+tty_io.c:1468: dereferencing pointer to incomplete type
+tty_io.c:1469: dereferencing pointer to incomplete type
+tty_io.c:1470: dereferencing pointer to incomplete type
+tty_io.c:1471: dereferencing pointer to incomplete type
+tty_io.c:1471: dereferencing pointer to incomplete type
+tty_io.c:1471: `current' undeclared (first use in this function)
+tty_io.c:1472: dereferencing pointer to incomplete type
+tty_io.c:1473: dereferencing pointer to incomplete type
+tty_io.c:1476: dereferencing pointer to incomplete type
+tty_io.c:1476: dereferencing pointer to incomplete type
+tty_io.c:1477: dereferencing pointer to incomplete type
+tty_io.c:1477: `N_TTY_BUF_SIZE' undeclared (first use in this function)
+tty_io.c: In function `tiocsti':
+tty_io.c:1486: `current' undeclared (first use in this function)
+tty_io.c:1490: dereferencing pointer to incomplete type
+tty_io.c: At top level:
+tty_io.c:1494: warning: `struct winsize' declared inside parameter list
+tty_io.c: In function `tiocgwinsz':
+tty_io.c:1496: dereferencing pointer to incomplete type
+tty_io.c:1496: dereferencing pointer to incomplete type
+tty_io.c:1496: `current' undeclared (first use in this function)
+tty_io.c: At top level:
+tty_io.c:1502: warning: `struct winsize' declared inside parameter list
+tty_io.c: In function `tiocswinsz':
+tty_io.c:1504: storage size of `tmp_ws' isn't known
+tty_io.c:1506: dereferencing pointer to incomplete type
+tty_io.c:1506: `current' undeclared (first use in this function)
+tty_io.c:1508: dereferencing pointer to incomplete type
+tty_io.c:1508: dereferencing pointer to incomplete type
+tty_io.c:1510: dereferencing pointer to incomplete type
+tty_io.c:1511: dereferencing pointer to incomplete type
+tty_io.c:1512: dereferencing pointer to incomplete type
+tty_io.c:1512: dereferencing pointer to incomplete type
+tty_io.c:1512: dereferencing pointer to incomplete type
+tty_io.c:1513: dereferencing pointer to incomplete type
+tty_io.c:1514: dereferencing pointer to incomplete type
+tty_io.c:1515: dereferencing pointer to incomplete type
+tty_io.c: In function `tioccons':
+tty_io.c:1522: dereferencing pointer to incomplete type
+tty_io.c:1523: dereferencing pointer to incomplete type
+tty_io.c: In function `fionbio':
+tty_io.c:1540: `current' undeclared (first use in this function)
+tty_io.c:1544: dereferencing pointer to incomplete type
+tty_io.c:1546: dereferencing pointer to incomplete type
+tty_io.c: In function `tiocsctty':
+tty_io.c:1552: `current' undeclared (first use in this function)
+tty_io.c:1553: dereferencing pointer to incomplete type
+tty_io.c:1561: dereferencing pointer to incomplete type
+tty_io.c:1572: `tasklist_lock' undeclared (first use in this function)
+tty_io.c:1574: syntax error before "if"
+tty_io.c:1584: dereferencing pointer to incomplete type
+tty_io.c:1585: dereferencing pointer to incomplete type
+tty_io.c: In function `tiocgpgrp':
+tty_io.c:1595: `current' undeclared (first use in this function)
+tty_io.c:1597: dereferencing pointer to incomplete type
+tty_io.c: In function `tiocspgrp':
+tty_io.c:1609: `current' undeclared (first use in this function)
+tty_io.c:1611: dereferencing pointer to incomplete type
+tty_io.c:1619: dereferencing pointer to incomplete type
+tty_io.c: In function `tiocgsid':
+tty_io.c:1629: `current' undeclared (first use in this function)
+tty_io.c:1631: dereferencing pointer to incomplete type
+tty_io.c:1633: dereferencing pointer to incomplete type
+tty_io.c: In function `tiocttygstruct':
+tty_io.c:1638: dereferencing pointer to incomplete type
+tty_io.c:1638: `current' undeclared (first use in this function)
+tty_io.c: In function `tiocsetd':
+tty_io.c:1647: `current' undeclared (first use in this function)
+tty_io.c: In function `send_break':
+tty_io.c:1654: `current' undeclared (first use in this function)
+tty_io.c:1656: dereferencing pointer to incomplete type
+tty_io.c:1659: dereferencing pointer to incomplete type
+tty_io.c: In function `tty_ioctl':
+tty_io.c:1674: dereferencing pointer to incomplete type
+tty_io.c:1675: dereferencing pointer to incomplete type
+tty_io.c:1679: dereferencing pointer to incomplete type
+tty_io.c:1680: dereferencing pointer to incomplete type
+tty_io.c:1681: dereferencing pointer to incomplete type
+tty_io.c:1686: dereferencing pointer to incomplete type
+tty_io.c:1688: `TIOCSBRK' undeclared (first use in this function)
+tty_io.c:1689: `TIOCCBRK' undeclared (first use in this function)
+tty_io.c:1690: dereferencing pointer to incomplete type
+tty_io.c:1691: dereferencing pointer to incomplete type
+tty_io.c:1696: `TCSBRK' undeclared (first use in this function)
+tty_io.c:1697: `TCSBRKP' undeclared (first use in this function)
+tty_io.c:1698: dereferencing pointer to incomplete type
+tty_io.c:1700: dereferencing pointer to incomplete type
+tty_io.c:1701: `ENOIOCTLCMD' undeclared (first use in this function)
+tty_io.c:1711: `TIOCSETD' undeclared (first use in this function)
+tty_io.c:1721: `current' undeclared (first use in this function)
+tty_io.c:1728: `TIOCSTI' undeclared (first use in this function)
+tty_io.c:1730: `TIOCGWINSZ' undeclared (first use in this function)
+tty_io.c:1731: warning: passing arg 2 of `tiocgwinsz' from incompatible pointer type
+tty_io.c:1732: `TIOCSWINSZ' undeclared (first use in this function)
+tty_io.c:1733: warning: passing arg 3 of `tiocswinsz' from incompatible pointer type
+tty_io.c:1734: `TIOCCONS' undeclared (first use in this function)
+tty_io.c:1736: `FIONBIO' undeclared (first use in this function)
+tty_io.c:1738: `TIOCEXCL' undeclared (first use in this function)
+tty_io.c:1739: `TTY_EXCLUSIVE' undeclared (first use in this function)
+tty_io.c:1739: dereferencing pointer to incomplete type
+tty_io.c:1741: `TIOCNXCL' undeclared (first use in this function)
+tty_io.c:1742: dereferencing pointer to incomplete type
+tty_io.c:1744: `TIOCNOTTY' undeclared (first use in this function)
+tty_io.c:1753: `TIOCSCTTY' undeclared (first use in this function)
+tty_io.c:1755: `TIOCGPGRP' undeclared (first use in this function)
+tty_io.c:1757: `TIOCSPGRP' undeclared (first use in this function)
+tty_io.c:1759: `TIOCGSID' undeclared (first use in this function)
+tty_io.c:1761: `TIOCGETD' undeclared (first use in this function)
+tty_io.c:1762: dereferencing pointer to incomplete type
+tty_io.c:1769: `TIOCTTYGSTRUCT' undeclared (first use in this function)
+tty_io.c:1776: dereferencing pointer to incomplete type
+tty_io.c:1780: dereferencing pointer to incomplete type
+tty_io.c:1794: dereferencing pointer to incomplete type
+tty_io.c:1795: dereferencing pointer to incomplete type
+tty_io.c:1799: dereferencing pointer to incomplete type
+tty_io.c:1800: dereferencing pointer to incomplete type
+tty_io.c: In function `__do_SAK':
+tty_io.c:1840: dereferencing pointer to incomplete type
+tty_io.c:1841: dereferencing pointer to incomplete type
+tty_io.c:1842: dereferencing pointer to incomplete type
+tty_io.c:1843: dereferencing pointer to incomplete type
+tty_io.c:1844: dereferencing pointer to incomplete type
+tty_io.c:1845: `tasklist_lock' undeclared (first use in this function)
+tty_io.c:1846: syntax error before '{' token
+tty_io.c:1850: continue statement not within a loop
+tty_io.c: At top level:
+tty_io.c:1852: warning: parameter names (without types) in function declaration
+tty_io.c:1852: warning: data definition has no type or storage class
+tty_io.c:1853: syntax error before "if"
+tty_io.c:1865: warning: parameter names (without types) in function declaration
+tty_io.c:1865: warning: data definition has no type or storage class
+tty_io.c:1866: syntax error before '}' token
+tty_io.c: In function `do_SAK':
+tty_io.c:1882: dereferencing pointer to incomplete type
+tty_io.c:1883: dereferencing pointer to incomplete type
+tty_io.c: In function `flush_to_ldisc':
+tty_io.c:1898: `TTY_DONT_FLIP' undeclared (first use in this function)
+tty_io.c:1898: dereferencing pointer to incomplete type
+tty_io.c:1899: dereferencing pointer to incomplete type
+tty_io.c:1899: `tq_timer' undeclared (first use in this function)
+tty_io.c:1902: dereferencing pointer to incomplete type
+tty_io.c:1903: dereferencing pointer to incomplete type
+tty_io.c:1903: `TTY_FLIPBUF_SIZE' undeclared (first use in this function)
+tty_io.c:1904: dereferencing pointer to incomplete type
+tty_io.c:1905: dereferencing pointer to incomplete type
+tty_io.c:1908: dereferencing pointer to incomplete type
+tty_io.c:1908: dereferencing pointer to incomplete type
+tty_io.c:1909: dereferencing pointer to incomplete type
+tty_io.c:1909: dereferencing pointer to incomplete type
+tty_io.c:1911: dereferencing pointer to incomplete type
+tty_io.c:1912: dereferencing pointer to incomplete type
+tty_io.c:1913: dereferencing pointer to incomplete type
+tty_io.c:1916: dereferencing pointer to incomplete type
+tty_io.c:1916: dereferencing pointer to incomplete type
+tty_io.c:1917: dereferencing pointer to incomplete type
+tty_io.c:1917: dereferencing pointer to incomplete type
+tty_io.c:1919: dereferencing pointer to incomplete type
+tty_io.c:1920: dereferencing pointer to incomplete type
+tty_io.c:1923: dereferencing pointer to incomplete type
+tty_io.c: In function `tty_get_baud_rate':
+tty_io.c:1949: dereferencing pointer to incomplete type
+tty_io.c:1951: `CBAUD' undeclared (first use in this function)
+tty_io.c:1952: `CBAUDEX' undeclared (first use in this function)
+tty_io.c:1955: dereferencing pointer to incomplete type
+tty_io.c:1959: dereferencing pointer to incomplete type
+tty_io.c:1960: dereferencing pointer to incomplete type
+tty_io.c:1961: `KERN_WARNING' undeclared (first use in this function)
+tty_io.c:1961: syntax error before string constant
+tty_io.c:1963: dereferencing pointer to incomplete type
+tty_io.c:1965: dereferencing pointer to incomplete type
+tty_io.c: In function `tty_flip_buffer_push':
+tty_io.c:1973: dereferencing pointer to incomplete type
+tty_io.c:1976: dereferencing pointer to incomplete type
+tty_io.c:1976: `tq_timer' undeclared (first use in this function)
+tty_io.c: In function `initialize_tty_struct':
+tty_io.c:1984: sizeof applied to an incomplete type
+tty_io.c:1985: dereferencing pointer to incomplete type
+tty_io.c:1985: `TTY_MAGIC' undeclared (first use in this function)
+tty_io.c:1986: dereferencing pointer to incomplete type
+tty_io.c:1986: `N_TTY' undeclared (first use in this function)
+tty_io.c:1987: dereferencing pointer to incomplete type
+tty_io.c:1988: dereferencing pointer to incomplete type
+tty_io.c:1988: dereferencing pointer to incomplete type
+tty_io.c:1989: dereferencing pointer to incomplete type
+tty_io.c:1989: dereferencing pointer to incomplete type
+tty_io.c:1990: dereferencing pointer to incomplete type
+tty_io.c:1991: dereferencing pointer to incomplete type
+tty_io.c:1992: dereferencing pointer to incomplete type
+tty_io.c:1993: dereferencing pointer to incomplete type
+tty_io.c:1994: dereferencing pointer to incomplete type
+tty_io.c:1995: dereferencing pointer to incomplete type
+tty_io.c:1996: dereferencing pointer to incomplete type
+tty_io.c:1997: dereferencing pointer to incomplete type
+tty_io.c:1998: dereferencing pointer to incomplete type
+tty_io.c:2000: dereferencing pointer to incomplete type
+tty_io.c:2001: dereferencing pointer to incomplete type
+tty_io.c: In function `tty_default_put_char':
+tty_io.c:2009: dereferencing pointer to incomplete type
+tty_io.c: At top level:
+tty_io.c:2016: warning: type mismatch with previous implicit declaration
+tty_io.c:1350: warning: previous implicit declaration of `tty_register_devfs'
+tty_io.c:2016: warning: `tty_register_devfs' was previously implicitly declared to return `int'
+tty_io.c:2064: syntax error before "this_object_must_be_defined_as_export_objs_in_the_Makefile"
+tty_io.c:2064: warning: data definition has no type or storage class
+tty_io.c:2065: syntax error before "this_object_must_be_defined_as_export_objs_in_the_Makefile"
+tty_io.c:2065: warning: data definition has no type or storage class
+tty_io.c: In function `console_init':
+tty_io.c:2172: `N_TTY' undeclared (first use in this function)
+tty_io.c:2172: `tty_ldisc_N_TTY' undeclared (first use in this function)
+tty_io.c:2178: sizeof applied to an incomplete type
+tty_io.c:2179: invalid use of undefined type `struct termios'
+tty_io.c:2179: `INIT_C_CC' undeclared (first use in this function)
+tty_io.c:2179: `NCCS' undeclared (first use in this function)
+tty_io.c:2180: invalid use of undefined type `struct termios'
+tty_io.c:2180: `ICRNL' undeclared (first use in this function)
+tty_io.c:2180: `IXON' undeclared (first use in this function)
+tty_io.c:2181: invalid use of undefined type `struct termios'
+tty_io.c:2181: `OPOST' undeclared (first use in this function)
+tty_io.c:2181: `ONLCR' undeclared (first use in this function)
+tty_io.c:2182: invalid use of undefined type `struct termios'
+tty_io.c:2182: `B38400' undeclared (first use in this function)
+tty_io.c:2182: `CS8' undeclared (first use in this function)
+tty_io.c:2182: `CREAD' undeclared (first use in this function)
+tty_io.c:2182: `HUPCL' undeclared (first use in this function)
+tty_io.c:2183: invalid use of undefined type `struct termios'
+tty_io.c:2183: `ISIG' undeclared (first use in this function)
+tty_io.c:2183: `ICANON' undeclared (first use in this function)
+tty_io.c:2183: `ECHO' undeclared (first use in this function)
+tty_io.c:2183: `ECHOE' undeclared (first use in this function)
+tty_io.c:2183: `ECHOK' undeclared (first use in this function)
+tty_io.c:2184: `ECHOCTL' undeclared (first use in this function)
+tty_io.c:2184: `ECHOKE' undeclared (first use in this function)
+tty_io.c:2184: `IEXTEN' undeclared (first use in this function)
+tty_io.c: At top level:
+tty_io.c:119: storage size of `tty_std_termios' isn't known
+tty_io.c:121: storage size of `ldiscs' isn't known
+tty_io.c:411: storage size of `tty_fops' isn't known
+tty_io.c:422: storage size of `hung_up_tty_fops' isn't known
+tty_io.c:787: storage size of `tty_sem' isn't known

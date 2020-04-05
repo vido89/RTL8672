@@ -1,0 +1,1019 @@
+# -----------------------------------------------------------------
+# PROC  : Select the path which contain .da files
+# Guevara create this in 20041021 to support  Gcov . 
+# -----------------------------------------------------------------      
+
+set   da_file_path  ""
+
+proc  select_da_file_path { } {
+	
+	global    da_file_path;
+	
+	set da_file_path [tk_chooseDirectory -title "Select the path which contain .da files:"];
+	set   tempchar  [string index  $da_file_path  1];
+	if  {$tempchar == ":" } {
+	#set   da_file_path  [string range  $da_file_path  9  end];
+	set  tempb /cygdrive/
+  	append  tempb  [string range $da_file_path  0 0];
+  	#append  tempb   /
+  	append  tempb   [string range $da_file_path 2  end];
+  	set  da_file_path  $tempb
+	}
+         
+         }
+         
+# -----------------------------------------------------------------
+# PROC  : Zero the .da file counter
+# Guevara create this in 20041021 to support  Gcov . 
+# -----------------------------------------------------------------      
+         
+proc  zero_da_counter  {}  {
+  
+  global  da_file_path;
+  set fd1 [ open  tempzerodash  w]; 
+  set b  [pwd]; 
+  set tempchar   [string index  $b  1];
+  
+  if {$tempchar == ":"}  {
+  #set  b [string range  $b 9 end] ;
+  set  tempb /cygdrive/
+  append  tempb  [string range $b  0 0];
+  #append  tempb   /
+  append  tempb   [string range $b 2  end];
+  set  b  $tempb
+  }
+
+  if  { ! [string compare  $da_file_path  ""]  }  {
+       set   da_file_path   $b 
+       }
+  
+  puts  $fd1  "/usr/bin/perl  /usr/bin/lcov --zerocounters  --directory $da_file_path "
+  close  $fd1;  
+  
+  catch  {exec  /bin/sh  < $b/tempzerodash }  ;
+  
+  
+}
+
+# -----------------------------------------------------------------
+# PROC  : generate html files describe coverage info
+# Guevara create this in 20041021 to support  Gcov . 
+# -----------------------------------------------------------------      
+       
+proc   genhtml_info  { }  {
+  global  da_file_path;
+  set fd1 [ open  tempgethtmlsh  w]; 
+  set b  [pwd]; 
+  set tempchar   [string index  $b  1];
+ 
+  if {$tempchar == ":"}  {
+  #set  b [string range  $b 9 end] ;
+  set  tempb /cygdrive/
+  append  tempb  [string range $b  0 0];
+  #append  tempb   /
+  append  tempb   [string range $b 2  end];
+  set  b  $tempb
+  }
+
+  
+  # --description-file $b/descriptions
+  gdb_immediate "call __bb_exit_func()" ;
+  
+  
+  #puts  $fd1   $b ;
+  
+  if  { ! [string compare  $da_file_path  ""]  }  {set   da_file_path   $b }
+  
+  puts  $fd1  "/usr/bin/perl  /usr/bin/lcov --capture --directory $da_file_path --output-file $b/trace_noargs.info --test-name test_noargs  "
+  
+  puts  $fd1	"/usr/bin/perl  /usr/bin/genhtml  $b/trace_noargs.info  --output-directory $b/output --title  example --show-details ";
+  
+  close  $fd1;  
+  exec  /bin/sh  < $b/tempgethtmlsh ;
+  }          
+
+          
+# ------------------------------------------------------------------
+# PROC :  show_ros_signal  
+# Guevara add below to support kernel aware debugging  KERNEL_AWARE_DEBUGGING
+#------------------------------------------------------------------
+proc  show_ros_signal  {win packet cordx cordy} {
+upvar   1   $cordx    orgx
+upvar   1   $cordy    orgy
+set   x  $orgx
+set   y  $orgy
+set   incx  100
+set   incy  17
+set total [string range $packet 0 7];
+set total  0x$total;
+
+set  packet [string range $packet 8 end];
+$win create text $orgx $orgy -text "The signal information:" -font global/fixed -anchor w;
+set  y [expr  $y+17];
+$win create text [expr $orgx+10] $y  -text   "[format  "%-12s %-12s %-12s" "Task ID" "Signal" "Mask" ]" -font  global/fixed -anchor w;
+set  y [expr  $y+17];
+	while {$total>0} {
+	incr  total  -1;
+	#set  y [expr  $y+17];
+	set   task_id  [string range $packet 0 7];	
+	set  task_id  0x$task_id;
+	set   signal [string range $packet 8 15];
+	set   mask   [string range $packet 16 23];
+        set   packet [string range $packet 24 end];
+	set   output  [format  "%-12d 0x%-10s 0x%-10s" $task_id $signal $mask];
+	$win create text [expr $orgx+10] $y -text  $output -font global/fixed -anchor  w;
+	set  y [expr $y+$incy];	
+			}
+	       set  orgy  [expr  $y+30];
+		
+}
+
+proc  show_ros_semaphore  {win packet cordx cordy} {
+upvar   1   $cordx    orgx
+upvar   1   $cordy    orgy
+set   x  $orgx
+set   y  $orgy
+set   incx  100
+set   incy  17
+set total [string range $packet 0 7];
+set total  0x$total;
+set  packet [string range $packet 8 end];
+$win create text $orgx $orgy  -text   "[format  "Semaphore : Total number of semaphore is %-8d" $total ]" -font  global/fixed -anchor w;
+set  y [expr  $y+17];
+	while {$total>0} {
+	incr  total  -1;
+	set   sem_id  [string range $packet 0 7];
+	set   sem_id  0x$sem_id;
+	set   sem_count [string range $packet 8 15];
+	set   sem_count 0x$sem_count;
+	set   wait_count [string range $packet 16 23];
+	set   wait_count  0x$wait_count;
+	set   output  [format  "Semaphore id :%-8d  value: %-8d Pending Task number: %-8d" $sem_id $sem_count $wait_count]
+	$win create text [expr $orgx+10] $y -text  $output -font global/fixed -anchor  w;
+	set  y [expr $y+$incy];
+	set   packet [string range   $packet 24 end]
+	        if {$wait_count>0} {
+	        $win create text [expr $orgx+20] $y -text "The task ID pending on it:" -font global/fixed -anchor  w;
+	        set  y  [expr  $y+$incy];
+	        
+		while  { $wait_count>0 } {
+		incr  wait_count  -1;
+		set   task_id  [string range  $packet 0 7];
+		set   task_id  0x$task_id;
+		set  packet  [string range  $packet 8 end];
+	        $win create text [expr $x+30] $y -text "[format "%-5d" $task_id]" -font  global -anchor  w;
+	        set  x [expr $x+$incx];
+			}
+		set  y [expr $y+$incy];
+		}	
+			}
+	       set  orgy  [expr  $y+30];
+		
+}
+
+proc  show_ros_mailbox  {win packet cordx cordy} {
+upvar   1   $cordx    orgx
+upvar   1   $cordy    orgy
+set   x  $orgx
+set   y  $orgy
+set   incx  100
+set   incy  17
+set total [string range $packet 0 7];
+set total 0x$total;
+set  packet [string range $packet 8 end];
+$win create text $orgx $orgy  -text   "[format "Mailbox : Total number of mailbox is %5d" $total]" -font  global/fixed -anchor w;
+set  y [expr  $y+17];
+	while {$total>0} {
+	incr  total  -1;	
+	set   mail_id  [string range $packet 0 7];
+	set   mail_id  0x$mail_id;
+	set   msg_point [string range $packet 8 15];
+	set   wait_count [string range $packet 16 23];
+	set   wait_count 0x$wait_count;
+	set  output  [format  "mail box id: %-8d  message point: 0x%-10s Pending Task number: %-8d" $mail_id $msg_point $wait_count]
+	$win create text [expr $orgx+10] $y -text  $output -font global/fixed -anchor  w;
+	set  y [expr $y+$incy];
+	set   packet [string range   $packet 24 end]
+	        if {$wait_count>0} {
+	        $win create text [expr $orgx+20] $y -text "The task ID waiting for this message:" -font global/fixed -anchor  w;
+	        set  y  [expr  $y+$incy];
+	        
+		while  { $wait_count>0 } {
+		incr  wait_count  -1;
+		set   task_id  [string range  $packet 0 7];
+		set  packet  [string range  $packet 8 end];
+	        $win create text [expr $x+30]  $y -text "$task_id" -font  global -anchor  w;
+	        set  x [expr $x+$incx];
+			}
+		set  y [expr $y+$incy];	
+		  }	
+			}
+	       set  orgy  [expr  $y+30];
+		
+}
+
+
+
+
+
+proc  show_ros_queue  {win packet cordx cordy} {
+upvar   1   $cordx    orgx
+upvar   1   $cordy    orgy
+set   x  $orgx
+set   y  $orgy
+set   incx  100
+set   incy  17
+set total [string range $packet 0 7];
+set total  0x$total;
+set  packet [string range $packet 8 end];
+$win create text $orgx $orgy  -text   "[format  "Message Queue : Total number of message queue is %-8d" $total ]" -font  global/fixed -anchor w;
+set  y [expr  $y+17];
+	while {$total>0} {
+	incr  total  -1;
+	set   queue_id  [string range $packet 0 7];
+	set   queue_id  0x$queue_id;
+	set   queue_point [string range $packet 8 15];
+	set   queue_point 0x$queue_point;
+	set   queue_size [string range $packet 16 23];
+	set   queue_size  0x$queue_size;
+	set   queue_start [string range $packet 24 31];
+	set   queue_start 0x$queue_start;
+	set   queue_end [string range $packet 32 39];
+	set   queue_end 0x$queue_end;
+	set   queue_in [string range $packet 40 47];
+	set   queue_in 0x$queue_in;
+	set   queue_out [string range $packet 48 55];
+	set   queue_out 0x$queue_out;
+	set   queue_entry_num [string range $packet 56 63];
+	set   queue_entry_num 0x$queue_entry_num;	
+	set  packet [string  range $packet 64 end];	
+	set   output  [format  "Queue id : %-8d  Queue point: %-10s Queue size: %-8d " $queue_id $queue_point $queue_size]
+	$win create text [expr $orgx+10] $y -text  $output -font global/fixed -anchor  w;
+	set  y [expr $y+$incy];
+	set   output [format "Qstart : %-10s QEnd : %-10s  QIn : %-10s QOut : %-10s"  $queue_start $queue_end $queue_in $queue_out]	
+	$win create text [expr $orgx+20] $y -text  $output -font global/fixed -anchor  w; 
+	set  y [expr $y+$incy];
+	$win create text [expr $orgx+20] $y -text  [format "The total Entry points :  %6d" $queue_entry_num]  -font global/fixed -anchor  w; 
+	set  y [expr $y+$incy];
+	if { $queue_entry_num>0 } {
+	   $win create text [expr $orgx+30] $y -text  "The Entry point include:"  -font global/fixed -anchor  w; 
+	   set  y [expr $y+$incy];
+	   set flag 0;
+	   while { $queue_entry_num>0 } {
+	   incr  queue_entry_num -1;
+	   incr  flag  1;
+	   set   task_id  [string range  $packet 0 7];
+	   set   task_id  0x$task_id;
+		set  packet  [string range  $packet 8 end];
+	        $win create text [expr $x+35]  $y -text "[format "%-12s" $task_id]" -font  global -anchor  w;
+	        set  x [expr $x+$incx];
+	        if {$flag==5} {
+	        set flag 0;
+	        set  x  $orgx;
+	        set  y  [expr $y+$incy];
+	        }
+	       } 
+	        if {$flag!=0} {
+	   	set  y  [expr $y+$incy];
+	   	}	
+	     } 
+
+	     set   queue_wait_num [string range $packet 0 7];
+	     set  queue_wait_num  0x$queue_wait_num;
+	      set  packet  [string range  $packet 8 end];
+	if { $queue_wait_num>0 } {
+	   $win create text [expr $orgx+20] $y -text  "Pending Task include:"  -font global/fixed -anchor  w; 
+	   set  y [expr $y+$incy];
+	   set flag 0;
+	   while { $queue_wait_num>0 } {
+	   incr  queue_wait_num -1;
+	   incr  flag  1;
+	   set   task_id  [string range  $packet 0 7];
+	   set   task_id  0x$task_id;
+		set  packet  [string range  $packet 8 end];
+	        $win create text [expr $x+35]  $y -text "[format "%-12s" $task_id]" -font  global -anchor  w;
+	        set  x [expr $x+$incx];
+	        if {$flag==5} {
+	        set flag 0;
+	        set  x  $orgx;
+	        set  y  [expr $y+$incy];
+	        }
+	       } 
+	        if {$flag!=0} {
+	   	set  y  [expr $y+$incy];
+	   	}	
+	     } 
+	       } 
+		
+}
+
+proc  show_ros_kernel_info {} {
+ if {[winfo  exists   .kernel_info]} {destroy  .kernel_info }
+set  name [toplevel  .kernel_info];
+set  orgx   5 
+set  orgy   30
+scrollbar  $name.s  -command "$name.c  yview";  
+#scrollbar  $name.h -orient horizontal  -command "$name.c  xview";			       
+canvas  $name.c -yscrollcommand "$name.s set"    -width 800 -height 400;
+pack  $name.c   -side  left    -fill both -expand 1
+pack  $name.s   -side right  -fill y
+#pack  $name.h   -side bottom  -fill  x  
+
+#set  packet   00000002000000011234567898765432000000011234567898765432
+set  packet [get_ros_signal]
+if  { [string length $packet] != 0}  {
+show_ros_signal $name.c $packet orgx  orgy
+}
+
+#set  packet   0000000200000008123456780000000300000008000000090000012300000009bfc0003000000000
+set packet   [get_ros_mailbox]
+if  { [string length $packet] != 0}  {
+show_ros_mailbox $name.c $packet orgx  orgy 
+}
+
+#set packet  0000000200000008123456780000000300000008000000090000012300000009bfc0003000000000
+set   packet  [get_ros_semaphore];
+if  { [string length $packet] != 0}  {
+show_ros_semaphore $name.c $packet orgx  orgy 
+}
+
+#set  packet   00000001000000081234567800000003000000080000000900000123000000090000000612345678876543211234567800000001000000020000000800000009
+set packet  [get_ros_queue]
+if  { [string length $packet] != 0}  {
+show_ros_queue  $name.c $packet orgx  orgy
+}
+#$name.c  create text  100 150   -text "$packet";
+#set a   [get_ros_semaphore]
+#$name.c  create text  100 200   -text "$packet";
+#set a   [get_ros_queue]
+#$name.c  create text  100 250   -text "$packet";
+$name.c configure  -scrollregion  "0 0 1000 1000"
+}
+
+#Guevara add above to support kernel aware debugging
+
+####################################################################
+# 2004/11/10 
+# Guevara add this to support linux kernel aware debugging
+####################################################################
+
+proc  show_linux_sem_info {win  fd1 cordx cordy}  {
+
+  upvar   1   $cordx    orgx
+  upvar   1   $cordy    orgy
+  upvar   1   $fd1      fd
+  set   x  $orgx
+  set   y  $orgy
+  set   incx  100
+  set   incy  17
+  #set   fd   [open   "ipc-kernel-info.txt"   r];
+  set   sem_size   [read  $fd   8];
+  set   sem_in_use [read  $fd   8];
+  set   sem_in_use  0x$sem_in_use ;
+  $win create text $orgx $orgy  -text   "Semaphore information " -font  global/fixed -anchor w;
+  set  y  [expr $y+$incy]
+  $win create text [expr $x +15] $y -text   "[format  "Size of semaphore array : %-8d  Semaphore in use : %-8d" 0x$sem_size $sem_in_use]" -font  global/fixed -anchor w;
+  set  y  [expr $y+$incy]
+  
+  set  sem_set_num   0;
+  while { $sem_in_use > 0 }  {
+    incr   sem_in_use  -1;   
+    $win create text [expr $x + 30] $y -text "Semaphore Set  $sem_set_num :"  -font  global/fixed  -anchor  w;
+    set  y  [expr $y+$incy];
+    incr   sem_set_num  1;
+    
+    set  length [read $fd 8];
+    set  length 0x$length;
+    set  key  0x[read $fd  8];
+
+    set  uid  0x[read $fd  8];
+    set  gid  0x[read $fd  8];
+    set  cuid 0x[read $fd  8];
+    set  cgid 0x[read $fd  8];
+    set  mode 0x[read $fd  8];
+    $win create text [expr $x + 45] $y -text "[format  "key : %-8d   uid  : %-8d  gid  : %-8d " $key $uid $gid ]"  -font  global/fixed  -anchor  w;
+    set  y  [expr $y+$incy];
+    $win create text [expr $x + 45] $y -text "[format  "cuid : %-8d  cgid : %-8d  mode : %-8d " $cuid $cgid $mode ]"  -font  global/fixed  -anchor  w;
+    set  y  [expr $y+$incy];
+    
+    #sembuf  information
+    set  semnum 0x[read $fd 8];
+    $win create text [expr $x + 45] $y -text "[format "number of semaphore : %d " $semnum]"  -font  global/fixed  -anchor  w;
+    set  y  [expr $y+$incy];
+    $win create text [expr $x + 45] $y -text "semaphore state : "  -font  global/fixed  -anchor  w;
+    set  y  [expr $y+$incy];
+    set  semindex   0;
+    while {$semnum > 0} {
+     incr  semnum -1;
+     set semval  0x[read $fd 8];
+     set sempid  0x[read $fd 8];
+     set sempid  [expr  $sempid >> 16];
+     $win create text [expr $x + 55] $y -text "[format "Index : %-8d  current value : %-8d  pid of last operation : %-8d" $semindex $semval $sempid ]" -font  global/fixed  -anchor  w;
+     set  y  [expr $y+$incy];
+     incr  semindex  1;
+    }
+    #while {$semnum > 0}
+    
+    #pending task information
+    set  pendingtask 0x[read $fd 8];
+    $win create text [expr $x + 45] $y -text "[format  "number of pending task : %-8d" $pendingtask]"  -font  global/fixed  -anchor  w;
+    set  y  [expr $y+$incy];
+    
+    if {$pendingtask > 0} {
+    $win create text [expr $x + 45] $y -text "pid of the pending task :"  -font  global/fixed  -anchor  w;
+    set  y  [expr $y+$incy];
+    }
+    
+    set   pid_per_line   5;
+    while {$pendingtask > 0} {
+    
+    incr  pendingtask -1;
+    set   pendingtask_pid  0x[read $fd 8];
+    $win create text [expr $x + 55] $y -text "[format  "%-8d" $pendingtask_pid ]"  -font  global/fixed  -anchor  w;
+    set  y  [expr $y+$incy];    
+    
+    }
+    #while {$pendingtask > 0}
+  
+  }
+  #while { $sem_in_use > 0 }
+  
+  set  	orgy  [expr  $y + 30];
+  
+}
+
+########################################################################
+#Show linux  message information
+########################################################################
+
+proc  show_linux_msg_info {win  fd1 cordx cordy}  {
+
+  upvar   1   $cordx    orgx
+  upvar   1   $cordy    orgy
+  upvar   1   $fd1      fd
+  set   x  $orgx
+  set   y  $orgy
+  set   incx  100
+  set   incy  17
+  
+  set   size   0x[read  $fd   8];
+  set   in_use 0x[read  $fd   8];
+
+  $win create text $orgx $orgy  -text   "Message Queue information " -font  global/fixed -anchor w;
+  set  y  [expr $y+$incy];
+  $win create text [expr $x +15] $y -text   "[format  "Size of message queue array : %-8d  message queue in use : %-8d" $size $in_use]" -font  global/fixed -anchor w;
+  set  y  [expr $y+$incy];
+  
+  set  index_num   0;
+  while { $in_use > 0 }  {
+    incr   in_use  -1;   
+    $win create text [expr $x + 30] $y -text "Message queue  $index_num :"  -font  global/fixed  -anchor  w;
+    set  y  [expr $y+$incy];
+    incr   index_num  1;
+    
+    set  length [read $fd 8];
+    set  length 0x$length;
+    set  key  0x[read $fd  8];
+
+    set  uid  0x[read $fd  8];
+    set  gid  0x[read $fd  8];
+    set  cuid 0x[read $fd  8];
+    set  cgid 0x[read $fd  8];
+    set  mode 0x[read $fd  8];
+    $win create text [expr $x + 45] $y -text "[format  "key : %-8d   uid  : %-8d  gid  : %-8d " $key $uid $gid ]"  -font  global/fixed  -anchor  w;
+    set  y  [expr $y+$incy];
+    $win create text [expr $x + 45] $y -text "[format  "cuid : %-8d  cgid : %-8d  mode : %-8d " $cuid $cgid $mode ]"  -font  global/fixed  -anchor  w;
+    set  y  [expr $y+$incy];
+    
+    set	 q_cbytes  0x[read $fd 8];
+    set  q_qnum	   0x[read $fd 8];
+    set	 q_qbytes  0x[read $fd 8];
+    set  q_lspid   0x[read $fd 8];
+    set  q_lrpid   0x[read $fd 8];
+    
+    
+    $win create text [expr $x + 45] $y -text "[format  "current number of bytes : %-8d   number of messages   : %-8d   " \
+                               $q_cbytes  $q_qnum ]"  -font  global/fixed  -anchor  w;
+    set  y  [expr $y+$incy];
+    $win create text [expr $x + 45] $y -text "[format  "max number of bytes : %-8d   " \
+                               $q_qbytes  ]"  -font  global/fixed  -anchor  w;
+    set  y  [expr $y+$incy];
+    $win create text [expr $x + 45] $y -text "[format  "pid of last message sender : %-8d  pid of last message receiver : %-8d " \
+                               $q_lspid  $q_lrpid  ]"  -font  global/fixed  -anchor  w;
+    set  y  [expr $y+$incy];
+    
+    set  msg_num   0x[read  $fd 8];
+    
+    #show the message content
+    if     {$msg_num  > 0 }  {
+    $win create text [expr $x + 45] $y -text "Message state :"  -font  global/fixed  -anchor  w;
+    set  y  [expr $y+$incy];
+    }
+    set     msg_num_index   0
+    
+    while  { $msg_num > 0 } {
+     incr  msg_num  -1;
+     set m_type  0x[read $fd 8];
+     set m_ts  0x[read $fd 8];
+     set m_address  0x[read $fd 8];
+     $win create text [expr $x + 55] $y -text "[format "Index : %-8d  message type : %-8d  text size : %-8d text address : 0x%-8x" \
+             $msg_num_index $m_type $m_ts $m_address ]" -font  global/fixed  -anchor  w;
+     set  y  [expr $y+$incy];
+     incr  msg_num_index  1;
+    }
+    #while  { $msg_num > 0 } 
+    
+    #show the pending receivers information
+    
+    set   pending_rcv   0x[read $fd 8]
+    if     {$pending_rcv  > 0 }  {
+    $win create text [expr $x + 45] $y -text "Pending receiver :"  -font  global/fixed  -anchor  w;
+    set  y  [expr $y+$incy];
+    }
+    
+    set     msg_num_index   0
+    while  { $pending_rcv > 0 } {
+     incr  pending_rcv  -1;
+     set task_pid  0x[read $fd 8];
+     set r_mode  0x[read $fd 8];
+     set r_msgtype  0x[read $fd 8];
+     set r_maxsize  0x[read $fd 8];
+     $win create text [expr $x + 55] $y -text "[format "Index : %-8d  task pid : %-8d  mode  : %-8d type : 0x%-8x max size : %-8d" \
+             $msg_num_index $task_pid $r_mode $r_msgtype  $r_maxsize ]" -font  global/fixed  -anchor  w;
+     set  y  [expr $y+$incy];
+     incr  msg_num_index  1;
+    }
+    # while  { $pending_rcv > 0 }
+    
+    #show the pending senders information
+    
+    set   pending_snd   0x[read $fd 8]
+    if     {$pending_snd  > 0 }  {
+    $win create text [expr $x + 45] $y -text "Pending sender :"  -font  global/fixed  -anchor  w;
+    set  y  [expr $y+$incy];
+    }
+    
+    set     msg_num_index   0
+    while  { $pending_snd > 0 } {
+     incr  pending_snd  -1;
+     set task_pid  0x[read $fd 8];
+     
+     $win create text [expr $x + 55] $y -text "[format "Index : %-8d  task pid : %-8d  " \
+             $msg_num_index $task_pid ]" -font  global/fixed  -anchor  w;
+     set  y  [expr $y+$incy];
+     incr  msg_num_index  1;
+    }
+    # while  { $pending_rcv > 0 }
+  }
+  #while { $in_use > 0 }
+  
+  set  	orgy  [expr  $y + 30];
+  
+}
+
+
+########################################################################
+#Show linux  share memory information
+########################################################################
+
+proc  show_linux_shm_info {win  fd1 cordx cordy}  {
+  
+  upvar   1   $cordx    orgx
+  upvar   1   $cordy    orgy
+  upvar   1   $fd1      fd
+  set   x  $orgx
+  set   y  $orgy
+  set   incx  100
+  set   incy  17
+  
+  set   size   0x[read  $fd   8];
+  set   in_use 0x[read  $fd   8];
+
+  $win create text $orgx $orgy  -text   "Share memory information " -font  global/fixed -anchor w;
+  set  y  [expr $y+$incy];
+  $win create text [expr $x +15] $y -text   "[format  "Size of share memory array : %-8d  share memoey in use : %-8d" $size $in_use]" -font  global/fixed -anchor w;
+  set  y  [expr $y+$incy];
+  
+  set  index_num   0;
+  
+   set  index_num   0;
+   
+   while { $in_use > 0 }  {
+    incr   in_use  -1;   
+    $win create text [expr $x + 30] $y -text "Share memory  $index_num :"  -font  global/fixed  -anchor  w;
+    set  y  [expr $y+$incy];
+    incr   index_num  1;
+    
+    set  length [read $fd 8];
+    set  length 0x$length;
+    
+    set  key  0x[read $fd  8];
+    set  uid  0x[read $fd  8];
+    set  gid  0x[read $fd  8];
+    set  cuid 0x[read $fd  8];
+    set  cgid 0x[read $fd  8];
+    set  mode 0x[read $fd  8];
+    $win create text [expr $x + 45] $y -text "[format  "key : %-8d   uid  : %-8d  gid  : %-8d " $key $uid $gid ]"  -font  global/fixed  -anchor  w;
+    set  y  [expr $y+$incy];
+    $win create text [expr $x + 45] $y -text "[format  "cuid : %-8d  cgid : %-8d  mode : %-8d " $cuid $cgid $mode ]"  -font  global/fixed  -anchor  w;
+    set  y  [expr $y+$incy];
+    
+    set	 shm_file  0x[read $fd 8];
+    set  id	   0x[read $fd 8];
+    set	 shm_nattach  0x[read $fd 8];
+    set  shm_segsz   0x[read $fd 8];
+    set  shm_atim   0x[read $fd 8];
+    set  shm_dtim   0x[read $fd 8];
+    set  shm_ctim   0x[read $fd 8]; 
+    set  shm_cprid   0x[read $fd 8];
+    set  shm_lprid   0x[read $fd 8];
+    
+    
+    $win create text [expr $x + 45] $y -text "[format  "file struct pointer : 0x%-8x   id       : %-8d   " \
+                               $shm_file  $id ]"  -font  global/fixed  -anchor  w;
+    set  y  [expr $y+$incy];
+    $win create text [expr $x + 45] $y -text "[format  "attach number : %-8d           size     : %-8d  " \
+                               $shm_nattach  $shm_segsz ]"  -font  global/fixed  -anchor  w;
+    set  y  [expr $y+$incy];
+    $win create text [expr $x + 45] $y -text "[format  "attach time : %-8d  detach time : %-8d  change time : %-8d " \
+                               $shm_atim  $shm_dtim  $shm_ctim ]"  -font  global/fixed  -anchor  w;
+    set  y  [expr $y+$incy];
+    $win create text [expr $x + 45] $y -text "[format  "cprid : %-8d   lprid       : %-8d   " \
+                               $shm_cprid  $shm_lprid ]"  -font  global/fixed  -anchor  w;
+    set  y  [expr $y+$incy];
+    
+    }
+    #while { $in_use > 0 }
+
+   set  orgy  [expr  $y + 30];
+}
+  
+###########################################################################
+#Show linux ipc information
+# include  :  semaphore , message queue ,share memory
+########################################################################## 
+proc  show_linux_ipc_info {}  {
+    if {[winfo  exists   .linux_ipc_info]} {destroy  .linux_ipc_info }
+    set  name [toplevel  .linux_ipc_info];
+    set  orgx   5  
+    set  orgy   30
+    scrollbar  $name.s  -command "$name.c  yview";  
+	
+     
+   # exec  /bin/sh  < /RSDK/resd/bin/conv ;   
+   # convert_linux_ipc_info is defined in gdbtk-cmds.c  ,it convert the ipc-kernel-info.out
+   # into   ipc-kernel-info.txt
+    convert_linux_ipc_info ;   
+    canvas  $name.c -yscrollcommand "$name.s set"    -width 800 -height 400;
+    pack  $name.c   -side  left    -fill both -expand 1
+    pack  $name.s   -side right  -fill y
+    
+    set   fd1   [open   "ipc-kernel-info.txt"   r];
+    seek $fd1 16;
+    set  offset   0x[read $fd1 8];
+    set  offset   [expr  $offset << 1];
+    if {$offset != 0x0 } {
+    	seek  $fd1 $offset start
+    	show_linux_sem_info $name.c fd1 orgx orgy ;
+    }
+    
+    seek  $fd1 24 start;
+    set  offset  0x[read $fd1 8];
+    set  offset  [expr  $offset  << 1];
+    if {$offset != 0x0 } {
+    	seek  $fd1 $offset start
+    	show_linux_msg_info $name.c fd1 orgx orgy ;
+    }
+    
+    seek  $fd1 32 start;
+    set  offset  0x[read $fd1 8];
+    set  offset  [expr  $offset  << 1];
+    if {$offset != 0x0 } {
+    	seek  $fd1 $offset start
+    	show_linux_shm_info $name.c fd1 orgx orgy ;
+    }
+    
+    $name.c configure  -scrollregion  "0 0 1000 [expr $orgy + 30]"
+    close  $fd1
+
+}
+
+####################################################################
+# 2004/11/10 
+# Guevara add above to support linux kernel aware debugging
+####################################################################
+
+
+
+
+
+#Guevara  add this to sopport profiler
+
+set max_cp3_counter  0
+for  {set i 1 } {$i<=9 } {incr  i } {
+  set  cp3_counter_select(.set_profiler_usage.$i) 0;
+  
+}
+set cp3_mapper(.set_profiler_usage.1)  0x10
+set cp3_mapper(.set_profiler_usage.2)  0x11
+set cp3_mapper(.set_profiler_usage.3)  0x12
+set cp3_mapper(.set_profiler_usage.4)  0x13
+set cp3_mapper(.set_profiler_usage.5)  0x14
+set cp3_mapper(.set_profiler_usage.6)  0x15
+set cp3_mapper(.set_profiler_usage.7)  0x16
+set cp3_mapper(.set_profiler_usage.8)  0x1a
+set cp3_mapper(.set_profiler_usage.9)  0x1b
+
+
+proc  set_profiler_usage { } {
+#Guevara add the following two lines to support simulator profiler in 20051024
+	global net_have_been_collected;
+	if { $net_have_been_collected != 0 } { return; }
+#Guevara add the above two lines to support simulator profiler in 20051024
+         global  cp3_ctrl_value
+        global  cp3_mapper
+        global  cp3_counter_select
+        global  max_cp3_counter
+        set    max_cp3_counter   0
+        set  tmp_cp3_ctrl_value   $cp3_ctrl_value;
+       
+        for  {set i 1 } {$i <= 9 } {incr  i } {
+              set  cp3_counter_select(.set_profiler_usage.$i) 0
+        }  
+          
+         set  name  .set_profiler_usage
+         toplevel  $name
+         wm minsize $name  400 400
+         wm maxsize $name  400 400
+         wm title  $name  "Select what you want to measure"
+         checkbutton   $name.1 -text  "measure cycles"                           -variable counter1 -command "command_process  $name.1"
+         checkbutton   $name.2 -text  "measure new instruction fetches"          -variable counter2 -command "command_process  $name.2"
+         checkbutton   $name.3 -text  "measure instruction fetch cache misses"   -variable counter3 -command "command_process  $name.3"
+         checkbutton   $name.4 -text  "measure inst fetch miss busy cycles"      -variable counter4 -command "command_process  $name.4"
+         checkbutton   $name.5 -text  "measure data store instructions"          -variable counter5 -command "command_process  $name.5"
+         checkbutton   $name.6 -text  "measure data load  instructions"          -variable counter6 -command "command_process  $name.6"
+         checkbutton   $name.7 -text  "measure load or store instructions"       -variable counter7 -command "command_process  $name.7"
+         checkbutton   $name.8 -text  "measure load or store cache misses"       -variable counter8 -command "command_process  $name.8"
+         checkbutton   $name.9  -text  "measure load or store miss busy cycles"  -variable counter9 -command "command_process  $name.9"
+         
+         for {set j 1} {$j <= 9} {incr  j} {
+            $name.$j  deselect ; 
+         }
+         
+         for {set i 0} {$i <= 3} {incr i} {
+            
+            set   tempvalue   [expr  $tmp_cp3_ctrl_value & 0xff] ;
+            for {set j 1} {$j <= 9} {incr  j} {
+                if  { $cp3_mapper(.set_profiler_usage.$j) == $tempvalue } {
+                  $name.$j  select ; 
+                  incr  max_cp3_counter
+                  set   cp3_counter_select(.set_profiler_usage.$j)  1
+                }
+            }
+            set  tmp_cp3_ctrl_value  [expr $tmp_cp3_ctrl_value >> 8] ;
+         }
+         
+         frame   $name.f
+         button  $name.f.ok  -text  "OK" -command "updata_cp3_ctrl;destroy $name"
+         button  $name.f.cancel -text "Cancel"  -command "destroy $name"
+         for {set i 1} {$i <= 9} {incr i} {
+         pack  $name.$i -side top -anchor w
+         }
+         pack  $name.f   -side top -pady   8m
+         pack  $name.f.ok     -side  left  -padx  4m
+         pack  $name.f.cancel     -side  right  -padx  4m
+}
+
+
+proc  show_ros_task_info { }  {
+                                set name  .task ;
+                                if {[winfo  exists .task]} {  destroy  .task  }
+                                toplevel  $name;
+                                #wm minsize $name  600 600
+         		        #wm maxsize $name  600 600
+                                wm  title $name  "ROS Task Overhead"  
+  				set task_data [get_ros_task_info];
+  				text    $name.t;
+  				
+  				set  total [lindex $task_data  1];
+  			        set  task_data [lrange $task_data 2 end];
+  			        set  counter0  0; set counter1 0; 
+  			        set counter2 0;set counter3 0;
+  			        
+  			        
+  			        scrollbar  $name.s -command "$name.c  yview";  			       
+                                canvas  $name.c -yscrollcommand "$name.s set" ;
+                                pack   $name.c   -side left  -expand  1  -fill both;
+                                pack   $name.s  -side  right   -fill y ;
+                                set  orgx  20;
+                                set  orgy  20;
+                                set  yinc  20;
+                                for {set i 0 } {$i<$total} {incr  i 1} {
+                             
+                               set  length0  [expr   [lindex $task_data [expr $i*9+5] ]*10];
+                               set  length1  [expr   [lindex $task_data [expr $i*9+6] ]*10];
+                               set  length2  [expr   [lindex $task_data [expr $i*9+7] ]*10];
+                               set  length3  [expr   [lindex $task_data [expr $i*9+8] ]*10];
+                               set  task_id  [lindex $task_data   [expr $i*9 ] ];
+                               $name.c  create text  $orgx  [expr $orgy-10]   -text   "Task : $task_id" ;
+                               $name.c  create  rectangle $orgx $orgy  [expr $orgx+$length0] [expr $orgy+$yinc] -fill red;
+                               #$name.c  create  text [expr $orgx+10] [expr $orgy+10] -text "Cycle : [lindex $task_data [expr $i*9+1]]  Percent :[lindex $task_data [expr $i*9+5]]" -font global/fixed  -anchor  w;
+                               $name.c  create  text [expr $orgx+10] [expr $orgy+10] -text [format "Counter0 : %15s  Percent : %s" [lindex $task_data [expr $i*9+1]] [lindex $task_data [expr $i*9+5]]] -font global/fixed  -anchor  w;
+                               $name.c  create  rectangle $orgx [expr $orgy+$yinc]  [expr $orgx+$length1] [expr $orgy+2*$yinc] -fill green ;
+                               #$name.c  create  text [expr $orgx+10] [expr $orgy+$yinc+10] -text "Cycle : [lindex $task_data [expr $i*9+2]]  Percent :[lindex $task_data [expr $i*9+6]]" -font global/fixed -anchor  w;
+                               $name.c  create  text [expr $orgx+10] [expr $orgy+$yinc+10] -text [format "Counter1 : %15s  Percent : %s" [lindex $task_data [expr $i*9+2]] [lindex $task_data [expr $i*9+6]]] -font global/fixed  -anchor  w;
+                               $name.c  create  rectangle $orgx [expr $orgy+2*$yinc]  [expr $orgx+$length2] [expr $orgy+3*$yinc] -fill thistle;
+                               #$name.c  create  text [expr $orgx+10] [expr $orgy+2*$yinc+10] -text "Cycle : [lindex $task_data [expr $i*9+3]]  Percent :[lindex $task_data [expr $i*9+7]]" -font global/fixed -anchor  w;
+                               $name.c  create  text [expr $orgx+10] [expr $orgy+2*$yinc+10] -text [format "Counter2 : %15s  Percent : %s" [lindex $task_data [expr $i*9+3]] [lindex $task_data [expr $i*9+7]]] -font global/fixed  -anchor  w;
+                               $name.c  create  rectangle $orgx [expr $orgy+3*$yinc]  [expr $orgx+$length3] [expr $orgy+4*$yinc] -fill yellow;
+                               #$name.c  create  text [expr $orgx+10] [expr $orgy+3*$yinc+10] -text "Cycle : [lindex $task_data [expr $i*9+4]]  Percent :[lindex $task_data [expr $i*9+8]]" -font global/fixed -anchor  w;
+                               $name.c  create  text [expr $orgx+10] [expr $orgy+3*$yinc+10] -text [format "Counter3 : %15s  Percent : %s" [lindex $task_data [expr $i*9+4]] [lindex $task_data [expr $i*9+8]]] -font global/fixed  -anchor  w;
+                               set  orgy  [expr $orgy+5*$yinc];
+                                } 
+                            $name.c  configure  -scrollregion "0 0 600 $orgy"      
+                           #    $name.c  create text  100  $orgy   -text   "$counter0 $counter1 $counter2 ";                                            
+                           #     $name.c  create text  10 10 -text $task_id;  
+                           #     pack $name.t  $name.c -side  top;
+}
+
+
+proc  draw_ros_task_record  {win packet cordx cordy total counternumber}  {
+	upvar   1   $cordx    orgx
+	upvar   1   $cordy    orgy
+	
+	if { $total<=0 } {
+	return  }
+	set   max_task_index  [lindex  $packet 0];
+	set  packet  [lrange  $packet   1  end];
+	set  max_task_percent [lindex  $packet [expr $max_task_index*3+2] ];
+	set  flag   0 
+	set  orgy  [expr  $orgy + 17];
+	set  x  $orgx
+	$win  create  text $x [expr $orgy-8] -text  [format  "%-15s" "Index:"]   -anchor  w -font global/fixed ;
+	$win  create  text $x [expr $orgy+17] -text  [format  "%-15s" "Task ID:"]   -anchor  w -font global/fixed;
+	$win  create  text $x [expr $orgy+34] -text  [format  "%-15s" "$counternumber:"]   -anchor  w -font global/fixed; 
+	$win  create  text $x [expr $orgy+51] -text  [format  "%-15s" "Percent:"]  -anchor  w -font global/fixed;
+	set  x  [expr  $orgx + 100];
+	set  index   0;
+	#$win  create  rectangle $orgx  $orgy $x  [expr $orgy+17]  -fill  red -tags  rec1;
+	while { $total>0 } {
+	incr total  -1;
+	incr  index   1;
+	set  line_length   [expr  [lindex $packet 2]/$max_task_percent*500];
+	if {$line_length<90} {
+	set  line_length  90; 
+	}
+	$win  create  text [expr $x+4] [expr $orgy-8] -text  $index   -anchor  w -font global/fixed ;
+	$win  create  text [expr $x+4] [expr $orgy+17] -text  [lindex $packet 0]   -anchor  w -font global/fixed   -width  $line_length -tag task_tag_[lindex $packet 0] ;
+	$win  create  text [expr $x+4] [expr $orgy+34] -text  [lindex $packet 1]   -anchor  w -font global/fixed -tag task_tag_[lindex $packet 0]; 
+	$win  create  text [expr $x+4] [expr $orgy+51] -text  [lindex $packet 2]   -anchor  w -font global/fixed -tag task_tag_[lindex $packet 0];
+	
+	set  packet [lrange  $packet  3  end];
+	if {$flag==0} {
+	$win create  line  $x $orgy  $x [expr  $orgy+60] 
+	$win create  line  $x $orgy  [expr $x+$line_length] $orgy;
+	set  x  [expr  $x+$line_length];
+	set  flag  1;
+	} else  {
+	$win create  line  $x $orgy  $x [expr  $orgy+60] 
+	$win create  line  $x [expr $orgy+60]  [expr $x+$line_length] [expr  $orgy+60];
+	set  x  [expr  $x+$line_length];
+	set  flag  0;
+	}		
+	}
+	#$win  create  rectangle $orgx  $orgy $x  [expr $orgy+17]  -fill  red;
+	#$win  itemconfigure rec1  $orgx  $orgy $x  [expr $orgy+17] 
+	set  orgx  $x
+	set  orgy  [expr  $orgy + 51];
+			
+}
+
+proc  show_ros_task_record  { }  {
+	set name  .task_record ;
+	 if {[winfo  exists .task_record]} { destroy  .task_record }
+        toplevel  $name;
+        #wm minsize $name  600 600
+        #wm maxsize $name  600 600
+        set  orgx   10
+        set  orgy   10
+        set  max_region_x   100;
+        wm  title $name  "ROS Task Switch Record"    	
+  	scrollbar  $name.h  -orient horizontal  -command  "$name.c  xview"
+  	#scrollbar  $name.s  -command  "$name.c yview"
+  	#canvas     $name.c  -xscrollcommand  "$name.h set" -yscrollcommand "$name.s  set";
+  	canvas     $name.c  -xscrollcommand  "$name.h set" ;
+  	pack   $name.c   -side top  -expand  1  -fill both;
+        #pack   $name.s  -side  right   -fill y ;
+        pack   $name.h  -side  bottom  -fill  x;
+        set task_data [fetch_ros_record_info 0];
+        set   total  [lindex $task_data   0  ];
+        set  packet  [lrange  $task_data  5  end];
+        draw_ros_task_record   $name.c  $packet orgx orgy  $total Counter0
+        if { $max_region_x<$orgx } {
+        set  max_region_x $orgx }
+        set orgx   10
+        set orgy   [expr $orgy+30];
+        set task_data [fetch_ros_record_info 1];
+        set   total  [lindex $task_data   0  ];
+        set  packet  [lrange  $task_data  5  end];
+        draw_ros_task_record   $name.c  $packet orgx orgy  $total  Counter1
+         if { $max_region_x<$orgx } {
+        set  max_region_x $orgx }
+        set orgx   10
+        set orgy   [expr $orgy+30];
+        set task_data [fetch_ros_record_info 2];
+        set   total  [lindex $task_data   0  ];
+        set  packet  [lrange  $task_data  5  end];
+        draw_ros_task_record   $name.c  $packet orgx orgy  $total  Counter2
+         if { $max_region_x<$orgx } {
+        set  max_region_x $orgx }
+        set orgx   10
+        set orgy   [expr $orgy+30];
+        set task_data [fetch_ros_record_info 3];
+        set   total  [lindex $task_data   0  ];
+        set  packet  [lrange  $task_data  5  end];
+        draw_ros_task_record   $name.c  $packet orgx orgy  $total  Counter3
+         if { $max_region_x<$orgx } {
+        set  max_region_x $orgx }
+  	#$name.c  create  text 5 50  -text  $total -anchor  w;
+  	$name.c  configure -scrollregion  "0 0 [expr $max_region_x+10] 1000";
+  	for {set  i 0 } {$i<64} {incr  i  1}  {
+  	$name.c  bind   task_tag_$i    <Button-1>    "$name.c   itemconfigure  all -fill black;  \
+  	                                               $name.c   itemconfigure  task_tag_$i -fill red"
+  	}
+  	
+}
+
+
+
+
+
+
+
+
+proc  command_process  { widget } {
+global max_cp3_counter
+global cp3_counter_select
+   set  w  [$widget  cget -variable]
+   upvar  1  $w  hello
+   #puts  "widget variable name is $w,widget is  $widget "
+
+   if {$hello==1}  {
+   	if {$max_cp3_counter==4} {
+   		if {$cp3_counter_select($widget)==0} {
+  			 $widget  deselect
+   			}    else   {
+     				set cp3_counter_select($widget) 1 
+    				    } 
+  			 	}    else  { 
+   						incr  max_cp3_counter ; 
+   						set cp3_counter_select($widget) 1
+    					   }
+   		  }
+   
+   if {$hello==0} {
+   	if {$max_cp3_counter==4} {
+   		if {$cp3_counter_select($widget)!=0} {
+   			incr  max_cp3_counter -1 ;
+   			set cp3_counter_select($widget) 0
+   						   }
+   					           } else  { 
+   					           incr  max_cp3_counter -1 ;
+   					           set cp3_counter_select($widget) 0
+   			         }
+   		 }
+}
+
+set cp3_ctrl_value  0x1b1a1110
+
+proc  updata_cp3_ctrl {} {
+       global  cp3_ctrl_value 
+       global  cp3_counter_select
+       global  cp3_mapper
+       global  remote_desc
+       
+       if {$remote_desc == 0} {
+       tk_messageBox -message "Please connect to the remote target before setting the CP3 counters." \
+            -type ok -icon warning -default ok -parent  .set_profiler_usage
+        return 
+      }
+       
+       set  cp3_ctrl_value  0
+       set flag  0
+      for {set i 1} {$i <= 9} {incr  i} {
+            if {$cp3_counter_select(.set_profiler_usage.$i)==1} {
+              set temp  $cp3_mapper(.set_profiler_usage.$i) 
+              set temp   [expr  $temp<<$flag]
+              #puts  "temp is $temp"
+              set cp3_ctrl_value  [expr  $cp3_ctrl_value|$temp]
+              incr  flag   8           
+              }
+     }
+               
+      
+#          gdb_immediate   update-cp3-ctrl
+           gdb_immediate "call rlx_prof_set_cp3_ctrl($cp3_ctrl_value)"
+             
+}
+
+#Guevara  add above to sopport profiler

@@ -1,0 +1,193 @@
+.EXPORT_ALL_VARIABLES:
+
+CONSOLE_BAUD_RATE = 115200
+
+MACHINE 	      = mips
+ARCH		      = mips
+FIRMROOT	      = /opt/Wive-DSL
+TOOLCHAINDIR	      = $(FIRMROOT)/toolchain
+CROSS_COMPILE	      = $(TOOLCHAINDIR)/bin/mips-linux-
+CROSS_KERNEL_COMPILE  = $(TOOLCHAINDIR)/rsdk/linux/uclibc/bin/rsdk-linux-
+CROSS_KERNEL_TOOLS    = $(CROSS_KERNEL_COMPILE)
+CROSS_LIB_TOOLS	      = $(CROSS_KERNEL_COMPILE)
+
+CROSS     = $(CROSS_COMPILE)
+CC        = $(CROSS_COMPILE)gcc $(CPUFLAGS)
+AS        = $(CROSS_COMPILE)as $(CPUFLAGS)
+CXX       = $(TOOLCHAINDIR)/bin/mips-linux-uclibc-g++ $(CPUFLAGS)
+CXXCPP	  = $(TOOLCHAINDIR)/bin/mips-linux-uclibc-cpp
+AR        = $(CROSS_COMPILE)ar
+LD        = $(CROSS_COMPILE)ld
+OBJCOPY   = $(CROSS_COMPILE)objcopy
+RANLIB    = $(CROSS_COMPILE)ranlib
+ELF2FLT   = elf2flt
+STRIPTOOL = $(CROSS_COMPILE)strip
+STRIP     = $(STRIPTOOL) -s
+
+#STRIPTOOL = sstrip
+#STRIP     = $(FIRMROOT)/tools/sstrip/$(STRIPTOOL)
+
+#detect toolchain libs dirs
+LIBGCC = $(shell $(CC) $(CPUCFLAGS) -print-libgcc-file-name 2>&1)
+GCC_DIR = $(shell echo $(LIBGCC) | sed -e 's/be\///' | sed -e 's/libgcc.a//')
+LIBGCC_DIR = $(shell echo $(LIBGCC) | sed -e 's/libgcc.a//')
+
+#uClibc++ dir
+GXX_DIR = $(FIRMROOT)/lib/uClibc++/src
+
+###############################################################################################
+#                                                                                             #
+# BASE FLAGS for build                                                                        #
+#                                                                                             #
+##############################NOTE!!!##########################################################
+#NOT USE -fno-builtin-fomit-frame-pointer and -fomit-frame-pointer CPP GCC BUG                #
+#Always USE -fno-strict-aliasing gcc3.3.3 userlevel in system gcc4 kernel builds workaround   #
+###############################################################################################
+
+	CFLAGS  := $(VENDOR_CFLAGS)
+	CFLAGS  += -Os -mips1 -fPIC
+	CFLAGS  += -nostdinc -mno-memcpy -mno-split-addresses
+	CFLAGS  += -fno-delete-null-pointer-checks -fno-strict-aliasing
+	CFLAGS  += -D_LINUX_2_4_ -Dlinux -D__linux__ -DEMBED -DEMBEDDED 
+	CFLAGS  += -D__MIPSEB__ -D__BIG_ENDIAN__ -DPIC 
+
+################################################################################################
+#
+# General purpose lib building rules,  uClibc.config uses these when
+# possible
+#
+ifdef UCLINUX_BUILD_LIB
+	CFLAGS  += -I$(ROOTDIR)/lib/$(CONFIG_LIBCDIR)/include
+	CFLAGS  += -I$(ROOTDIR)/lib/uClibc++/include 
+	CFLAGS  += -I$(ROOTDIR)/$(LINUXDIR)/include
+	CFLAGS  += -idirafter $(GCC_DIR)/include
+	CFLAGS  += -I$(ROOTDIR)
+
+	ARCH_CFLAGS := $(CFLAGS)
+
+	LDLIBS   = -nodefaultlibs
+	LDFLAGS := -Wl,-s
+endif
+
+##################################################################################################
+#
+# Settings for building user apps
+#
+ifdef UCLINUX_BUILD_USER
+	SLIBC        = -lc
+	SLIBSTDCPP   = -lstdc++
+	SLIBM        = -lm
+	SLIBNET      = -lnet
+	SLIBNCURSES  = -lncurses
+	SLIBCURL     = -lcurl
+	SLIBPCAP     = -lpcap
+	SLIBSSL      = -lssl
+	SLIBSIG      = -lsig
+	SLIBCRYPTO   = -lcrypto
+  ifeq ($(LIBCDIR),libc)
+	SLIBCRYPT    = -lcrypt_old
+  else
+	SLIBCRYPT    = -lcrypt
+  endif
+	SLIBPTHREAD  = -lpthread
+
+	LIBC        = $(SLIBC)
+	LIBSTDCPP   = $(SLIBSTDCPP)
+	LIBM        = $(SLIBM)
+	LIBNET      = $(SLIBNET)
+	LIBNCURSES  = $(SLIBNCURSES)
+	LIBCURL     = $(SLIBCURL)
+	LIBPCAP     = $(SLIBPCAP)
+	LIBSSL      = $(SLIBSSL)
+	LIBSIG      = $(SLIBSIG)
+	LIBCRYPTO   = $(SLIBCRYPTO)
+	LIBPTHREAD  = $(SLIBPTHREAD)
+	LIBCRYPT    = $(SLIBCRYPT)
+	LIBIBERTY   = -liberty
+	LIBIO       = -lio
+	LIBIOSTREAM = -liostream
+
+	LDPATH = \
+			-L$(ROOTDIR)/lib/$(LIBCDIR)/. \
+			-L$(ROOTDIR)/lib/$(LIBCDIR)/lib \
+			-L$(ROOTDIR)/lib/uClibc++ \
+			-L$(GXX_DIR) \
+			-L$(ROOTDIR)/lib/libm \
+			-L$(ROOTDIR)/lib/libnet \
+			-L$(ROOTDIR)/lib/libncurses/filesystem/lib \
+			-L$(ROOTDIR)/lib/libcurl/filesystem/lib \
+			-L$(ROOTDIR)/lib/libpcap \
+			-L$(ROOTDIR)/lib/libcrypt_old \
+			-L$(ROOTDIR)/lib/libssl \
+			-L$(ROOTDIR)/lib/libsig/sigc++ \
+			-L$(ROOTDIR)/lib/libsig/filesystem/lib \
+
+	INCLIBC = -I$(ROOTDIR)/lib/$(CONFIG_LIBCDIR)/include
+	INCULIBC = -I$(ROOTDIR)/lib/uClibc/include
+	INCLIBSTDCPP = -I$(ROOTDIR)/lib/uClibc++/include
+	INCLIBM = -I$(ROOTDIR)/lib/libm
+	INCNET  = -I$(ROOTDIR)/lib/libnet
+	INCNCURSES  = -I$(ROOTDIR)/lib/libncurses/filesystem/include/ncurses
+	INCCURL = -I$(ROOTDIR)/lib/libcurl/filesystem/include/curl
+	INCGMP  = -I$(ROOTDIR)/lib/libgmp
+	INCPCAP = -I$(ROOTDIR)/lib/libpcap
+	INCSIG  = -I$(ROOTDIR)/lib/libsig/sigc++
+	INCSSL  = -I$(ROOTDIR)/lib/libssl/include
+	INCZ    = -I$(ROOTDIR)/lib/zlib
+	INCCRYPT = -I$(ROOTDIR)/lib/libcrypt
+	INCVEND = -I$(ROOTDIR)/vendors/include
+
+    ifdef CONFIG_LIB_LIBMD5_FORCE
+	LIBMD5  = -lmd5
+	LDPATH += -L$(ROOTDIR)/lib/libmd5
+	INCMD5  = -I$(ROOTDIR)/lib/libmd5
+	CFLAGS += -DUSE_LIBMD5
+    else
+	LIBMD5  =
+	INCMD5  =
+    endif
+    ifdef CONFIG_LIB_NCURSES
+	CFLAGS  +=  -I$(INCNCURSES)
+    endif
+    ifdef CONFIG_LIB_CURL
+	CFLAGS  +=  -I$(INCCURL)
+    endif
+
+  ifeq ($(findstring glibc,$(LIBCDIR)),glibc)
+	CRTI    = -nostartfiles $(ROOTDIR)/lib/$(LIBCDIR)/lib/crt1.o \
+			$(ROOTDIR)/lib/$(LIBCDIR)/lib/crti.o \
+			$(LIBGCC_DIR)/crtbegin.o
+	SH_CRTI = -nostartfiles $(ROOTDIR)/lib/$(LIBCDIR)/lib/crti.o \
+			$(LIBGCC_DIR)/crtbeginS.o
+	CRTN    = $(ROOTDIR)/lib/$(LIBCDIR)/lib/ld-linux.so.2 \
+			$(LIBGCC_DIR)/crtend.o \
+			$(ROOTDIR)/lib/$(LIBCDIR)/lib/crtn.o \
+			$(LIBGCC_DIR)/libgcc.a
+	SH_CRTN = $(LIBGCC_DIR)/crtendS.o $(ROOTDIR)/lib/$(LIBCDIR)/lib/crtn.o
+  else
+  	# This means we are using uClibc
+	CRTI    = -nostartfiles $(ROOTDIR)/lib/$(LIBCDIR)/lib/crt0.o
+        # Use static linking
+	CRTN    = $(LIBGCC_DIR)/libgcc.a
+  endif
+	
+	CFLAGS  += -I$(INCLIBC) $(INCULIBC) $(INCLIBSTDCPP) $(INCCRYPT) $(INCZ) $(INCMD5)
+	CFLAGS  += -I$(ROOTDIR) -idirafter $(GCC_DIR)/include
+	CFLAGS  += -I$(ROOTDIR)/$(LINUXDIR)/include
+	LDFLAGS += -s $(CRTI) $(LDPATH)
+
+	LDLIBS     := -nodefaultlibs $(CRTN) $(LIBC)
+ 	CXXFLAGS   := $(CFLAGS) $(INCCXX) $(INCLIBSTDCPP)
+	CXXLIBS    := -L$(LIBSTDCPP) $(LIBIBERTY) $(LIBC) $(GXX_DIR) $(INCSIG)
+	SH_LDFLAGS := $(LDFLAGS) $(SH_CRTI) $(LDPATH)
+	SH_LDLIBS  := -nodefaultlibs $(LIBC) $(SH_CRTN)
+
+  ifndef FLTFLAGS
+	FLTFLAGS :=
+  endif
+	export FLTFLAGS
+
+	# for anyone still using it
+	CONVERT = /bin/true
+
+endif

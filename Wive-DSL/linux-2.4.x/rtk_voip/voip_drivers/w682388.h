@@ -1,0 +1,451 @@
+/////////////////////////////////////////////////////////////////////////
+//
+// w682388.h
+//
+// Definitions for the Winbond W682388 CODEC
+//
+// Copyright 2005, Winbond Electronics Corp
+//
+// NOTEs: 
+//
+/////////////////////////////////////////////////////////////////////////
+#include "Slic_api.h"
+#ifndef _W682388_H_
+#define _W682388_H_
+
+#define BYTE	unsigned char
+#define WORD	int
+#define BOOL	int
+#define FALSE 0
+#define TRUE 1
+#define NOERROR 0
+#define ERROR 1
+
+typedef struct {
+  BYTE OnHookCH1;
+  BYTE BattPolarityCH1;
+  BYTE OnHookCH2;
+  BYTE BattPolarityCH2;
+} SlicLineState;
+
+typedef struct {
+	WORD Frequency;
+	WORD Amplitude; 
+	WORD OnTime;	 
+	WORD OffTime;
+} Tone;
+
+typedef struct {
+	Tone DTMFLow;
+	Tone DTMFHigh;
+} dtmf_struct; 
+
+
+/////////////////////////////////////////////////////////////////////////
+// function prototypes
+/////////////////////////////////////////////////////////////////////////
+WORD SlicInit(void);
+WORD SetupRing (WORD Frequency, WORD Amplitude, WORD OnTime, WORD OffTime, BYTE Channel);
+WORD SetLineState(BYTE Channel, BYTE State);
+BYTE GetHookState(BYTE Channel);
+WORD BatteryPolarity(BYTE Channel, BYTE Polarity);
+WORD SetVoltageTracking(BYTE Channel, BYTE Track);
+WORD GenerateTones (WORD Frequency, WORD Amplitude, WORD OnTime, WORD OffTime, BYTE Oscillator);
+WORD GenerateMeterPulse(WORD Frequency, WORD Amplitude, WORD OnTime, WORD OffTime, BYTE Channel);
+WORD FSKSendData(WORD NumBytes, BYTE Buffer[]);
+WORD SendCallerID (BYTE Channel);
+WORD SetImpedance(BYTE ch, BYTE Country);
+void WINBOND_FXS_ring(ring_struct *ring);
+int Check_WINBOND_FXS_ring(ring_struct *rings);
+void W682388_OnHookLineReversal(BYTE chid, BYTE bReversal);
+void DumpRegisters(void);
+
+void W682388Calibrate(void);
+
+WORD GenerateDTMF ( Tone *p, Tone *z, BYTE Channel);
+/////////////////////////////////////////////////////////////////////////
+// Register addresses
+/////////////////////////////////////////////////////////////////////////
+
+	
+// Begin BLK_0	(PCM)	
+#define	W682388REG_PCMC			0x00
+#define	W682388REG_TTSC1L		0x01                  
+#define	W682388REG_TTSC2L		0x02                  
+#define	W682388REG_RTSC1L		0x03                
+#define	W682388REG_RTSC2L		0x04                
+#define	W682388REG_TCH			0x05
+#define	W682388REG_PLLS			0x06
+#define	W682388REG_PCMFS		0x07
+#define	W682388REG_ICID			0x08
+#define	W682388REG_DSVID		0x09
+// end BLK0
+
+// Begin BLK0_5	(FSK)
+#define	W682388REG_FSKC			0x10
+#define	W682388REG_FSKTD		0x11
+#define	W682388REG_FSKS			0x12
+#define	W682388REG_FSKLCR		0x13
+#define	W682388REG_FSKT			0x04
+// end BLK0_5 
+
+// Begin BLK1	(SYS)
+#define	W682388REG_PHF			0x20
+#define	W682388REG_LC			0x21
+#define	W682388REG_PON			0x22
+#define	W682388REG_RESERVED1    0x23
+#define	W682388REG_RESERVED2    0x24
+#define	W682388REG_INTV			0x25
+#define	W682388REG_INT1C1		0x26
+#define	W682388REG_IE1C1		0x27
+#define	W682388REG_INT2C1		0x28
+#define	W682388REG_IE2C1		0x29
+#define	W682388REG_INT3			0x2A 
+#define	W682388REG_IE3			0x2B 
+#define	W682388REG_INT1C2		0x2C
+#define	W682388REG_IE1C2		0x2D
+#define	W682388REG_INT2C2		0x2E
+#define	W682388REG_IE2C2		0x2F
+#define	W682388REG_MONITOR1		0x30
+#define	W682388REG_MONITOR2		0x31
+#define	W682388REG_MONITOR3		0x32
+#define	W682388REG_MONITOR4		0x33
+#define	W682388REG_MONITOR5		0x34
+#define	W682388REG_MONITOR6		0x35
+#define	W682388REG_MONITOR7		0x36
+#define	W682388REG_MONITOR8		0x37
+#define	W682388REG_MONITOR9		0x38
+#define	W682388REG_MONITOR10    0x39
+#define	W682388REG_MONITOR11    0x3A
+#define	W682388REG_MONITOR12    0x3B
+#define	W682388REG_MONITOR13    0x3C
+#define	W682388REG_MONITOR14    0x3D
+#define	W682388REG_MONITOR15    0x3E
+#define	W682388REG_MONITOR16	0x3F
+// end BLK1
+
+// Begin BLK2  (LINE)
+#define	W682388REG_APG			0x40
+#define	W682388REG_HBC1			0x41
+#define	W682388REG_HBC2			0x42
+#define	W682388REG_VCMC1		0x43
+#define	W682388REG_VCMC2		0x44
+#define	W682388REG_LAMC			0x45
+#define	W682388REG_LSC1			0x46
+#define	W682388REG_LSC2			0x47
+#define	W682388REG_LCL			0x48
+#define	W682388REG_RTLCC1		0x49
+#define	W682388REG_LCDB			0x4A
+#define	W682388REG_RTDB			0x4B
+#define	W682388REG_PWMT			0x4C
+#define	W682388REG_DDCC			0x4D
+#define	W682388REG_DDCPW		0x4E
+#define	W682388REG_OHVC1		0x4F
+#define	W682388REG_OHVC2		0x50 
+#define	W682388REG_CMVC1		0x51
+#define	W682388REG_CMVC2		0x52 
+#define	W682388REG_VBHVC1		0x53
+#define	W682388REG_VBHVC2		0x54
+#define	W682388REG_VBLVC1		0x55
+#define	W682388REG_VBLVC2		0x56
+#define	W682388REG_LCDCL		0x57
+#define	W682388REG_RTDCL		0x58
+#define	W682388REG_DCH			0x59 
+#define	W682388REG_LCT			0x5A 
+#define	W682388REG_LCTHY		0x5B
+#define	W682388REG_RTT			0x5C
+#define	W682388REG_RTLCC2		0x5D
+#define	W682388REG_VOVC1		0x5E
+#define	W682388REG_VOVC2		0x5F
+// end BLK2
+
+
+// Begin BLK3     (DTMF)
+#define	W682388REG_DTMFC		0x60
+#define	W682388REG_DTMFTL		0x61
+#define	W682388REG_DTMFTH		0x62
+#define	W682388REG_DTMFPT		0x63
+#define	W682388REG_DTMFAT		0x64
+#define	W682388REG_DTMFDT		0x65
+#define	W682388REG_DTMFD		0x66
+#define	W682388REG_ETCC1		0x67
+#define	W682388REG_ETCC2		0x68
+// end BLK3
+
+// Begin BLKT
+#define	W682388REG_TIPDACC1		0x70
+#define	W682388REG_RINGDACC1    0x71
+#define	W682388REG_TIPDACC2		0x72
+#define	W682388REG_RINGDACC2    0x73
+#define	W682388REG_MPDAC		0x74
+#define	W682388REG_DAPCMINC1L   0x75
+#define	W682388REG_DAPCMINC1H   0x76
+#define	W682388REG_ADPCMOUTC1L  0x77
+#define	W682388REG_ADPCMOUTC1H  0x78
+#define	W682388REG_DAPCMINC2L   0x79
+#define	W682388REG_DAPCMINC2H   0x7A
+#define	W682388REG_ADPCMOUTC2L  0x7B
+#define	W682388REG_ADPCMOUTC2H  0x7C
+#define	W682388REG_DCTRC1		0x7D
+#define	W682388REG_DCTRC2		0x7E
+// end BLKT
+
+// Begin BLK4
+#define	W682388REG_BATVC1		0x80
+#define	W682388REG_TIPVC1		0x81
+#define	W682388REG_RINGVC1		0x82
+#define	W682388REG_QT3VC1		0x83
+#define	W682388REG_QR3VC1		0x84
+#define	W682388REG_QT3IC1		0x85
+#define	W682388REG_QR3IC1		0x86
+#define	W682388REG_QT1IC1		0x87
+#define	W682388REG_QT2IC1		0x88
+#define	W682388REG_QR1IC1		0x89
+#define	W682388REG_QR2IC1		0x8A
+#define	W682388REG_TEMP			0x8B
+#define	W682388REG_VBG			0x8C
+#define	W682388REG_BATVC2		0x8D
+#define	W682388REG_TIPVC2		0x8E
+#define	W682388REG_RINGVC2		0x8F
+#define	W682388REG_QT3VC2		0x90
+#define	W682388REG_QR3VC2		0x91
+#define	W682388REG_QT3IC2		0x92
+#define	W682388REG_QR3IC2		0x93
+#define	W682388REG_QT1IC2		0x94
+#define	W682388REG_QT2IC2		0x95
+#define	W682388REG_QR1IC2		0x96
+#define	W682388REG_QR2IC2		0x97
+#define	W682388REG_LVC1			0x98
+#define	W682388REG_TIPIC1		0x99
+#define	W682388REG_RINGIC1		0x9A
+#define	W682388REG_LIC1			0x9B
+#define	W682388REG_LVC2			0x9C
+#define	W682388REG_TIPIC2		0x9D
+#define	W682388REG_RINGIC2		0x9E
+#define	W682388REG_LIC2			0x9F
+#define	W682388REG_PALPQ2		0xA0
+#define	W682388REG_PALPQ1		0xA1
+#define	W682388REG_PALPQ3		0xA2
+#define	W682388REG_PALPQH1		0xA3 
+#define	W682388REG_PALPQH2		0xA4
+#define	W682388REG_PATHQ2		0xA5
+#define	W682388REG_PATHQ1		0xA6
+#define	W682388REG_PATHQ3		0xA7
+#define	W682388REG_IM1C1		0xA8
+#define	W682388REG_IM2C1		0xA9
+#define	W682388REG_IM1C2		0xAA
+#define	W682388REG_IM2C2		0xAB
+#define	W682388REG_TATH			0xAC
+#define	W682388REG_LCMCNT		0xAD	    
+#define	W682388REG_CC			0xAE
+#define	W682388REG_OS2C1RPD		0xAF
+#define	W682388REG_OS2C2RPD     0xB0
+#define	W682388REG_RESERVED5    0xB1
+#define	W682388REG_RESERVED6    0xB2
+#define	W682388REG_CAL1			0xB3
+#define	W682388REG_CAL2			0xB4
+#define	W682388REG_CAL3			0xB5
+#define	W682388REG_CAL4			0xB6
+#define	W682388REG_CAL5			0xB7
+#define	W682388REG_VBOFFS		0xB8
+#define	W682388REG_TDCOFFS		0xB9
+#define	W682388REG_RDCOFFS		0xBA
+#define	W682388REG_IQT3OFFS		0xBB
+#define	W682388REG_IQR3OFFS		0xBC
+#define	W682388REG_PWCTC1		0xBD
+#define	W682388REG_PWCTC2		0xBE
+// end BLK4
+
+
+// Begin BLK5
+#define	W682388REG_OSNC			0xC0
+#define	W682388REG_RMPC			0xC1
+#define	W682388REG_OS1C1ICL		0xC2                 //Initial conditions
+#define	W682388REG_OS1C1ICH		0xC3
+#define	W682388REG_OS2C1ICL		0xC4
+#define	W682388REG_OS2C1ICH		0xC5
+#define	W682388REG_OS1C2ICL		0xC6
+#define	W682388REG_OS1C2ICH		0xC7
+#define	W682388REG_OS2C2ICL		0xC8
+#define	W682388REG_OS2C2ICH		0xC9
+#define	W682388REG_OS1C1CL		0xCA                   //Coefficients 
+#define	W682388REG_OS1C1CH		0xCB
+#define	W682388REG_OS2C1CL		0xCC
+#define	W682388REG_OS2C1CH		0xCD
+#define	W682388REG_OS1C2CL		0xCE
+#define	W682388REG_OS1C2CH		0xCF
+#define	W682388REG_OS2C2CL		0xD0
+#define	W682388REG_OS2C2CH		0xD1
+#define	W682388REG_OS1C1ATL		0xD2                   //Active timers 
+#define	W682388REG_OS1C1ATH		0xD3
+#define	W682388REG_OS2C1ATL		0xD4
+#define	W682388REG_OS2C1ATH		0xD5
+#define	W682388REG_OS1C2ATL		0xD6
+#define	W682388REG_OS1C2ATH		0xD7
+#define	W682388REG_OS2C2ATL		0xD8
+#define	W682388REG_OS2C2ATH		0xD9
+#define	W682388REG_OS1C1ITL		0xDA                   //Inactive timers 
+#define	W682388REG_OS1C1ITH		0xDB
+#define	W682388REG_OS2C1ITL		0xDC
+#define	W682388REG_OS2C1ITH		0xDD
+#define	W682388REG_OS1C2ITL		0xDE
+#define	W682388REG_OS1C2ITH		0xDF
+#define	W682388REG_OS2C2ITL		0xE0
+#define	W682388REG_OS2C2ITH		0xE1
+#define	W682388REG_MPATL		0xE2                      //Metering
+#define	W682388REG_MPATH		0xE3
+#define	W682388REG_MPITL		0xE4
+#define	W682388REG_MPITH		0xE5
+#define	W682388REG_MPICL		0xE6
+#define	W682388REG_MPICH		0xE7
+#define	W682388REG_MPCL			0xE8
+#define	W682388REG_MPCH			0xE9
+#define	W682388REG_MPADS		0xEA
+#define	W682388REG_MPMX			0xEB
+#define	W682388REG_OSRT			0xEC                      //Tone Route  
+#define	W682388REG_R1OFFS		0xED
+#define	W682388REG_R2OFFS		0xEE
+#define	W682388REG_ADCC1L		0xEF
+#define	W682388REG_DACC1L		0xF0  
+#define	W682388REG_DGC1H		0xF1
+#define	W682388REG_ADCC2L		0xF2
+#define	W682388REG_DACC2L		0xF3  
+#define	W682388REG_DGC2H		0xF4
+#define	W682388REG_TM_OUT_L		0xF5
+#define	W682388REG_TM_DIG		0xF6
+#define	W682388REG_TM_DIGH		0xF7
+// end BLK5
+
+
+/////////////////////////////////////////////////////////////////////////
+// register bit definitions
+/////////////////////////////////////////////////////////////////////////
+
+
+// register 0 PCMMODE
+#define W682388PCMMODE_CH1_ENABLE (0x01)
+#define W682388PCMMODE_CH2_ENABLE (0x02)
+#define W682388PCMMODE_ALAW (0x00)
+#define W682388PCMMODE_ULAW (0x10)
+#define W682388PCMMODE_LINEAR (0x80)
+#define W682388PCMMODE_8BIT (0x00)
+#define W682388PCMMODE_16BIT (0x20)
+#define W682388PCMMODE_GCIFORMAT (0x10)
+#define W682388PCMMODE_TRISTATE_POS_EDGE_CH1 (0x00)
+#define W682388PCMMODE_TRISTATE_NEG_EDGE_CH1 (0x04)
+#define W682388PCMMODE_TRISTATE_POS_EDGE_CH2 (0x00)
+#define W682388PCMMODE_TRISTATE_NEG_EDGE_CH2 (0x08)
+
+// register 33 W682388REG_LC  AUDIO_PATH_LOOP_CTRL
+#define W682388AUDIOLOOP_ANALOGLOOPCHANNEL (0x20)
+#define W682388AUDIOLOOP_ANALOGLOOPBACK2 (0x10)
+#define W682388AUDIOLOOP_ANALOGLOOPBACK1 (0x08)
+#define W682388AUDIOLOOP_DIGITALLOOPBACK3  (0x04)
+#define W682388AUDIOLOOP_DIGITALLOOPBACK2 (0x02)
+#define W682388AUDIOLOOP_DIGITALLOOPBACK1 (0x01)
+
+// register 34 W682388REG_PON CH1/2 Power On register
+#define W682388REG_PON_DAC_CH2  (0x40)
+#define W682388REG_PON_ADC_CH2  (0x20)
+#define W682388REG_PON_DCDC_CH2 (0x10)
+#define W682388REG_PON_DAC_CH1  (0x04)
+#define W682388REG_PON_ADC_CH1  (0x02)
+#define W682388REG_PON_DCDC_CH1 (0x01)
+#define W682388REG_PON_FULL_ON  (0x66)
+
+// register 168/170 IMPED_SYNTH_CTRL
+//#define W682388IMPEDSYNTH_CH1_ENABLE (0x08)
+#define W682388IMPEDANCE_600OHM		(0x00)
+#define W682388IMPEDANCE_900OHM		(0x11)
+#define W682388IMPEDANCE_JAPAN		(0x22)
+#define W682388IMPEDANCE_BELCORE	(0x33)
+#define W682388IMPEDANCE_CTR21		(0x44)
+#define W682388IMPEDANCE_CHINA_CO	(0x55)
+#define W682388IMPEDANCE_CHINA_PBX  (0x66)
+#define W682388IMPEDANCE_JAPAN_PBX  (0x77)
+#define W682388IMPEDANCE_NZ_INDIA	(0x88)
+#define W682388IMPEDANCE_GERMANY	(0x99)
+//#define W682388IMPEDANCE_GERMANY	(0xAA)
+#define W682388IMPEDANCE_AUSTRALIA  (0xBB)
+
+#define W682388IMPEDANCE_600OHM_2UF (0x32)
+#define W682388IMPEDANCE_900OHM_2UF (0x33)
+#define W682388IMPEDANCE_NZ2		(0x88)
+#define W682388IMPEDANCE_AU_NZ1		(0x99)
+#define WW682388IMPEDANCE_SK_SL_SA	(0xBB)
+
+// register 169/171 IMPED_SYNTH_CTRL
+// w682388 Line Capcitance Compensation
+# define W682388REG_LCC_Disable (0x0F)		//Disable
+# define W682388REG_LCC_4_7NF	(0x1F)		//4.7nF
+# define W682388REG_LCC_6_8NF	(0x2F)		//6.8nF
+# define W682388REG_LCC_11NF	(0x3F)		//11nF
+
+// register 70/71 W682388REG_LINEFEED_CTRL
+#define W682388LINEFEED_SHADOWMASK (0xF0)
+#define W682388LINEFEED_SHADOWOPEN (0x0)
+#define W682388LINEFEED_SHADOWFORWARDACTIVE (0x10)
+#define W682388LINEFEED_SHADOWFORWARDONHOOKTX (0x20)
+#define W682388LINEFEED_SHADOWTIPOPEN (0x30)
+#define W682388LINEFEED_SHADOWRINGING (0x40)
+#define W682388LINEFEED_SHADOWREVERSEACTIVE (0x50)
+#define W682388LINEFEED_SHADOWREVERSEONHOOKTX (0x60)
+#define W682388LINEFEED_SHADOWRINGOPEN (0x70)
+#define W682388LINEFEED_SHADOWFORWARDIDLE  (0x90)
+#define W682388LINEFEED_SHADOWREVERSEIDLE  (0xD0)
+#define W682388LINEFEED_OPEN (0x0)
+#define W682388LINEFEED_FORWARDACTIVE (0x01)
+#define W682388LINEFEED_FORWARDONHOOKTX (0x02)
+#define W682388LINEFEED_TIPOPEN (0x03)
+#define W682388LINEFEED_RINGING (0x04)
+#define W682388LINEFEED_REVERSEACTIVE (0x05)
+#define W682388LINEFEED_REVERSEONHOOKTX (0x06)
+#define W682388LINEFEED_RINGOPEN (0x07)
+#define W682388LINEFEED_FORWARDIDLE  (0x09)
+#define W682388LINEFEED_REVERSEIDLE  (0x0D)
+
+// register 73/93 W682388REG_RTLCCx
+#define W682388LOOPRINGTRIP_RT_RAW (0x08)
+#define W682388LOOPRINGTRIP_LC_RAW (0x04)
+#define W682388LOOPRINGTRIP_RINGTRIP (0x02)
+#define W682388LOOPRINGTRIP_LOOPTRIP (0x01)
+
+// register 94/95 Offset Voltage Tracking
+#define W682388VOV_TRACK_ON  (0x10)
+#define W682388VOV_TRACK_OFF (0x0)
+
+#define	W682388OHV_SB_ON	 (0x0)
+#define	W682388OHV_SB_OFF	 (0x40)  
+// End PX Regs
+
+/////////////////////////////////////////////////////////////////////////
+// PX Register initialization values
+/////////////////////////////////////////////////////////////////////////
+// DC-DC converter
+// switching frequency, and off time, calculated using Winbond
+// spreadsheet
+
+
+// PX register 9 DSVID
+#define W682388_REVA		(0xFF)
+#define W682388_REVB		(0xFE)
+#define W682388_REVC		(0xFD)
+#define W682388_REVD		(0xFC)
+#define W682388_PNIMASK		(0xFF)
+
+#define W682388REG_ID		(0xFE)		//Rev B
+
+# define W682388DCDC_DDCC (23)
+# define W682388DCDC_PWMT (125)
+
+# define W682388LINE_48V  (0x20)
+# define W682388LINE_4_5V (0x03)
+# define W682388LINE_9V   (0x06)
+
+//Amplitude and frequency of Ringing
+#define W682388_RING_AMPLITUDE	0x1039
+#define W682388_RING_FREQUENCY	0x7E6C
+
+#endif //_W682388_H_
+
+////////////////////////// END OF FILE //////////////////////////////////

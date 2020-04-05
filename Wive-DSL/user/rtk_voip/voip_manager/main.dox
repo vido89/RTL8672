@@ -1,0 +1,162 @@
+/**
+ * @mainpage VoIP Interface
+ *
+ * @brief The Interface for VoIP Application.
+ *
+ * @section versoin Version History
+ *
+ * @verbatim
+ * -----------------------------------------------------------------------------
+ * Ver    | Date       | Note
+ * -----------------------------------------------------------------------------
+ * 0.7    | 06/22/2007 | v0.7
+ * -----------------------------------------------------------------------------
+ * 0.2b   | 08/18/2006 | Initial Version
+ * -----------------------------------------------------------------------------
+ * @endverbatim
+ *
+ * @section VoIP Architecture
+ * @image html voip_architecture.jpg
+ */
+
+/**
+ * @defgroup VOIP_VLAN VLAN
+ * @brief The VLAN Interface.
+ */
+
+/**
+ * @defgroup VOIP_DSP DSP
+ * @brief The DSP Interface.
+ */
+
+/**
+ * @defgroup VOIP_FXS FXS
+ * @brief The FXS Interface.
+ */
+
+/**
+ * @defgroup VOIP_FXS_RING FXS - Ring
+ * @brief The Ring Setting Interface.
+ * @ingroup VOIP_FXS
+ */
+
+/**
+ * @defgroup VOIP_FXS_GAIN FXS - Gain Setting
+ * @brief The Gain Setting Interface.
+ * @ingroup VOIP_FXS
+ */
+
+/**
+ * @defgroup VOIP_FXS_CALLERID FXS - Caller ID
+ * @brief The Caller ID Setting Interface.
+ * @ingroup VOIP_FXS
+ */
+
+/**
+ * @defgroup VOIP_FXO FXO
+ * @brief The FXO Setting Interface.
+ */
+
+/**
+ * @defgroup VOIP_FXO_GAIN FXO - Gain Setting
+ * @brief The Gain Setting Interface.
+ * @ingroup VOIP_FXO
+ */
+
+/**
+ * @defgroup VOIP_FXO_CALLERID FXO - Caller ID
+ * @brief The Caller ID Setting Interface.
+ * @ingroup VOIP_FXO
+ */
+
+/**
+ * @defgroup VOIP_SESSION VoIP Session
+ * @brief The VoIP Session Interface.
+ */
+
+/**
+ * @defgroup VOIP_SESSION_TONE VoIP Session - Tone
+ * @brief The Tone Setting Interface.
+ * @ingroup VOIP_SESSION
+ */
+
+/**
+ * @defgroup VOIP_SESSION_RTP VoIP Session - RTP
+ * @brief The RTP Setting Interface.
+ * @ingroup VOIP_SESSION
+ */
+
+/**
+ * @defgroup VOIP_SESSION_DTMF VoIP Session - DTMF
+ * @brief The DTMF Setting Interface.
+ * @ingroup VOIP_SESSION
+ */
+
+/**
+ * @defgroup VOIP_SESSION_FAX VoIP Session - FAX 
+ * @brief The FAX Setting Interface.
+ * @ingroup VOIP_SESSION
+ */
+
+/**
+ * @defgroup VOIP_IVR IVR
+ * @brief The IVR Interface.
+ */
+
+/**
+ * @example ring.c
+ * Example for FXS Ring 1 second in channel 0
+ * @sa rtk_SetRingFXS, rtk_Set_SLIC_Ring_Cadence
+ */
+
+/**
+ * @example rtp.c
+ * Example for send RTP
+ * @sa rtk_InitDSP, rtk_SetRtpConfig, rtk_SetRtpPayloadType, rtk_SetRtpSessionState, rtk_Hold_Rtp,
+ * rtk_SetTranSessionID
+ */
+
+/**
+ * @example phone.c
+ * Example for check phone state, update gain value, and play tone.
+ * @sa rtk_InitDSP, rtk_GetSlicEvent, rtk_SetPlayTone, rtk_Set_Voice_Gain, rtk_Set_Flash_Hook_Time
+ */
+
+/**
+ * @example daa.c
+ * Example for FXO operation.
+ * @sa rtk_DAA_off_hook, rtk_DAA_on_hook, rtk_DAA_ring, rtk_Set_DAA_Tx_Gain, rtk_Set_DAA_Rx_Gain 
+ */
+
+/**
+ * @example caller_id.c
+ * Example for caller id operation.
+ * @sa rtk_Gen_Dtmf_CID, rtk_Gen_FSK_CID, rtk_Set_FSK_Area, rtk_SetRingFXS
+ */
+
+/**
+ * @example tone_usa.c
+ * Example for tone configuration
+ * @sa rtk_Set_Custom_Tone
+ */
+
+/**
+ * @example vmwi.c
+ * Example for VMWI
+ * @sa rtk_Gen_FSK_VMWI
+ */
+
+/**
+ * @example conference.c
+ * Example for conference
+ * @sa rtk_InitDSP, rtk_SetRtpConfig, rtk_SetRtpPayloadType, rtk_SetRtpSessionState, rtk_Hold_Rtp,
+ * rtk_SetTranSessionID, rtk_SetConference
+ */
+
+/*
+ * @page ISSUE Known Issue
+ */
+
+/*
+ * @page TODO Todo List
+ */

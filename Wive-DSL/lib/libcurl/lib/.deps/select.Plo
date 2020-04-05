@@ -1,0 +1,362 @@
+select.lo: select.c setup.h curl_config.h ../include/curl/curlbuild.h \
+  /opt/Wive/toolchain/mips-linux-uclibc/sys-include/sys/types.h \
+  /opt/Wive/toolchain/mips-linux-uclibc/sys-include/features.h \
+  /opt/Wive/toolchain/mips-linux-uclibc/sys-include/sys/cdefs.h \
+  /opt/Wive/toolchain/mips-linux-uclibc/sys-include/bits/uClibc_config.h \
+  /opt/Wive/toolchain/mips-linux-uclibc/sys-include/bits/types.h \
+  /opt/Wive/toolchain/lib/gcc-lib/mips-linux-uclibc/3.3.3/include/stddef.h \
+  /opt/Wive/toolchain/mips-linux-uclibc/sys-include/bits/kernel_types.h \
+  /opt/Wive/toolchain/mips-linux-uclibc/sys-include/bits/pthreadtypes.h \
+  /opt/Wive/toolchain/mips-linux-uclibc/sys-include/bits/sched.h \
+  /opt/Wive/toolchain/mips-linux-uclibc/sys-include/time.h \
+  /opt/Wive/toolchain/mips-linux-uclibc/sys-include/endian.h \
+  /opt/Wive/toolchain/mips-linux-uclibc/sys-include/bits/endian.h \
+  /opt/Wive/toolchain/mips-linux-uclibc/sys-include/sys/select.h \
+  /opt/Wive/toolchain/mips-linux-uclibc/sys-include/bits/select.h \
+  /opt/Wive/toolchain/mips-linux-uclibc/sys-include/bits/sigset.h \
+  /opt/Wive/toolchain/mips-linux-uclibc/sys-include/bits/time.h \
+  /opt/Wive/toolchain/mips-linux-uclibc/sys-include/sys/sysmacros.h \
+  /opt/Wive/toolchain/mips-linux-uclibc/sys-include/stdint.h \
+  /opt/Wive/toolchain/mips-linux-uclibc/sys-include/bits/wchar.h \
+  /opt/Wive/toolchain/mips-linux-uclibc/sys-include/bits/wordsize.h \
+  /opt/Wive/toolchain/mips-linux-uclibc/sys-include/inttypes.h \
+  /opt/Wive/toolchain/mips-linux-uclibc/sys-include/sys/socket.h \
+  /opt/Wive/toolchain/mips-linux-uclibc/sys-include/sys/uio.h \
+  /opt/Wive/toolchain/mips-linux-uclibc/sys-include/bits/uio.h \
+  /opt/Wive/toolchain/mips-linux-uclibc/sys-include/bits/socket.h \
+  /opt/Wive/toolchain/lib/gcc-lib/mips-linux-uclibc/3.3.3/include/limits.h \
+  /opt/Wive/toolchain/lib/gcc-lib/mips-linux-uclibc/3.3.3/include/syslimits.h \
+  /opt/Wive/toolchain/mips-linux-uclibc/sys-include/limits.h \
+  /opt/Wive/toolchain/mips-linux-uclibc/sys-include/bits/posix1_lim.h \
+  /opt/Wive/toolchain/mips-linux-uclibc/sys-include/bits/local_lim.h \
+  /opt/Wive/toolchain/mips-linux-uclibc/sys-include/linux/limits.h \
+  /opt/Wive/toolchain/mips-linux-uclibc/sys-include/bits/posix2_lim.h \
+  /opt/Wive/toolchain/mips-linux-uclibc/sys-include/bits/sockaddr.h \
+  /opt/Wive/toolchain/mips-linux-uclibc/sys-include/asm/socket.h \
+  /opt/Wive/toolchain/mips-linux-uclibc/sys-include/asm/sockios.h \
+  /opt/Wive/toolchain/mips-linux-uclibc/sys-include/asm/ioctl.h \
+  ../include/curl/curlrules.h \
+  /opt/Wive/toolchain/mips-linux-uclibc/sys-include/stdio.h \
+  /opt/Wive/toolchain/mips-linux-uclibc/sys-include/bits/uClibc_stdio.h \
+  /opt/Wive/toolchain/mips-linux-uclibc/sys-include/wchar.h \
+  /opt/Wive/toolchain/lib/gcc-lib/mips-linux-uclibc/3.3.3/include/stdarg.h \
+  /opt/Wive/toolchain/mips-linux-uclibc/sys-include/bits/stdio_lim.h \
+  /opt/Wive/toolchain/mips-linux-uclibc/sys-include/assert.h \
+  /opt/Wive/toolchain/mips-linux-uclibc/sys-include/errno.h \
+  /opt/Wive/toolchain/mips-linux-uclibc/sys-include/bits/errno.h \
+  /opt/Wive/toolchain/mips-linux-uclibc/sys-include/bits/errno_values.h \
+  setup_once.h /opt/Wive/toolchain/mips-linux-uclibc/sys-include/stdlib.h \
+  /opt/Wive/toolchain/mips-linux-uclibc/sys-include/alloca.h \
+  /opt/Wive/toolchain/mips-linux-uclibc/sys-include/string.h \
+  /opt/Wive/toolchain/mips-linux-uclibc/sys-include/ctype.h \
+  /opt/Wive/toolchain/mips-linux-uclibc/sys-include/bits/uClibc_touplow.h \
+  /opt/Wive/toolchain/mips-linux-uclibc/sys-include/sys/stat.h \
+  /opt/Wive/toolchain/mips-linux-uclibc/sys-include/bits/stat.h \
+  /opt/Wive/toolchain/mips-linux-uclibc/sys-include/sys/time.h \
+  /opt/Wive/toolchain/mips-linux-uclibc/sys-include/bits/uClibc_clk_tck.h \
+  /opt/Wive/toolchain/lib/gcc-lib/mips-linux-uclibc/3.3.3/include/stdbool.h \
+  ../include/curl/curl.h ../include/curl/curlver.h ../include/curl/easy.h \
+  ../include/curl/multi.h urldata.h cookie.h formdata.h \
+  /opt/Wive-DSL-2.6/lib/libssl/include/openssl/rsa.h \
+  /opt/Wive-DSL-2.6/lib/libssl/include/openssl/asn1.h \
+  /opt/Wive-DSL-2.6/lib/libssl/include/openssl/e_os2.h \
+  /opt/Wive-DSL-2.6/lib/libssl/include/openssl/opensslconf.h \
+  /opt/Wive-DSL-2.6/lib/libssl/include/openssl/bio.h \
+  /opt/Wive-DSL-2.6/lib/libssl/include/openssl/crypto.h \
+  /opt/Wive-DSL-2.6/lib/libssl/include/openssl/stack.h \
+  /opt/Wive-DSL-2.6/lib/libssl/include/openssl/safestack.h \
+  /opt/Wive-DSL-2.6/lib/libssl/include/openssl/opensslv.h \
+  /opt/Wive-DSL-2.6/lib/libssl/include/openssl/ossl_typ.h \
+  /opt/Wive-DSL-2.6/lib/libssl/include/openssl/symhacks.h \
+  /opt/Wive-DSL-2.6/lib/libssl/include/openssl/bn.h \
+  /opt/Wive-DSL-2.6/lib/libssl/include/openssl/x509.h \
+  /opt/Wive-DSL-2.6/lib/libssl/include/openssl/buffer.h \
+  /opt/Wive-DSL-2.6/lib/libssl/include/openssl/evp.h \
+  /opt/Wive-DSL-2.6/lib/libssl/include/openssl/objects.h \
+  /opt/Wive-DSL-2.6/lib/libssl/include/openssl/obj_mac.h \
+  /opt/Wive-DSL-2.6/lib/libssl/include/openssl/dsa.h \
+  /opt/Wive-DSL-2.6/lib/libssl/include/openssl/dh.h \
+  /opt/Wive-DSL-2.6/lib/libssl/include/openssl/sha.h \
+  /opt/Wive-DSL-2.6/lib/libssl/include/openssl/x509_vfy.h \
+  /opt/Wive-DSL-2.6/lib/libssl/include/openssl/lhash.h \
+  /opt/Wive-DSL-2.6/lib/libssl/include/openssl/pkcs7.h \
+  /opt/Wive-DSL-2.6/lib/libssl/include/openssl/pem.h \
+  /opt/Wive-DSL-2.6/lib/libssl/include/openssl/pem2.h \
+  /opt/Wive-DSL-2.6/lib/libssl/include/openssl/ssl.h \
+  /opt/Wive-DSL-2.6/lib/libssl/include/openssl/kssl.h \
+  /opt/Wive-DSL-2.6/lib/libssl/include/openssl/ssl2.h \
+  /opt/Wive-DSL-2.6/lib/libssl/include/openssl/ssl3.h \
+  /opt/Wive-DSL-2.6/lib/libssl/include/openssl/pq_compat.h \
+  /opt/Wive-DSL-2.6/lib/libssl/include/openssl/tls1.h \
+  /opt/Wive-DSL-2.6/lib/libssl/include/openssl/dtls1.h \
+  /opt/Wive-DSL-2.6/lib/libssl/include/openssl/pqueue.h \
+  /opt/Wive-DSL-2.6/lib/libssl/include/openssl/ssl23.h \
+  /opt/Wive-DSL-2.6/lib/libssl/include/openssl/err.h \
+  /opt/Wive-DSL-2.6/lib/libssl/include/openssl/pkcs12.h \
+  /opt/Wive/toolchain/mips-linux-uclibc/sys-include/netinet/in.h \
+  /opt/Wive/toolchain/mips-linux-uclibc/sys-include/bits/in.h \
+  /opt/Wive/toolchain/mips-linux-uclibc/sys-include/bits/byteswap.h \
+  timeval.h /opt/Wive-DSL-2.6/lib/zlib/zlib.h \
+  /opt/Wive-DSL-2.6/lib/zlib/zconf.h http_chunks.h hostip.h hash.h \
+  llist.h curl_addrinfo.h \
+  /opt/Wive/toolchain/mips-linux-uclibc/sys-include/netdb.h \
+  /opt/Wive/toolchain/mips-linux-uclibc/sys-include/rpc/netdb.h \
+  /opt/Wive/toolchain/mips-linux-uclibc/sys-include/bits/netdb.h \
+  /opt/Wive/toolchain/mips-linux-uclibc/sys-include/arpa/inet.h \
+  /opt/Wive/toolchain/mips-linux-uclibc/sys-include/setjmp.h \
+  /opt/Wive/toolchain/mips-linux-uclibc/sys-include/bits/setjmp.h splay.h \
+  connect.h nonblock.h select.h \
+  /opt/Wive/toolchain/mips-linux-uclibc/sys-include/sys/poll.h \
+  /opt/Wive/toolchain/mips-linux-uclibc/sys-include/bits/poll.h
+
+setup.h:
+
+curl_config.h:
+
+../include/curl/curlbuild.h:
+
+/opt/Wive/toolchain/mips-linux-uclibc/sys-include/sys/types.h:
+
+/opt/Wive/toolchain/mips-linux-uclibc/sys-include/features.h:
+
+/opt/Wive/toolchain/mips-linux-uclibc/sys-include/sys/cdefs.h:
+
+/opt/Wive/toolchain/mips-linux-uclibc/sys-include/bits/uClibc_config.h:
+
+/opt/Wive/toolchain/mips-linux-uclibc/sys-include/bits/types.h:
+
+/opt/Wive/toolchain/lib/gcc-lib/mips-linux-uclibc/3.3.3/include/stddef.h:
+
+/opt/Wive/toolchain/mips-linux-uclibc/sys-include/bits/kernel_types.h:
+
+/opt/Wive/toolchain/mips-linux-uclibc/sys-include/bits/pthreadtypes.h:
+
+/opt/Wive/toolchain/mips-linux-uclibc/sys-include/bits/sched.h:
+
+/opt/Wive/toolchain/mips-linux-uclibc/sys-include/time.h:
+
+/opt/Wive/toolchain/mips-linux-uclibc/sys-include/endian.h:
+
+/opt/Wive/toolchain/mips-linux-uclibc/sys-include/bits/endian.h:
+
+/opt/Wive/toolchain/mips-linux-uclibc/sys-include/sys/select.h:
+
+/opt/Wive/toolchain/mips-linux-uclibc/sys-include/bits/select.h:
+
+/opt/Wive/toolchain/mips-linux-uclibc/sys-include/bits/sigset.h:
+
+/opt/Wive/toolchain/mips-linux-uclibc/sys-include/bits/time.h:
+
+/opt/Wive/toolchain/mips-linux-uclibc/sys-include/sys/sysmacros.h:
+
+/opt/Wive/toolchain/mips-linux-uclibc/sys-include/stdint.h:
+
+/opt/Wive/toolchain/mips-linux-uclibc/sys-include/bits/wchar.h:
+
+/opt/Wive/toolchain/mips-linux-uclibc/sys-include/bits/wordsize.h:
+
+/opt/Wive/toolchain/mips-linux-uclibc/sys-include/inttypes.h:
+
+/opt/Wive/toolchain/mips-linux-uclibc/sys-include/sys/socket.h:
+
+/opt/Wive/toolchain/mips-linux-uclibc/sys-include/sys/uio.h:
+
+/opt/Wive/toolchain/mips-linux-uclibc/sys-include/bits/uio.h:
+
+/opt/Wive/toolchain/mips-linux-uclibc/sys-include/bits/socket.h:
+
+/opt/Wive/toolchain/lib/gcc-lib/mips-linux-uclibc/3.3.3/include/limits.h:
+
+/opt/Wive/toolchain/lib/gcc-lib/mips-linux-uclibc/3.3.3/include/syslimits.h:
+
+/opt/Wive/toolchain/mips-linux-uclibc/sys-include/limits.h:
+
+/opt/Wive/toolchain/mips-linux-uclibc/sys-include/bits/posix1_lim.h:
+
+/opt/Wive/toolchain/mips-linux-uclibc/sys-include/bits/local_lim.h:
+
+/opt/Wive/toolchain/mips-linux-uclibc/sys-include/linux/limits.h:
+
+/opt/Wive/toolchain/mips-linux-uclibc/sys-include/bits/posix2_lim.h:
+
+/opt/Wive/toolchain/mips-linux-uclibc/sys-include/bits/sockaddr.h:
+
+/opt/Wive/toolchain/mips-linux-uclibc/sys-include/asm/socket.h:
+
+/opt/Wive/toolchain/mips-linux-uclibc/sys-include/asm/sockios.h:
+
+/opt/Wive/toolchain/mips-linux-uclibc/sys-include/asm/ioctl.h:
+
+../include/curl/curlrules.h:
+
+/opt/Wive/toolchain/mips-linux-uclibc/sys-include/stdio.h:
+
+/opt/Wive/toolchain/mips-linux-uclibc/sys-include/bits/uClibc_stdio.h:
+
+/opt/Wive/toolchain/mips-linux-uclibc/sys-include/wchar.h:
+
+/opt/Wive/toolchain/lib/gcc-lib/mips-linux-uclibc/3.3.3/include/stdarg.h:
+
+/opt/Wive/toolchain/mips-linux-uclibc/sys-include/bits/stdio_lim.h:
+
+/opt/Wive/toolchain/mips-linux-uclibc/sys-include/assert.h:
+
+/opt/Wive/toolchain/mips-linux-uclibc/sys-include/errno.h:
+
+/opt/Wive/toolchain/mips-linux-uclibc/sys-include/bits/errno.h:
+
+/opt/Wive/toolchain/mips-linux-uclibc/sys-include/bits/errno_values.h:
+
+setup_once.h:
+
+/opt/Wive/toolchain/mips-linux-uclibc/sys-include/stdlib.h:
+
+/opt/Wive/toolchain/mips-linux-uclibc/sys-include/alloca.h:
+
+/opt/Wive/toolchain/mips-linux-uclibc/sys-include/string.h:
+
+/opt/Wive/toolchain/mips-linux-uclibc/sys-include/ctype.h:
+
+/opt/Wive/toolchain/mips-linux-uclibc/sys-include/bits/uClibc_touplow.h:
+
+/opt/Wive/toolchain/mips-linux-uclibc/sys-include/sys/stat.h:
+
+/opt/Wive/toolchain/mips-linux-uclibc/sys-include/bits/stat.h:
+
+/opt/Wive/toolchain/mips-linux-uclibc/sys-include/sys/time.h:
+
+/opt/Wive/toolchain/mips-linux-uclibc/sys-include/bits/uClibc_clk_tck.h:
+
+/opt/Wive/toolchain/lib/gcc-lib/mips-linux-uclibc/3.3.3/include/stdbool.h:
+
+../include/curl/curl.h:
+
+../include/curl/curlver.h:
+
+../include/curl/easy.h:
+
+../include/curl/multi.h:
+
+urldata.h:
+
+cookie.h:
+
+formdata.h:
+
+/opt/Wive-DSL-2.6/lib/libssl/include/openssl/rsa.h:
+
+/opt/Wive-DSL-2.6/lib/libssl/include/openssl/asn1.h:
+
+/opt/Wive-DSL-2.6/lib/libssl/include/openssl/e_os2.h:
+
+/opt/Wive-DSL-2.6/lib/libssl/include/openssl/opensslconf.h:
+
+/opt/Wive-DSL-2.6/lib/libssl/include/openssl/bio.h:
+
+/opt/Wive-DSL-2.6/lib/libssl/include/openssl/crypto.h:
+
+/opt/Wive-DSL-2.6/lib/libssl/include/openssl/stack.h:
+
+/opt/Wive-DSL-2.6/lib/libssl/include/openssl/safestack.h:
+
+/opt/Wive-DSL-2.6/lib/libssl/include/openssl/opensslv.h:
+
+/opt/Wive-DSL-2.6/lib/libssl/include/openssl/ossl_typ.h:
+
+/opt/Wive-DSL-2.6/lib/libssl/include/openssl/symhacks.h:
+
+/opt/Wive-DSL-2.6/lib/libssl/include/openssl/bn.h:
+
+/opt/Wive-DSL-2.6/lib/libssl/include/openssl/x509.h:
+
+/opt/Wive-DSL-2.6/lib/libssl/include/openssl/buffer.h:
+
+/opt/Wive-DSL-2.6/lib/libssl/include/openssl/evp.h:
+
+/opt/Wive-DSL-2.6/lib/libssl/include/openssl/objects.h:
+
+/opt/Wive-DSL-2.6/lib/libssl/include/openssl/obj_mac.h:
+
+/opt/Wive-DSL-2.6/lib/libssl/include/openssl/dsa.h:
+
+/opt/Wive-DSL-2.6/lib/libssl/include/openssl/dh.h:
+
+/opt/Wive-DSL-2.6/lib/libssl/include/openssl/sha.h:
+
+/opt/Wive-DSL-2.6/lib/libssl/include/openssl/x509_vfy.h:
+
+/opt/Wive-DSL-2.6/lib/libssl/include/openssl/lhash.h:
+
+/opt/Wive-DSL-2.6/lib/libssl/include/openssl/pkcs7.h:
+
+/opt/Wive-DSL-2.6/lib/libssl/include/openssl/pem.h:
+
+/opt/Wive-DSL-2.6/lib/libssl/include/openssl/pem2.h:
+
+/opt/Wive-DSL-2.6/lib/libssl/include/openssl/ssl.h:
+
+/opt/Wive-DSL-2.6/lib/libssl/include/openssl/kssl.h:
+
+/opt/Wive-DSL-2.6/lib/libssl/include/openssl/ssl2.h:
+
+/opt/Wive-DSL-2.6/lib/libssl/include/openssl/ssl3.h:
+
+/opt/Wive-DSL-2.6/lib/libssl/include/openssl/pq_compat.h:
+
+/opt/Wive-DSL-2.6/lib/libssl/include/openssl/tls1.h:
+
+/opt/Wive-DSL-2.6/lib/libssl/include/openssl/dtls1.h:
+
+/opt/Wive-DSL-2.6/lib/libssl/include/openssl/pqueue.h:
+
+/opt/Wive-DSL-2.6/lib/libssl/include/openssl/ssl23.h:
+
+/opt/Wive-DSL-2.6/lib/libssl/include/openssl/err.h:
+
+/opt/Wive-DSL-2.6/lib/libssl/include/openssl/pkcs12.h:
+
+/opt/Wive/toolchain/mips-linux-uclibc/sys-include/netinet/in.h:
+
+/opt/Wive/toolchain/mips-linux-uclibc/sys-include/bits/in.h:
+
+/opt/Wive/toolchain/mips-linux-uclibc/sys-include/bits/byteswap.h:
+
+timeval.h:
+
+/opt/Wive-DSL-2.6/lib/zlib/zlib.h:
+
+/opt/Wive-DSL-2.6/lib/zlib/zconf.h:
+
+http_chunks.h:
+
+hostip.h:
+
+hash.h:
+
+llist.h:
+
+curl_addrinfo.h:
+
+/opt/Wive/toolchain/mips-linux-uclibc/sys-include/netdb.h:
+
+/opt/Wive/toolchain/mips-linux-uclibc/sys-include/rpc/netdb.h:
+
+/opt/Wive/toolchain/mips-linux-uclibc/sys-include/bits/netdb.h:
+
+/opt/Wive/toolchain/mips-linux-uclibc/sys-include/arpa/inet.h:
+
+/opt/Wive/toolchain/mips-linux-uclibc/sys-include/setjmp.h:
+
+/opt/Wive/toolchain/mips-linux-uclibc/sys-include/bits/setjmp.h:
+
+splay.h:
+
+connect.h:
+
+nonblock.h:
+
+select.h:
+
+/opt/Wive/toolchain/mips-linux-uclibc/sys-include/sys/poll.h:
+
+/opt/Wive/toolchain/mips-linux-uclibc/sys-include/bits/poll.h:

@@ -1,0 +1,2 @@
+CFLAGS=-Os ; ./configure --prefix=/usr --with-included-gettext \
+  --with-included-slang --without-gpm-mouse --with-vfs  

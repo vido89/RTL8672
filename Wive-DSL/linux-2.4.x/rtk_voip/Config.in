@@ -1,0 +1,133 @@
+mainmenu_option next_comment
+comment 'RTK VoIP Suite'
+#define_bool CONFIG_VOIP_SDK y
+#bool 'RTK VOIP' CONFIG_RTK_VOIP
+tristate 'RTK VOIP' CONFIG_RTK_VOIP
+if [ "$CONFIG_RTK_VOIP" == "y" -o "$CONFIG_RTK_VOIP" == "m" ]; then
+	define_bool CONFIG_RTK_VOIP_MANAGER y
+	define_bool CONFIG_RTK_VOIP_DSP y
+	#bool 'voip_drivers' CONFIG_RTK_VOIP_DRIVERS
+	define_bool CONFIG_RTK_VOIP_DRIVERS y
+
+	comment 'Platform'
+	choice  'Platform' \
+		"RTL8186  CONFIG_RTK_VOIP_DRIVERS_PCM8186\
+		RTL8651  CONFIG_RTK_VOIP_DRIVERS_PCM8651\
+		RTL8671  CONFIG_RTK_VOIP_DRIVERS_PCM8671" RTL8671
+	#bool 'RTK VoIP Network RX' CONFIG_RTK_VOIP_RX
+	#bool 'RTK VoIP Network TX' CONFIG_RTK_VOIP_TX
+
+	if [ "$CONFIG_RTK_VOIP_DRIVERS_PCM8186" == "y" ]; then
+   	
+		choice  'RTL8186 Type' \
+			"RTL8186V  CONFIG_RTK_VOIP_DRIVERS_PCM8186V_\
+			 RTL8186VA  CONFIG_RTK_VOIP_DRIVERS_PCM8186VA_\
+			 RTL8186PV  CONFIG_RTK_VOIP_DRIVERS_PCM8186PV" RTL8186V
+        	if [ "$CONFIG_RTK_VOIP_DRIVERS_PCM8186V_" == "y" ] || [ "$CONFIG_RTK_VOIP_DRIVERS_PCM8186VA_" == "y" ]; then
+			define_bool		 CONFIG_RTK_VOIP_DRIVERS_PCM8186V y
+   			bool 'RTL8186V One Arm Router' CONFIG_RTK_VOIP_DRIVERS_8186V_ROUTER
+		fi
+
+        	if [ "$CONFIG_RTK_VOIP_DRIVERS_PCM8186VA_" == "y" ]; then
+			define_bool 	 CONFIG_AUDIOCODES_VOIP y
+			define_bool 	 CONFIG_AUDIOCODES_VOIP_RELEASE y
+			define_bool      AUDIOCODES_VOIP y
+			define_bool      ACMW_LX y
+			define_bool      ACL_BYPASS y
+			define_bool      ACL_RELEASE y
+			define_bool      AUDIOCODES_VOIP_SIP y
+		fi  
+
+	   	define_bool CONFIG_RTK_VOIP_RX y
+	   	define_bool CONFIG_RTK_VOIP_TX y
+	   fi
+
+	if [ "$CONFIG_RTK_VOIP_DRIVERS_PCM8651" == "y" ]; then
+	   	define_bool CONFIG_RTK_VOIP_RX y
+	   	define_bool CONFIG_RTK_VOIP_TX y
+	fi
+
+	if [ "$CONFIG_RTK_VOIP_DRIVERS_PCM8671" == "y" ]; then
+	   	define_bool CONFIG_RTK_VOIP_RX y
+	   	define_bool CONFIG_RTK_VOIP_TX y
+	fi
+
+	#define_bool CONFIG_RTK_VOIP_SRTP y
+
+	comment 'ATA / IP PHONE'
+     	choice 'ATA / IP PHONE' \
+        	"IP_phone CONFIG_RTK_VOIP_DRIVERS_IP_PHONE\
+        	ATA_SLIC CONFIG_RTK_VOIP_DRIVERS_ATA_SLIC" ATA_SLIC
+	if [ "$CONFIG_RTK_VOIP_DRIVERS_IP_PHONE" == "y" ]; then
+		define_bool CONFIG_RTK_VOIP_IP_PHONE y
+	fi
+
+	if [ "$CONFIG_RTK_VOIP_DRIVERS_ATA_SLIC" == "y" ]; then
+   		choice  'SLIC' \
+			"SI3210 CONFIG_RTK_VOIP_DRIVERS_SLIC_SI3210\
+			SI3215 CONFIG_RTK_VOIP_DRIVERS_SLIC_SI3215\
+			LE88221 CONFIG_RTK_VOIP_DRIVERS_SLIC_LE88221\
+			LE88226 CONFIG_RTK_VOIP_DRIVERS_SLIC_LE88226\
+			W682388 CONFIG_RTK_VOIP_DRIVERS_SLIC_W682388" SI3215
+   		choice  'Number of SLIC(FXS)' \
+			"1 CONFIG_RTK_VOIP_SLIC_NUM_1\
+			2 CONFIG_RTK_VOIP_SLIC_NUM_2" 1
+	fi
+
+   	comment 'DAA(FXO)'
+	bool 'DAA_Support' CONFIG_RTK_VOIP_DRIVERS_DAA_SI3050
+	if [ "$CONFIG_RTK_VOIP_DRIVERS_DAA_SI3050" == "y" ]; then
+		if [ "$CONFIG_RTK_VOIP_DRIVERS_IP_PHONE" == "n" ]; then
+			bool 'VIRTUAL DAA' CONFIG_RTK_VOIP_DRIVERS_VIRTUAL_DAA
+			if [ "$CONFIG_RTK_VOIP_DRIVERS_VIRTUAL_DAA" == "y" ]; then
+				bool 'SUPPORT 2 RELAY' CONFIG_RTK_VOIP_DRIVERS_VIRTUAL_DAA_2_RELAY_SUPPORT
+			fi
+		fi 
+		if [ "$CONFIG_RTK_VOIP_DRIVERS_VIRTUAL_DAA" == "n" ] || [ "$CONFIG_RTK_VOIP_DRIVERS_IP_PHONE" == "y" ]; then
+  	   		bool 'SLIC and DAA Negotiation' CONFIG_RTK_SLIC_DAA_NEGOTIATION
+	  	fi
+	fi
+   
+	if [ "$CONFIG_RTK_VOIP_DRIVERS_ATA_SLIC" == "y" ]; then
+   		comment 'SLIC/DAA gpio pin selection'
+   		choice	'EV_Board' \
+   			"8186PV_V275	CONFIG_RTK_VOIP_GPIO_8186PV_V275\
+   			8186V_ALL		CONFIG_RTK_VOIP_GPIO_8186V_V100_V200_V210_C220\
+   			8651B			CONFIG_RTK_VOIP_GPIO_8651B\
+   			8651C			CONFIG_RTK_VOIP_GPIO_8651C\
+   			8671_QA_V1.1_V1.1.2.2	CONFIG_RTK_VOIP_GPIO_8671_QA_V1_1_V1_1_2_2\
+   			8671_V1.2		CONFIG_RTK_VOIP_GPIO_8671_V1_2\
+     			8671_V1.2_EMI		CONFIG_RTK_VOIP_GPIO_8671_V1_2_EMI" 8186V_ALL
+	fi
+   
+	if [ "$CONFIG_RTK_VOIP_DRIVERS_IP_PHONE" == "y" ]; then
+		comment 'IP Phone gpio pin selection'
+		choice	'EV_Board' \
+			"IPP_100	CONFIG_RTK_VOIP_GPIO_IPP_100\
+			IPP_101		CONFIG_RTK_VOIP_GPIO_IPP_101" IPP_101
+	fi
+   
+	comment 'IVR'   	
+	bool 'IVR Instructions' CONFIG_RTK_VOIP_IVR
+	comment 'Codecs'
+	bool 'G.729AB' CONFIG_RTK_VOIP_G729AB
+	bool 'G.723.1' CONFIG_RTK_VOIP_G7231
+        
+	if [ "$CONFIG_RTK_VOIP_DRIVERS_PCM8186VA_" == "y" ]; then
+		define_bool CONFIG_RTK_VOIP_G726 n
+		define_bool CONFIG_RTK_VOIP_GSMFR n
+	else
+		bool 'G.726' CONFIG_RTK_VOIP_G726
+		bool 'GSM-FR (GSM 06.10)' CONFIG_RTK_VOIP_GSMFR
+	fi
+
+		bool 'T.38 (FAX)' CONFIG_RTK_VOIP_T38
+
+	fi
+
+	comment 'VoIP Quality Enhance for RTL8671'
+        bool 'VOIP_TX_ENHANCE' CONFIG_RTK_VOIP_TX_ENHANCE
+	bool 'VOIP RX INPUT QUEUE' CONFIG_RTK_VOIP_RX_INPUT_QUEUE
+	
+endmenu
+

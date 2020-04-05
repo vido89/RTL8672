@@ -1,0 +1,9 @@
+Change Log for RTK_VOIP
+
+--- 2007/11/28 --- 
+1. Initial Release of VoIP change log.
+2. Do not disable pcm interrupt at pcm handerl. Root cause of 729x2 crash problem is 
+   our compiler uses radiax instructions as default.
+
+--- 2007/12/10 ---
+1. Skip Sanity check for SLIC.
