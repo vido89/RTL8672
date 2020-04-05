@@ -26,3 +26,8 @@ And just run
 ```
 PATH=/opt/Wive-DSL/toolchain/bin:$PATH ./compile
 ```
+or
+```
+make subdirs
+```
+if you got some error
