@@ -26,8 +26,11 @@ And just run
 ```
 PATH=/opt/Wive-DSL/toolchain/bin:$PATH ./compile
 ```
-or
+or put `export PATH=/opt/Wive-DSL/toolchain/bin:$PATH` in to .bashrc
+
+if you got some error
+
 ```
 make subdirs
 ```
-if you got some error
+
