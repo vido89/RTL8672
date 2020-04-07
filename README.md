@@ -1,4 +1,4 @@
-# RTL8672
+# RTL8672-toolchain 
 
 Here you can find RTK for RTL8670, RTL8671 and RTL8672 cpu's
 
